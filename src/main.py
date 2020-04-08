@@ -10,8 +10,6 @@ import pyqtgraph as pg
 import numpy as np
 
 import cv2
-
-
 class ImageCaptureThread(QThread):
     changePixmap = pyqtSignal(QImage)
 
@@ -27,6 +25,8 @@ class ImageCaptureThread(QThread):
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
+
+        cap.release()
 
     def stop(self):
         self.stopRunning = True
@@ -46,6 +46,8 @@ class DebugImageThread(QThread):
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
+
+        cap.release()
 
     def stop(self):
         self.stopRunning = True
