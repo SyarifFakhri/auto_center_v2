@@ -30,6 +30,7 @@ class ImageCaptureThread(QThread):
 
     def stop(self):
         self.stopRunning = True
+        self.terminate()
 
 class DebugImageThread(QThread):
     changePixmap = pyqtSignal(QImage)
@@ -51,6 +52,7 @@ class DebugImageThread(QThread):
 
     def stop(self):
         self.stopRunning = True
+        self.terminate()
 
 class StatisticsWindow():
     def init_ui(self, mainWindow):
@@ -309,15 +311,18 @@ class MasterWindow(QMainWindow):
         self.settingsWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
 
     def stopImageSettingsCap(self):
-        self.settingsImageCap.stop()
-        self.settingsImageCap.wait()
+        if self.settingsImageCap.isRunning():
+            self.settingsImageCap.stop()
+            self.settingsImageCap.wait()
 
     def stopImageCap(self):
-        self.imageCap.stop()
-        self.imageCap.wait()
+        if self.imageCap.isRunning():
+            self.imageCap.stop()
+            self.imageCap.wait()
 
     def showMainWindow(self, event):
         self.stopImageSettingsCap()
+        self.stopImageCap()
 
         self.mainWindow.init_ui(self)
         self.mainWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
@@ -340,6 +345,7 @@ class MasterWindow(QMainWindow):
 
     def showSettingsMenu(self, event):
         self.stopImageCap()
+        self.stopImageSettingsCap()
 
         self.settingsWindow.init_ui(self)
         self.settingsWindow.mainLabel.mousePressEvent = self.showMainWindow
