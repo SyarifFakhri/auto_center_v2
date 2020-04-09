@@ -5,20 +5,47 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 import PyQt5 as qt
 from tinydb import TinyDB, Query
+import time
+import math
+
+from centerFinder import CenterFinder
+from flashTool import FlashTool
 
 import pyqtgraph as pg
 import numpy as np
 
 import cv2
+
 class ImageCaptureThread(QThread):
     changePixmap = pyqtSignal(QImage)
+
+    def __init__(self):
+        super(ImageCaptureThread, self).__init__()
+        self.screenCenterX = int(640/2)
+        self.screenCenterY = int(480/2)
+
+        self.centerFinder = CenterFinder()
+        self.flashTool = FlashTool()
+        self.centers = []
+
+        self.roi = [100,100,200,200] #x,w,y,h - right roi
 
     def run(self):
         self.stopRunning = False
         cap = cv2.VideoCapture(0)
         while not self.stopRunning:
             ret, frame = cap.read()
+
             if ret:
+                self.centers = []
+                #find the center
+                # for roi in self.rois:
+                _, centers = self.centerFinder.findCentersOfCircles(frame,self.roi)
+                #should only return one center
+                # centers = centers[0]
+                self.centers = centers[0:3]
+                # self.centers = self.centers + centers
+
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
@@ -27,6 +54,104 @@ class ImageCaptureThread(QThread):
                 self.changePixmap.emit(p)
 
         cap.release()
+
+    def programCenterPointDoubleProgramMethod(self, param):
+        """
+        It's very likely we won't get the correct amount on the first try.
+        So this method first programs it once, then calculates the offsets again, then adds that adjustment amount to the old amount
+        and reprograms again
+
+        Pros: simple
+        cons: slow, because you have to reprogram twice
+        :param param:
+        :return:
+
+        TODO:
+        1. check if the camera is connected (Check if it's just a blank screen)
+        2. check if the camera can be programmed/is detected (Based on timing)
+        3. Check if  the new center point is correct
+        """
+        relativeCenterPoints = []
+        #First get the position relative to the center
+        for center in self.centers:
+            relativeCenterX = center[0] - self.screenCenterX
+            relativeCenterY = center[1] - self.screenCenterY
+            relativeCenterPoints.append([relativeCenterX,relativeCenterY])
+
+        centerPoints = relativeCenterPoints[1] #0: left center point, 1: center center point, 2: right center point
+
+        programX = centerPoints[0]
+        programY = centerPoints[1]
+
+        # self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        # self.flashTool.createBinFileCmd()
+        # self.flashTool.flashCameraCmd()
+
+        print(self.centers)
+        time.sleep(1) #sleep an amount of time
+
+        relativeCenterPoints = []
+        #First get the position relative to the center
+        for center in self.centers:
+            relativeCenterX = center[0] - self.screenCenterX
+            relativeCenterY = center[1] - self.screenCenterY
+            relativeCenterPoints.append([relativeCenterX,relativeCenterY])
+
+        centerPoints = relativeCenterPoints[1] #0: left center point, 1: center center point, 2: right center point
+
+        programX = programX + centerPoints[0]
+        programY = programY + centerPoints[1]
+
+        # self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        # self.flashTool.createBinFileCmd()
+        # self.flashTool.flashCameraCmd()
+        print(self.centers)
+        time.sleep(1) #sleep just in case
+
+    def programCenterPointRotAdjMethod(self, param):
+        """
+        Instead of getting the error by first programming, try to get the x, y, error by calculating the rotational error.
+        This process is a little bit mathematically involved. To get a full explanation, look at testRotateMethod.py, where I test out this method
+        :param param:
+        :return:
+        """
+        leftAngleCenterPoint = self.centers[0]
+        rightAngleCenterPoint = self.centers[2]
+
+        angle = self.getAngleBetweenTwoPoints(leftAngleCenterPoint, rightAngleCenterPoint)
+
+        detectedCenterPoint = self.centers[1]
+        targetCenterPoint = (self.screenCenterX, self.screenCenterY)
+
+        convertedCenterPoint = self.rotatePointAroundCenter(detectedCenterPoint, targetCenterPoint, -angle)
+        translationVector = [
+            convertedCenterPoint[0] - detectedCenterPoint[0],
+            convertedCenterPoint[1] - detectedCenterPoint[1]
+        ]
+
+        #the final translation vector is how much it needs to be programmed
+        programX = translationVector[0]
+        programY = translationVector[1]
+
+        print(programX, programY)
+
+    #some utility defs
+    def getAngleBetweenTwoPoints(self, pointA, pointB):
+        """point a is the reference in this case, referenced to the x axis"""
+        xDist = pointA[0] - pointB[0]
+        yDist = pointA[1] - pointB[1]
+
+        return math.atan(yDist / xDist)
+
+    def roundInt(self, num):
+        return int(round(num))
+
+    def rotatePointAroundCenter(self,pointCoord, centerCoord, angle):
+        rotated_x = (math.cos(angle) * (pointCoord[0] - centerCoord[0]) - math.sin(angle) * (pointCoord[1] - centerCoord[1])) + centerCoord[0]
+        rotated_y = (math.sin(angle) * (pointCoord[0] - centerCoord[0]) + math.cos(angle) * (pointCoord[1] - centerCoord[1])) + centerCoord[1]
+        return (rotated_x, rotated_y)
+
+
 
     def stop(self):
         self.stopRunning = True
@@ -252,17 +377,17 @@ class MainWindow():
 
         hbox = QHBoxLayout()
 
-        GLabel = QLabel("G")
-        GLabel.setStyleSheet("background-color: #4a4a4a");
-        GLabel.setAlignment(Qt.AlignCenter)
-        GLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        self.GLabel = QLabel("G")
+        self.GLabel.setStyleSheet("background-color: #4a4a4a");
+        self.GLabel.setAlignment(Qt.AlignCenter)
+        self.GLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
 
         NGLabel = QLabel("NG")
         NGLabel.setStyleSheet("background-color: #4a4a4a")
         NGLabel.setAlignment(Qt.AlignCenter)
         NGLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
 
-        hbox.addWidget(GLabel)
+        hbox.addWidget(self.GLabel)
         hbox.addWidget(NGLabel)
 
         rightVBox = QVBoxLayout()
@@ -297,8 +422,8 @@ class MasterWindow(QMainWindow):
         self.statsWindow = StatisticsWindow()
         self.settingsWindow = SettingsWindow()
 
-        self.imageCap = ImageCaptureThread(self)
-        self.settingsImageCap = DebugImageThread(self)
+        self.imageCap = ImageCaptureThread()
+        self.settingsImageCap = DebugImageThread()
 
         self.showMainWindow(None)
         # self.showStatsMenu(None)
@@ -327,6 +452,7 @@ class MasterWindow(QMainWindow):
         self.mainWindow.init_ui(self)
         self.mainWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
         self.mainWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
+        self.mainWindow.GLabel.mousePressEvent = self.imageCap.programCenterPointDoubleProgramMethod
 
         self.imageCap.changePixmap.connect(self.setImageCap)
         self.imageCap.start()
