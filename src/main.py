@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,QScrollArea
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,QScrollArea, QSlider
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
@@ -18,8 +18,9 @@ import cv2
 
 class ImageCaptureThread(QThread):
     changePixmap = pyqtSignal(QImage)
+    centerLabels = pyqtSignal(list)
 
-    def __init__(self):
+    def __init__(self, settingsConfig):
         super(ImageCaptureThread, self).__init__()
         self.screenCenterX = int(640/2)
         self.screenCenterY = int(480/2)
@@ -27,8 +28,13 @@ class ImageCaptureThread(QThread):
         self.centerFinder = CenterFinder()
         self.flashTool = FlashTool()
         self.centers = []
+        self.validImage = False
 
-        self.roi = [100,100,200,200] #x,w,y,h - right roi
+        self.roi = [settingsConfig['roi_x'],
+                    settingsConfig['roi_y'],
+                    settingsConfig['roi_w'],
+                    settingsConfig['roi_h']
+                    ] #x,w,y,h - right roi
 
     def run(self):
         self.stopRunning = False
@@ -37,6 +43,8 @@ class ImageCaptureThread(QThread):
             ret, frame = cap.read()
 
             if ret:
+                self.validImage = self.isValidImage(frame)
+
                 self.centers = []
                 #find the center
                 # for roi in self.rois:
@@ -44,7 +52,6 @@ class ImageCaptureThread(QThread):
                 #should only return one center
                 # centers = centers[0]
                 self.centers = centers[0:3]
-                # self.centers = self.centers + centers
 
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
@@ -52,8 +59,32 @@ class ImageCaptureThread(QThread):
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                 p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
+                self.centerLabels.emit(self.centers)
 
         cap.release()
+
+    def isValidImage(self, image):
+        #Check if the image is too dark
+        average = np.mean(image)
+        if average < 50:
+            return False
+        return True
+
+    def isCenterPointValid(self, centerPoints):
+        """Check if the RELATIVE center points are valid"""
+        if abs(centerPoints[0]) < 3:
+            if abs(centerPoints[1]) < 3:
+                return True
+        return False
+
+    def getRelativeCenterPoints(self):
+        relativeCenterPoints = []
+        # First get the position relative to the center
+        for center in self.centers:
+            relativeCenterX = center[0] - self.screenCenterX
+            relativeCenterY = center[1] - self.screenCenterY
+            relativeCenterPoints.append([relativeCenterX, relativeCenterY])
+        return relativeCenterPoints
 
     def programCenterPointDoubleProgramMethod(self, param):
         """
@@ -67,18 +98,21 @@ class ImageCaptureThread(QThread):
         :return:
 
         TODO:
-        1. check if the camera is connected (Check if it's just a blank screen)
+        1. check if the camera is connected (Check if it's just a blank screen) - DONE
         2. check if the camera can be programmed/is detected (Based on timing)
         3. Check if  the new center point is correct
         """
-        relativeCenterPoints = []
-        #First get the position relative to the center
-        for center in self.centers:
-            relativeCenterX = center[0] - self.screenCenterX
-            relativeCenterY = center[1] - self.screenCenterY
-            relativeCenterPoints.append([relativeCenterX,relativeCenterY])
+
+        if self.validImage == False:
+            print("Invalid image")
+
+        relativeCenterPoints = self.getRelativeCenterPoints()
 
         centerPoints = relativeCenterPoints[1] #0: left center point, 1: center center point, 2: right center point
+
+        #check if it's already center
+        if not self.isCenterPointValid(centerPoints):
+            print("Already center! No point in centering.")
 
         programX = centerPoints[0]
         programY = centerPoints[1]
@@ -90,12 +124,7 @@ class ImageCaptureThread(QThread):
         print(self.centers)
         time.sleep(1) #sleep an amount of time
 
-        relativeCenterPoints = []
-        #First get the position relative to the center
-        for center in self.centers:
-            relativeCenterX = center[0] - self.screenCenterX
-            relativeCenterY = center[1] - self.screenCenterY
-            relativeCenterPoints.append([relativeCenterX,relativeCenterY])
+        relativeCenterPoints = self.getRelativeCenterPoints()
 
         centerPoints = relativeCenterPoints[1] #0: left center point, 1: center center point, 2: right center point
 
@@ -115,6 +144,10 @@ class ImageCaptureThread(QThread):
         :param param:
         :return:
         """
+
+        if self.validImage == False:
+            print("Invalid image")
+
         leftAngleCenterPoint = self.centers[0]
         rightAngleCenterPoint = self.centers[2]
 
@@ -151,14 +184,19 @@ class ImageCaptureThread(QThread):
         rotated_y = (math.sin(angle) * (pointCoord[0] - centerCoord[0]) + math.cos(angle) * (pointCoord[1] - centerCoord[1])) + centerCoord[1]
         return (rotated_x, rotated_y)
 
-
-
     def stop(self):
         self.stopRunning = True
-        self.terminate()
+        # self.terminate()
 
 class DebugImageThread(QThread):
+    """
+    Primarily used for the settings window to view all the image settings
+    """
     changePixmap = pyqtSignal(QImage)
+
+    def __init__(self, settings):
+        super(DebugImageThread, self).__init__()
+        self.settings = settings
 
     def run(self):
         self.stopRunning = False
@@ -166,6 +204,11 @@ class DebugImageThread(QThread):
         while not self.stopRunning:
             ret, frame = cap.read()
             if ret:
+                x = self.settings['roi_x']
+                y = self.settings['roi_y']
+                w = self.settings['roi_w']
+                h = self.settings['roi_h']
+                cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0),2)
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
@@ -177,12 +220,12 @@ class DebugImageThread(QThread):
 
     def stop(self):
         self.stopRunning = True
-        self.terminate()
+        # self.terminate()
 
 class StatisticsWindow():
     def init_ui(self, mainWindow):
-        layout = QGridLayout()
-        layout.setSpacing(20)
+        self.layout = QGridLayout()
+        self.layout.setSpacing(20)
 
         vbox = QVBoxLayout()
         vbox.setSpacing(10)
@@ -224,18 +267,19 @@ class StatisticsWindow():
         widget.setLayout(vCharts)
         scroll.setWidget(widget)
 
-        layout.addLayout(vbox, 0, 0)
+        self.layout.addLayout(vbox, 0, 0)
         # layout.addWidget(totalAccepted, 0, 1)
-        layout.addWidget(scroll, 0,1)
+        self.layout.addWidget(scroll, 0,1)
 
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(self.layout)
         mainWindow.setCentralWidget(widget)
 
     def totalAcceptedChart(self):
         plot = pg.PlotWidget()
         plot.setMouseEnabled(x=False, y=False)
         plot.setMinimumHeight(200)
+        # plot.setMinimumWidth(640)
         plot.setBackground('w')
         plot.setTitle('G vs NG plot', size='20pt')
 
@@ -293,7 +337,7 @@ class StatisticsWindow():
         return plot
 
 class SettingsWindow():
-    def init_ui(self, mainWindow):
+    def init_ui(self, mainWindow, settings):
         layout = QGridLayout()
         layout.setSpacing(20)
 
@@ -317,16 +361,50 @@ class SettingsWindow():
         self.imageLabel = QLabel(mainWindow)
 
         gridSettings = QGridLayout()
-        roiALabel = QLabel("ROI A")
-        roiALabel.setAlignment(Qt.AlignCenter)
-        roiBLabel = QLabel("ROI B")
-        roiBLabel.setAlignment(Qt.AlignCenter)
-        roiCLabel = QLabel("ROI C")
-        roiCLabel.setAlignment(Qt.AlignCenter)
+        roiXLabel = QLabel("ROI X: ")
+        roiYLabel = QLabel("ROI Y: ")
+        roiWLabel = QLabel("ROI W: ")
+        roiHLabel = QLabel("ROI H: ")
 
-        gridSettings.addWidget(roiALabel, 0,0)
-        gridSettings.addWidget(roiBLabel, 0,1)
-        gridSettings.addWidget(roiCLabel, 0,2)
+        self.roiXLabelvalue = QLabel(str(settings['roi_x']))
+        self.roiYLabelvalue = QLabel(str(settings['roi_y']))
+        self.roiWLabelvalue = QLabel(str(settings['roi_w']))
+        self.roiHLabelvalue = QLabel(str(settings['roi_h']))
+
+        self.roiXSlider = QSlider(Qt.Horizontal)
+        self.roiXSlider.setMaximum(settings['camera_width'])
+        self.roiXSlider.setValue(settings['roi_x'])
+
+        self.roiYSlider = QSlider(Qt.Horizontal)
+        self.roiYSlider.setMaximum(settings['camera_height'])
+        self.roiYSlider.setValue(settings['roi_y'])
+
+        self.roiWSlider = QSlider(Qt.Horizontal)
+        self.roiWSlider.setMaximum(settings['camera_width'])
+        self.roiWSlider.setValue(settings['roi_w'])
+
+        self.roiHSlider = QSlider(Qt.Horizontal)
+        self.roiHSlider.setMaximum(settings['camera_height'])
+        self.roiHSlider.setValue(settings['roi_h'])
+
+        self.saveButton = QPushButton('Save Settings')
+
+        gridSettings.addWidget(roiXLabel, 0, 0)
+        gridSettings.addWidget(roiYLabel, 1, 0)
+        gridSettings.addWidget(roiWLabel, 2, 0)
+        gridSettings.addWidget(roiHLabel, 3, 0)
+
+        gridSettings.addWidget(self.roiXSlider, 0,1)
+        gridSettings.addWidget(self.roiYSlider, 1,1)
+        gridSettings.addWidget(self.roiWSlider, 2,1)
+        gridSettings.addWidget(self.roiHSlider, 3,1)
+
+        gridSettings.addWidget(self.roiXLabelvalue, 0, 2)
+        gridSettings.addWidget(self.roiYLabelvalue, 1, 2)
+        gridSettings.addWidget(self.roiWLabelvalue, 2, 2)
+        gridSettings.addWidget(self.roiHLabelvalue, 3, 2)
+
+        gridSettings.addWidget(self.saveButton, 4,1)
 
         rightVBox = QVBoxLayout()
         rightVBox.setSpacing(10)
@@ -353,8 +431,8 @@ class SettingsWindow():
 
 class MainWindow():
     def init_ui(self, mainWindow):
-        layout = QGridLayout()
-        layout.setSpacing(20)
+        self.layout = QGridLayout()
+        self.layout.setSpacing(20)
 
         vbox = QVBoxLayout()
         vbox.setSpacing(10)
@@ -393,24 +471,58 @@ class MainWindow():
         rightVBox = QVBoxLayout()
         rightVBox.setSpacing(10)
 
-        xCenterLabel = QLabel('X:   0   ')
-        xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+        self.xCenterLabel = QLabel('CCX:   0   ')
+        self.xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
 
-        yCenterLabel = QLabel('Y:   0   ')
-        yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+        self.yCenterLabel = QLabel('CCY:   0   ')
+        self.yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        self.xCenterLeftLabel = QLabel('CLX:   0   ')
+        self.xCenterLeftLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        self.yCenterleftLabel = QLabel('CLY:   0   ')
+        self.yCenterleftLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        self.xCenterRightLabel = QLabel('CRX:   0   ')
+        self.xCenterRightLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        self.yCenterRightLabel = QLabel('CRY:   0   ')
+        self.yCenterRightLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        line = QtGui.QFrame()
+        line.setFrameShape(QtGui.QFrame.HLine)
+        line.setFrameShadow(QtGui.QFrame.Sunken)
+
+        manualControlLabel = QLabel("Manual Control")
+        manualControlLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        self.releaseButton = QPushButton("Release Hydraulics")
+        self.engageButton = QPushButton("Engage Hydraulics")
+        self.programOffsetButton = QPushButton("Manual Program")
 
         rightVBox.addStretch(1)
-        rightVBox.addWidget(xCenterLabel)
-        rightVBox.addWidget(yCenterLabel)
+        rightVBox.addWidget(self.xCenterLeftLabel)
+        rightVBox.addWidget(self.yCenterleftLabel)
+        rightVBox.addWidget(self.xCenterLabel)
+        rightVBox.addWidget(self.yCenterLabel)
+        rightVBox.addWidget(self.xCenterRightLabel)
+        rightVBox.addWidget(self.yCenterRightLabel)
+        rightVBox.addWidget(line)
+
+        rightVBox.addWidget(manualControlLabel)
+        rightVBox.addWidget(self.engageButton)
+        rightVBox.addWidget(self.releaseButton)
+        rightVBox.addWidget(self.programOffsetButton)
+
         rightVBox.addStretch(10)
 
-        layout.addLayout(vbox, 0, 0)
-        layout.addLayout(hbox, 1, 1)
-        layout.addLayout(rightVBox, 0, 2)
-        layout.addWidget(self.imageLabel, 0, 1)
+        self.layout.addLayout(vbox, 0, 0)
+        self.layout.addLayout(hbox, 1, 1)
+        self.layout.addLayout(rightVBox, 0, 2)
+        self.layout.addWidget(self.imageLabel, 0, 1)
 
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(self.layout)
         mainWindow.setCentralWidget(widget)
 
 class MasterWindow(QMainWindow):
@@ -418,15 +530,35 @@ class MasterWindow(QMainWindow):
         super(MasterWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("Auto Center Tool")
 
-        self.mainWindow = MainWindow()
         self.statsWindow = StatisticsWindow()
         self.settingsWindow = SettingsWindow()
 
-        self.imageCap = ImageCaptureThread()
-        self.settingsImageCap = DebugImageThread()
+        # self.showStatsMenu(None)
+
+        self.settingsConfig = TinyDB('settings.json')
+        settingsConfigField = Query()
+        if not self.settingsConfig.search(settingsConfigField.title.exists()):
+            self.settingsConfig.upsert({
+                'title':'settingsConfig',
+                'roi_x':0,
+                'roi_y':0,
+                'roi_w':0,
+                'roi_h':0,
+                'camera_width':640,
+                'camera_height': 480,
+                'camera_true_center_x':640/2,
+                'camera_true_center_y':480/2,
+            }, settingsConfigField.title == 'settingsConfig') #A good alternative is using contains instead
+
+        settings = self.settingsConfig.all()[0]
+        self.imageCap = ImageCaptureThread(settingsConfig=settings)
+
+        self.settingsImageCap = DebugImageThread(settings)
+
+        self.mainWindow = MainWindow()
 
         self.showMainWindow(None)
-        # self.showStatsMenu(None)
+
     @pyqtSlot(QImage)
     def setImageCap(self,image):
         self.mainWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
@@ -434,6 +566,17 @@ class MasterWindow(QMainWindow):
     @pyqtSlot(QImage)
     def setSettingsImage(self,image):
         self.settingsWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
+
+    @pyqtSlot(list)
+    def setLabelData(self, stringList):
+        self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
+        self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
+
+        self.mainWindow.xCenterLabel.setText("CCX: " + str(stringList[1][0]))
+        self.mainWindow.yCenterLabel.setText("CCY: " + str(stringList[1][1]))
+
+        self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
+        self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
 
     def stopImageSettingsCap(self):
         if self.settingsImageCap.isRunning():
@@ -449,14 +592,21 @@ class MasterWindow(QMainWindow):
         self.stopImageSettingsCap()
         self.stopImageCap()
 
+        #left context menu
         self.mainWindow.init_ui(self)
         self.mainWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
         self.mainWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
         self.mainWindow.GLabel.mousePressEvent = self.imageCap.programCenterPointDoubleProgramMethod
 
+        #Connecting ui elements
+        #image
         self.imageCap.changePixmap.connect(self.setImageCap)
         self.imageCap.start()
-
+        #labels
+        self.imageCap.centerLabels.connect(self.setLabelData)
+        # self.showMinimized()
+        self.setMaximumSize(self.mainWindow.layout.sizeHint())
+        # self.showMaximized()
         self.show()
 
     def showStatsMenu(self, event):
@@ -466,19 +616,59 @@ class MasterWindow(QMainWindow):
         self.statsWindow.init_ui(self)
         self.statsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.statsWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
-
+        self.setMaximumSize(self.statsWindow.layout.sizeHint())
         self.show()
+
+    def updateLabels(self):
+        self.settingsWindow.roiXLabelvalue.setText(str(self.settingsWindow.roiXSlider.value()))
+        self.settingsWindow.roiYLabelvalue.setText(str(self.settingsWindow.roiYSlider.value()))
+        self.settingsWindow.roiWLabelvalue.setText(str(self.settingsWindow.roiWSlider.value()))
+        self.settingsWindow.roiHLabelvalue.setText(str(self.settingsWindow.roiHSlider.value()))
+
+        self.settingsImageCap.settings['roi_x'] = self.settingsWindow.roiXSlider.value()
+        self.settingsImageCap.settings['roi_y'] = self.settingsWindow.roiYSlider.value()
+        self.settingsImageCap.settings['roi_w'] = self.settingsWindow.roiWSlider.value()
+        self.settingsImageCap.settings['roi_h'] = self.settingsWindow.roiHSlider.value()
+
+    def saveSettings(self):
+        settingsConfigField = Query()
+        self.settingsConfig.upsert({
+            'title': 'settingsConfig',
+            'roi_x': self.settingsWindow.roiXSlider.value(),
+            'roi_y': self.settingsWindow.roiYSlider.value(),
+            'roi_w': self.settingsWindow.roiWSlider.value(),
+            'roi_h': self.settingsWindow.roiHSlider.value(),
+            'camera_width': 640,
+            'camera_height': 480,
+            'camera_true_center_x': 640 / 2,
+            'camera_true_center_y': 480 / 2,
+        }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
+
+        self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
+        self.imageCap.roi[1] = self.settingsWindow.roiYSlider.value()
+        self.imageCap.roi[2] = self.settingsWindow.roiWSlider.value()
+        self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
 
     def showSettingsMenu(self, event):
         self.stopImageCap()
         self.stopImageSettingsCap()
 
-        self.settingsWindow.init_ui(self)
+        settings = self.settingsConfig.all()[0]
+        self.settingsWindow.init_ui(self, settings)
         self.settingsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.settingsWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
 
         self.settingsImageCap.changePixmap.connect(self.setSettingsImage)
         self.settingsImageCap.start()
+
+        self.settingsWindow.roiXSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.roiYSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.roiWSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.roiHSlider.valueChanged.connect(self.updateLabels)
+
+        self.updateLabels()
+
+        # self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
 
         self.show()
 
