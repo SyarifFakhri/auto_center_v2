@@ -1,0 +1,15 @@
+FW_ID: 0x81030200, PATCH_ID: 0x00000404
+
+Patch code size : 120
+Patch base addr = 0xffffd514
+Patch load addr = 0xffffd514
+Loader addr = 0xffffd560
+Total code size = 120
+Free bytes remaining in patch RAM = 3701
+Patch from sections patch04_*
+
+Fixtable           Patch address   Name of patch function                   From object
+--------           -------------   ----------------------                   -----------
+0xffffd44c         0xffffd514      Patched_sensor_hw_write_gain             F:/projects/asx350_rev2_maintenance//output/asx350/unxutils/arc600/mice/chip/at/rev2/default/m04/asx3xx_sensor_hw_patch04.o
+0xffffd400         0xffffd55c      Patched_tempadapt_update_eclipse         F:/projects/asx350_rev2_maintenance//output/asx350/unxutils/arc600/mice/chip/at/rev2/default/m04/asx3xx_sensor_hw_patch04.o
+(new function)     0xffffd560      New_sensor_hw_write_gain_loader          F:/projects/asx350_rev2_maintenance//output/asx350/unxutils/arc600/mice/chip/at/rev2/default/m04/asx3xx_sensor_hw_patch04.o

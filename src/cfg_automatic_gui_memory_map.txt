@@ -1,0 +1,77 @@
+MemoryMap - FlashTool (version 6.0.15.53526)
+
+######################################################################################
+# Text file generated with a binary flash image
+# C:/Users/Default.DESKTOP-CAOIVKO/PycharmProjects/auto_lens_center/src/cfg_automatic_gui.bin.
+# To map the memory in Offset order
+######################################################################################
+
+
+
+Address 			  Name 
+=========================================================================
+0x00000000  		 TOC
+0x30  		Erased Gap of 0x20 Bytes
+
+0x00000050  		INIT_TABLE			  
+
+0x0000009C  		CALIBRATION_INIT_TABLE			  
+
+0x000000B8  		OVERLAY_INIT_TABLE			  
+
+0x000000C8  		PATCH_TOC			  
+
+0x000000D0  		OVERLAY_BITMAP_TOC			  
+
+0x000000D8  		COMMAND_SEQ_TOC			  
+
+Erased Gap of 0xC0 Bytes
+
+#INIT_TABLE_Region
+0x000001A4  		REGISTER_SET_V1 
+0x000001AC  		VARIABLE_SET_V1 
+0x000001D0  		VARIABLE_SET_V1 
+0x0000020C  		VARIABLE_SET_V1 
+0x00000248  		VARIABLE_SET_V1 
+0x00000254  		VARIABLE_SET_V1 
+0x00000288  		VARIABLE_SET_V1 
+0x0000029C  		REGISTER_SET_V1 
+0x000002A4  		VARIABLE_SET_V1 
+0x00000308  		REGISTER_SET_V1 
+0x00000310  		VARIABLE_SET_V1 
+0x00000334  		VARIABLE_SET_V1 
+0x00000340  		VARIABLE_SET_V1 
+0x0000039C  		VARIABLE_SET_V1 
+0x00000438  		VARIABLE_SET_V1 
+0x000004D4  		VARIABLE_SET_V1 
+0x000005B0  		VARIABLE_SET_V1 
+0x000006F0  		VARIABLE_SET_V1 
+
+#CALIBRATION_INIT_TABLE_Region
+0x000006FC  		COMMAND_V1 
+0x00000706  		COMMAND_V1 
+0x0000071A  		COMMAND_V1 
+0x0000072E  		VARIABLE_MASKED_SET_V1 
+0x0000073E  		REGISTER_SET_V1 
+0x000008DE  		VARIABLE_MASKED_SET_V1 
+
+#OVERLAY_INIT_TABLE_Region
+0x000008EE  		COMMAND_V1 
+0x000008F8  		COMMAND_V1 
+0x00000906  		COMMAND_V1 
+
+#PATCH_TOC_Region
+0x00000912  		PATCH_V1 
+
+#OVERLAY_BITMAP_TOC_Region
+0x00000998  		OVERLAY_BITMAP_V2 
+
+#COMMAND_SEQ_TOC_Region
+0x00000C6C  		COMMAND_SEQ_V1 
+0x00000CCE  		COMMAND_SEQ_V1 
+
+Erased Gap of 0x80 Bytes
+
+#Next available location 0xCE2
+
+[END]

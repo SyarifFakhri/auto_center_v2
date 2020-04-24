@@ -1,1 +1,1 @@
-{"_default": {"1": {"title": "settingsConfig", "roi_x": 233, "roi_y": 56, "roi_w": 382, "roi_h": 387, "camera_width": 640, "camera_height": 480, "camera_true_center_x": 320.0, "camera_true_center_y": 240.0}}}
+{"_default": {"1": {"title": "settingsConfig", "roi_x": 111, "roi_y": 82, "roi_w": 462, "roi_h": 369, "camera_width": 640, "camera_height": 480, "camera_true_center_x": 320.0, "camera_true_center_y": 240.0}, "2": {"userTitle": "userDetail", "username": "admin", "password": "admin"}}}

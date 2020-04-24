@@ -1,7 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,QScrollArea, QSlider
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,QScrollArea, QSlider,QLineEdit, QFrame
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 from PyQt5.QtGui import QImage, QPixmap
 import PyQt5 as qt
 from tinydb import TinyDB, Query
@@ -37,31 +37,35 @@ class ImageCaptureThread(QThread):
                     ] #x,w,y,h - right roi
 
     def run(self):
-        self.stopRunning = False
-        cap = cv2.VideoCapture(0)
-        while not self.stopRunning:
-            ret, frame = cap.read()
+        try:
+            self.stopRunning = False
+            cap = cv2.VideoCapture(0)
+            while not self.stopRunning:
+                ret, frame = cap.read()
 
-            if ret:
-                self.validImage = self.isValidImage(frame)
+                if ret:
+                    self.validImage = self.isValidImage(frame)
 
-                self.centers = []
-                #find the center
-                # for roi in self.rois:
-                _, centers = self.centerFinder.findCentersOfCircles(frame,self.roi)
-                #should only return one center
-                # centers = centers[0]
-                self.centers = centers[0:3]
+                    # self.centers = []
+                    #find the center
+                    # for roi in self.rois:
+                    _, centers = self.centerFinder.findCentersOfCircles(frame,self.roi)
 
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                h, w, ch = rgbImage.shape
-                bytesPerLine = ch * w
-                convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                self.changePixmap.emit(p)
-                self.centerLabels.emit(self.centers)
+                    #should only return one center
+                    # centers = centers[0]
+                    self.centers = centers
 
-        cap.release()
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmap.emit(p)
+                    self.centerLabels.emit(self.centers)
+
+            cap.release()
+        except Exception as e:
+            print(e)
 
     def isValidImage(self, image):
         #Check if the image is too dark
@@ -186,7 +190,7 @@ class ImageCaptureThread(QThread):
 
     def stop(self):
         self.stopRunning = True
-        # self.terminate()
+        self.terminate()
 
 class DebugImageThread(QThread):
     """
@@ -220,7 +224,7 @@ class DebugImageThread(QThread):
 
     def stop(self):
         self.stopRunning = True
-        # self.terminate()
+        self.terminate()
 
 class StatisticsWindow():
     def init_ui(self, mainWindow):
@@ -336,6 +340,83 @@ class StatisticsWindow():
         plot.addItem(barGraph)
         return plot
 
+class LoginWindow():
+    def init_ui(self, mainWindow):
+        layout = QGridLayout()
+        layout.setSpacing(20)
+
+        vbox = QVBoxLayout()
+        vbox.setSpacing(10)
+
+        mainTitle = QLabel("Auto Center Tool")
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+
+        self.mainLabel = QLabel("Main")
+        self.statisticsLabel = QLabel("Statistics")
+        self.settingsLabel = QLabel("Settings")
+        self.settingsLabel.setStyleSheet("background-color: #4a4a4a")
+
+        vbox.addWidget(mainTitle)
+        vbox.addWidget(self.mainLabel)
+        vbox.addWidget(self.statisticsLabel)
+        vbox.addWidget(self.settingsLabel)
+        vbox.addStretch(1)
+
+        loginFrame = QFrame()
+        loginFrame.setFrameStyle(QFrame.Box)
+        # loginFrame.setStyleSheet("background-color: black")
+        # loginFrame.setColor(QtGui.QColor("black"))
+        loginPrompt = QVBoxLayout()
+
+        loginTitle = QLabel("Please enter your username and password: ")
+        loginTitle.setAlignment(Qt.AlignCenter)
+
+        userPrompt, self.userNameTextBox = self.labelWithTextEdit("Username")
+        passPrompt, self.passNameTextBox = self.labelWithTextEdit("Password",password=True)
+
+        self.loginButton = QPushButton("Login")
+
+        self.helpText = QLabel("") #Help text in case they get the password or username wrong
+        self.helpText.setAlignment(Qt.AlignRight)
+
+        loginPrompt.addStretch(1)
+        loginPrompt.addWidget(loginTitle)
+        loginPrompt.addLayout(userPrompt)
+        loginPrompt.addLayout(passPrompt)
+        loginPrompt.addWidget(self.loginButton)
+        loginPrompt.addWidget(self.helpText)
+
+        loginPrompt.addStretch(1)
+
+        loginFrame.setLayout(loginPrompt)
+
+        loginFrame.setContentsMargins(300,50,300,50) #l,t,r,b
+        loginFrame.setMaximumSize(1000,300)
+        # loginFrame.setStyleSheet("background-color: black")
+
+        layout.addLayout(vbox, 0, 0)
+        layout.addWidget(loginFrame,0,1)
+
+        widget = QWidget()
+        widget.setLayout(layout)
+        mainWindow.setCentralWidget(widget)
+
+    def labelWithTextEdit(self, text, password=False):
+        hbox = QHBoxLayout()
+        label = QLabel(text)
+        textBox = QLineEdit()
+        textBox.setStyleSheet("QLineEdit {background: rgb(255, 255, 255); selection-background-color: rgb(100, 100, 100); color: black }")
+        # textBox.setAlignment(Qt.AlignRight)
+        textBox.setMaximumSize(170,100)
+
+        if password:
+            textBox.setEchoMode(QtGui.QLineEdit.Password)
+
+        hbox.addWidget(label)
+        hbox.addWidget(textBox)
+
+        return hbox, textBox
+
 class SettingsWindow():
     def init_ui(self, mainWindow, settings):
         layout = QGridLayout()
@@ -409,16 +490,29 @@ class SettingsWindow():
         rightVBox = QVBoxLayout()
         rightVBox.setSpacing(10)
 
+
         xCenterLabel = QLabel('X:   0   ')
         xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
 
         yCenterLabel = QLabel('Y:   0   ')
         yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
 
+        manualControlLabel = QLabel("Manual Control")
+        manualControlLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+
+        self.releaseButton = QPushButton("Release Hydraulics")
+        self.engageButton = QPushButton("Engage Hydraulics")
+        self.programOffsetButton = QPushButton("Manual Program")
+
         rightVBox.addStretch(1)
         rightVBox.addWidget(xCenterLabel)
         rightVBox.addWidget(yCenterLabel)
         rightVBox.addStretch(10)
+
+        rightVBox.addWidget(manualControlLabel)
+        rightVBox.addWidget(self.releaseButton)
+        rightVBox.addWidget(self.engageButton)
+        rightVBox.addWidget(self.programOffsetButton)
 
         layout.addLayout(vbox, 0, 0)
         layout.addLayout(rightVBox, 0, 2)
@@ -493,13 +587,6 @@ class MainWindow():
         line.setFrameShape(QtGui.QFrame.HLine)
         line.setFrameShadow(QtGui.QFrame.Sunken)
 
-        manualControlLabel = QLabel("Manual Control")
-        manualControlLabel.setFont(QtGui.QFont("Lato", pointSize=20))
-
-        self.releaseButton = QPushButton("Release Hydraulics")
-        self.engageButton = QPushButton("Engage Hydraulics")
-        self.programOffsetButton = QPushButton("Manual Program")
-
         rightVBox.addStretch(1)
         rightVBox.addWidget(self.xCenterLeftLabel)
         rightVBox.addWidget(self.yCenterleftLabel)
@@ -508,11 +595,6 @@ class MainWindow():
         rightVBox.addWidget(self.xCenterRightLabel)
         rightVBox.addWidget(self.yCenterRightLabel)
         rightVBox.addWidget(line)
-
-        rightVBox.addWidget(manualControlLabel)
-        rightVBox.addWidget(self.engageButton)
-        rightVBox.addWidget(self.releaseButton)
-        rightVBox.addWidget(self.programOffsetButton)
 
         rightVBox.addStretch(10)
 
@@ -532,6 +614,7 @@ class MasterWindow(QMainWindow):
 
         self.statsWindow = StatisticsWindow()
         self.settingsWindow = SettingsWindow()
+        self.loginWindow = LoginWindow()
 
         # self.showStatsMenu(None)
 
@@ -550,12 +633,22 @@ class MasterWindow(QMainWindow):
                 'camera_true_center_y':480/2,
             }, settingsConfigField.title == 'settingsConfig') #A good alternative is using contains instead
 
-        settings = self.settingsConfig.all()[0]
-        self.imageCap = ImageCaptureThread(settingsConfig=settings)
+        if not self.settingsConfig.search(settingsConfigField.userTitle.exists()):
+            self.settingsConfig.upsert({
+                'userTitle': 'userDetail',
+                'username': 'admin',
+                'password': 'admin',
+            }, settingsConfigField.userTitle == 'userDetail')  # A good alternative is using contains instead
 
-        self.settingsImageCap = DebugImageThread(settings)
+        picSettings = self.settingsConfig.get(settingsConfigField.title == 'settingsConfig')
+
+        self.imageCap = ImageCaptureThread(settingsConfig=picSettings)
+
+        self.settingsImageCap = DebugImageThread(picSettings)
 
         self.mainWindow = MainWindow()
+
+        self.isAuthenticated = False
 
         self.showMainWindow(None)
 
@@ -569,14 +662,15 @@ class MasterWindow(QMainWindow):
 
     @pyqtSlot(list)
     def setLabelData(self, stringList):
-        self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
-        self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
+        if len(stringList) >= 3:
+            self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
+            self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
 
-        self.mainWindow.xCenterLabel.setText("CCX: " + str(stringList[1][0]))
-        self.mainWindow.yCenterLabel.setText("CCY: " + str(stringList[1][1]))
+            self.mainWindow.xCenterLabel.setText("CCX: " + str(stringList[1][0]))
+            self.mainWindow.yCenterLabel.setText("CCY: " + str(stringList[1][1]))
 
-        self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
-        self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
+            self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
+            self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
 
     def stopImageSettingsCap(self):
         if self.settingsImageCap.isRunning():
@@ -650,10 +744,25 @@ class MasterWindow(QMainWindow):
         self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
 
     def showSettingsMenu(self, event):
+
+
         self.stopImageCap()
         self.stopImageSettingsCap()
-
         settings = self.settingsConfig.all()[0]
+
+        if not self.isAuthenticated:
+            self.loginWindow.init_ui(self)
+            self.loginWindow.mainLabel.mousePressEvent = self.showMainWindow
+            self.loginWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
+            self.loginWindow.loginButton.clicked.connect(self.authenticate)
+        else:
+            self.initSettingsMenu()
+
+        self.show()
+
+    def initSettingsMenu(self):
+        settings = self.settingsConfig.all()[0]
+
         self.settingsWindow.init_ui(self, settings)
         self.settingsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.settingsWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
@@ -668,9 +777,29 @@ class MasterWindow(QMainWindow):
 
         self.updateLabels()
 
-        # self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
+        self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
 
-        self.show()
+
+    def authenticate(self):
+        userName = self.loginWindow.userNameTextBox.text()
+        password = self.loginWindow.passNameTextBox.text()
+
+        settingsConfigField = Query()
+
+        userDetail = self.settingsConfig.get(settingsConfigField.userTitle == 'userDetail')
+
+        if userName == userDetail['username']:
+            print("Correct username")
+            if password == userDetail['password']:
+                print("correct password")
+                # self.isAuthenticated = False
+                #Have to get the username and password correct
+                self.initSettingsMenu()
+                self.show()
+            else:
+                self.loginWindow.helpText.setText("Incorect Password")
+        else:
+            self.loginWindow.helpText.setText("Incorrect Username")
 
 if __name__ == "__main__":
 
