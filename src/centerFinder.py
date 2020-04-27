@@ -3,7 +3,7 @@ import cv2
 
 class CenterFinder():
     def __init__(self):
-        self.whiteOnBlack = True
+        self.whiteOnBlack = False
 
         self.SCREEN_HEIGHT = 480
         self.SCREEN_WIDTH = 640
@@ -11,8 +11,8 @@ class CenterFinder():
         self.ROI_WIDTH_X = 250
         self.ROI_WIDTH_Y = 250
 
-        self.ROI_OFFSET_X = int(self.SCREEN_WIDTH / 2 - self.ROI_WIDTH_X / 2)
-        self.ROI_OFFSET_Y = int(self.SCREEN_HEIGHT / 2 - self.ROI_WIDTH_Y / 2)
+        # self.ROI_OFFSET_X = int(self.SCREEN_WIDTH / 2 - self.ROI_WIDTH_X / 2)
+        # self.ROI_OFFSET_Y = int(self.SCREEN_HEIGHT / 2 - self.ROI_WIDTH_Y / 2)
 
     def showCenters(self, image, centers):
         """
@@ -76,17 +76,18 @@ class CenterFinder():
         if self.whiteOnBlack:
             ret, roi = cv2.threshold(roi, 150, 255, cv2.THRESH_OTSU)
             # ret, roi = cv2.threshold(roi, 50, 255, cv2.THRESH_BINARY)
-
         else:
             ret, roi = cv2.threshold(roi, 150, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
-
-        im, contours, hierarchy = cv2.findContours(roi, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-
-        contours, _ = self.sort_contours(contours)
-        # cv2.imshow("Roi", roi)
-        cv2.drawContours(color_roi, contours, -1, (0, 255, 0), 3)
-        # Get center using moments
+        try:
+            im, contours, hierarchy = cv2.findContours(roi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            contours, _ = self.sort_contours(contours)
+            # cv2.imshow("Roi", roi)
+            cv2.drawContours(color_roi, contours, -1, (0, 255, 0), 3)
+            # Get center using moments
+        except Exception as e:
+            print(e)
+            return roi, []
 
         height_text = 20
         centerPoints = []
@@ -98,13 +99,13 @@ class CenterFinder():
                 circle_center_y = int(moment['m01'] / (moment['m00'] + 0.0001))
                 cv2.circle(color_roi, center=(circle_center_x, circle_center_y), radius=3, color=(0, 0, 255),
                            thickness=3)
-                cv2.putText(color_roi, "CENTER_X: " + str(circle_center_x), (0, height_text), cv2.FONT_HERSHEY_SIMPLEX,
-                            0.6, (255, 0, 0))
-                height_text += 20
-                cv2.putText(color_roi, "CENTER_Y: " + str(circle_center_y), (0, height_text), cv2.FONT_HERSHEY_SIMPLEX,
-                            0.6, (255, 0, 0))
+                # cv2.putText(color_roi, "CENTER_X: " + str(circle_center_x), (0, height_text), cv2.FONT_HERSHEY_SIMPLEX,
+                #             0.6, (255, 0, 0))
+                # height_text += 20
+                # cv2.putText(color_roi, "CENTER_Y: " + str(circle_center_y), (0, height_text), cv2.FONT_HERSHEY_SIMPLEX,
+                #             0.6, (255, 0, 0))
+                # height_text += 20
                 centerPoints.append([circle_center_x + x, circle_center_y + y])
-                height_text += 20
             except Exception as e:
                 return roi, centerPoints
                 print(e)
