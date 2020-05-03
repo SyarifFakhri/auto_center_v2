@@ -1,1 +1,1 @@
-{"_default": {"1": {"title": "goodvsNotGoodStats", "goodSample": 5, "badSample": 6}}}
+{"_default": {"1": {"title": "cameraStats", "d55l": {"goodSample": 0, "rejectedSample": 0, "xyAlignmentStats": []}, "cp1p": {"goodSample": 0, "rejectedSample": 0, "xyAlignmentStats": []}}}}

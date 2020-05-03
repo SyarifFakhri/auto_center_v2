@@ -1,0 +1,6 @@
+numpy==1.18.3
+opencv-python==4.2.0.34
+pymata4==1.2
+PyQt5==5.14.2
+pyqtgraph==0.10.0
+tinydb==4.0.0

@@ -10,6 +10,7 @@ import math
 
 from centerFinder import CenterFinder
 from flashTool import FlashTool
+from arduinoController import ArduinoController
 
 import pyqtgraph as pg
 import numpy as np
@@ -17,10 +18,64 @@ import numpy as np
 import cv2
 
 class ProgramCamera(QtCore.QObject):
-    callProgramCamera = pyqtSignal(list)
+    callDoubleProgramCamera = pyqtSignal()
+    callProgramCamera = pyqtSignal()
+    statsData = pyqtSignal(list)
+
+    def __init__(self):
+        super(ProgramCamera, self).__init__()
+        self.flashTool = FlashTool()
+        self.currentProgrammingStep = ''
+        self.relativeCenters = []
+        self.currentCameraType = ''
+        # self.arduinoController = ArduinoController()
+        # self.arduinoController.bothButtonsPressed.connect(self.retractSliders)
+    @pyqtSlot()
+    def retractSliders(self):
+        self.arduinoController.releaseHydraulics()
 
     @pyqtSlot(list)
-    def programCenterPointDoubleProgramMethod(self, centers):
+    def updateRelativeCenters(self, cameraCenters):
+        self.relativeCenters = cameraCenters
+
+    @pyqtSlot()
+    def resetCameraOffsets(self):
+        self.isProgramming = True
+        self.currentProgrammingStep = 'Alter CFG'
+
+        programX = 0  # Very strange that this doesn't require a negative sign. Did I mess up somewhere?
+        programY = 0
+
+        programX = self.clipValue(programX)
+        programY = self.clipValue(programY)
+
+        print("Value to Program X: " + str(programX))
+        print("Value to Program Y: " + str(programY))
+
+        self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        self.currentProgrammingStep = 'Create Bin'
+        self.flashTool.createBinFileCmd(self.currentCameraType)
+        self.currentProgrammingStep = 'Resetting Camera Offsets'
+        tic = time.perf_counter()
+        self.flashTool.flashCameraCmd()
+        toc = time.perf_counter()
+
+        timeTaken = toc - tic
+
+        if (timeTaken < 3):
+            self.currentProgrammingStep = 'Programming failed. Check connection.'
+            time.sleep(2)
+            self.currentProgrammingStep = ''
+            return False
+
+        self.currentProgrammingStep = ''
+        # QThread.sleep(10) #sleep an amount of time
+        # time.sleep(10)
+        print("Finished programming.")
+        return True
+
+    @pyqtSlot()
+    def programCenterPointDoubleProgramMethod(self):
         """
         It's very likely we won't get the correct amount on the first try.
         So this method first programs it once, then calculates the offsets again, then adds that adjustment amount to the old amount
@@ -37,23 +92,62 @@ class ProgramCamera(QtCore.QObject):
         3. Check if  the new center point is correct
         """
 
+        if self.relativeCenters == []:
+            print("No valid centerpoints")
+            self.statsData.emit(['failed', []])
+            return
+
+        relativeCenterPoints = self.relativeCenters
+        centerPoints = relativeCenterPoints[1]
+        initialCenterPoints = relativeCenterPoints[1]
+
+        # check if it's already center
+        if self.isCenterPointCenter(centerPoints):
+            print("Camera Centered!")
+            self.currentProgrammingStep = "Camera Centered"
+            time.sleep(2)
+            self.currentProgrammingStep = ''
+            self.isProgramming = False
+            self.statsData.emit(['success', initialCenterPoints])
+            return
+
+        succeeded = self.resetCameraOffsets()
+
+        if not succeeded:
+            self.statsData.emit(['failed', initialCenterPoints])
+            return
+
+        for i in range(10):
+            self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
+            time.sleep(1)
+            QApplication.processEvents()
+
         # if self.validImage == False:
         #     print("Invalid image")
         print('start')
-        relativeCenterPoints = centers
+        self.currentProgrammingStep = 'Alter CFG'
+        relativeCenterPoints = self.relativeCenters
 
         # pass the center centerpoint
         centerPoints = relativeCenterPoints[1]  # 0: left center point, 1: center center point, 2: right center point
 
         # check if it's already center
-        # if not self.isCenterPointValid(centerPoints):
-        #     print("Already center! No point in centering.")
-        #     return
+        if self.isCenterPointCenter(centerPoints):
+            print("Camera Centered!")
+            self.currentProgrammingStep = "Camera Centered"
+            time.sleep(2)
+            self.currentProgrammingStep = ''
+            self.isProgramming = False
+            self.statsData.emit(['succeeded', initialCenterPoints])
+            return
 
         # self.stopRunning = True #temporarily pause the camera
 
-        programX = -centerPoints[0]
+        programX = centerPoints[0] #Very strange that this doesn't require a negative sign. Did I mess up somewhere?
         programY = -centerPoints[1]
+
+        programX = self.clipValue(programX)
+        programY = self.clipValue(programY)
 
         # programX = 0
         # programY = 0
@@ -61,29 +155,98 @@ class ProgramCamera(QtCore.QObject):
         print("Value to Program X: " + str(programX))
         print("Value to Program Y: " + str(programY))
 
-        # self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        # self.flashTool.createBinFileCmd()
-        # self.flashTool.flashCameraCmd()
+        self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        self.currentProgrammingStep = 'Create Bin'
+        self.flashTool.createBinFileCmd(self.currentCameraType)
+        self.currentProgrammingStep = 'Flashing Camera 1 - DO NOT UNPLUG'
 
+        tic = time.perf_counter()
+        self.flashTool.flashCameraCmd()
+        toc = time.perf_counter()
+
+        timeTaken = toc - tic
+
+        if (timeTaken < 3):
+            self.currentProgrammingStep = 'Programming failed. Check connection.'
+            time.sleep(2)
+            self.currentProgrammingStep = ''
+            return
+
+        self.currentProgrammingStep = ''
         # QThread.sleep(10) #sleep an amount of time
         # time.sleep(10)
+
+        for i in range(10):
+            self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
+            time.sleep(1)
+            QApplication.processEvents()
+
+        print("Relative centers: ", self.relativeCenters[1])
+        ###Begin second camera flash
+        relativeCenterPoints = self.relativeCenters
+        centerPoints = relativeCenterPoints[1]
+
+        # check if it's already center
+        if self.isCenterPointCenter(centerPoints):
+            print("Camera Centered!")
+            self.currentProgrammingStep = "Camera Centered"
+            time.sleep(2)
+            self.currentProgrammingStep = ''
+            self.statsData.emit(['succeeded', initialCenterPoints])
+            return
+
+        programX += centerPoints[0]
+        programY += -centerPoints[1]
+
+        programX = self.clipValue(programX)
+        programY = self.clipValue(programY)
+
+        # programX = 0
+        # programY = 0
+
+        print("Value to Program X: " + str(programX))
+        print("Value to Program Y: " + str(programY))
+
+        self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        self.currentProgrammingStep = 'Create Bin'
+        self.flashTool.createBinFileCmd(self.currentCameraType)
+        self.currentProgrammingStep = 'Flashing Camera 2 - DO NOT UNPLUG'
+        self.flashTool.flashCameraCmd()
+        self.currentProgrammingStep = 'Finished Programming'
         print("Finished programming.")
 
-        # self.cameraCapture()
+        time.sleep(1)
+        QApplication.processEvents()
 
-        #
-        # relativeCenterPoints = self.getRelativeCenterPoints()
-        #
-        # centerPoints = relativeCenterPoints[1] #0: left center point, 1: center center point, 2: right center point
-        #
-        # programX = programX + centerPoints[0]
-        # programY = programY + centerPoints[1]
-        #
-        # # self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        # # self.flashTool.createBinFileCmd()
-        # # self.flashTool.flashCameraCmd()
-        # print(self.centers)
-        # time.sleep(1) #sleep just in case
+        #check if it succeeded
+        relativeCenterPoints = self.relativeCenters
+        centerPoints = relativeCenterPoints[1]
+
+        if self.isCenterPointCenter(centerPoints):
+            self.currentProgrammingStep = 'Programming Suceeded'
+            self.statsData.emit(['succeeded', initialCenterPoints])
+
+        else:
+            self.statsData.emit(['failed', initialCenterPoints])
+        time.sleep(1)
+
+    def clipValue(self, value, clipTo=35):
+        if abs(value) > clipTo:
+            if value > 0:
+                value = clipTo
+            if value < 0:
+                value = -clipTo
+            else:
+                value = 0
+        return value
+
+    def isCenterPointCenter(self, centerPoints, threshold=0):
+        """Check if the RELATIVE center points are valid"""
+        if abs(centerPoints[0]) <= threshold:
+            if abs(centerPoints[1]) <= threshold:
+                return True
+        return False
+
 
 
 class ImageCaptureThread(QtCore.QObject):
@@ -95,11 +258,12 @@ class ImageCaptureThread(QtCore.QObject):
         super(ImageCaptureThread, self).__init__()
         # self.screenCenterX = int(640/2)
         # self.screenCenterY = int(480/2)
-        self.screenCenterX = 342
-        self.screenCenterY = 274
+        self.screenCenterX = settingsConfig['camera_true_center_x']
+        self.screenCenterY = settingsConfig['camera_true_center_y']
 
         self.centerFinder = CenterFinder()
-        self.centers = []
+        self.absoluteCenters = []
+        self.relativeCenters = []
         self.validImage = False
 
         self.roi = [settingsConfig['roi_x'],
@@ -107,11 +271,13 @@ class ImageCaptureThread(QtCore.QObject):
                     settingsConfig['roi_w'],
                     settingsConfig['roi_h']
                     ] #x,w,y,h - right roi
+        self.cameraStatus = ''
+
 
     @pyqtSlot()
     def cameraCapture(self):
         try:
-            # time.sleep(10)
+            time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
             cap = cv2.VideoCapture(1)
@@ -126,13 +292,18 @@ class ImageCaptureThread(QtCore.QObject):
 
                     # self.centers = []
                     #find the center
-                    # for roi in self.rois:
                     roi, centers = self.centerFinder.findCentersOfCircles(frame,self.roi)
 
                     #should only return one center
                     # centers = centers[0]
-                    self.centers = centers
-                    self.centers = self.getRelativeCenterPoints()
+                    self.absoluteCenters = centers
+                    self.relativeCenters = self.getRelativeCenterPoints()
+
+                    #Add centers of circles
+                    cv2.rectangle(frame, (self.screenCenterX, 0), (self.screenCenterX, 480), (255,0,0), 1)
+                    cv2.rectangle(frame, (0, self.screenCenterY), (640, self.screenCenterY), (255, 0, 0), 1)
+
+                    cv2.putText(frame, self.cameraStatus, (20,300), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),3 )
 
                     rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     # rgbImage = cv2.cvtColor(roi, cv2.COLOR_GRAY2RGB)
@@ -141,14 +312,18 @@ class ImageCaptureThread(QtCore.QObject):
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                     self.changePixmap.emit(p)
-                    self.centerLabels.emit(self.centers)
+
+                    if len(self.relativeCenters) == 3: #only emit if it's a valid centerpoint
+                        self.centerLabels.emit(self.relativeCenters)
+                    else:
+                        self.centerLabels.emit([])
                     # print("Done emitting")
 
             cap.release()
             print("Release camera")
             self.isRunning = False
         except Exception as e:
-            print("Error at main thread")
+            print("Error at camera capture thread")
             print(e)
 
     def isValidImage(self, image):
@@ -158,17 +333,10 @@ class ImageCaptureThread(QtCore.QObject):
             return False
         return True
 
-    def isCenterPointValid(self, centerPoints):
-        """Check if the RELATIVE center points are valid"""
-        if abs(centerPoints[0]) < 3:
-            if abs(centerPoints[1]) < 3:
-                return True
-        return False
-
     def getRelativeCenterPoints(self):
         relativeCenterPoints = []
         # First get the position relative to the center
-        for center in self.centers:
+        for center in self.absoluteCenters:
             relativeCenterX = center[0] - self.screenCenterX
             relativeCenterY = center[1] - self.screenCenterY
             relativeCenterPoints.append([relativeCenterX, relativeCenterY])
@@ -237,8 +405,12 @@ class DebugImageThread(QtCore.QObject):
         super(DebugImageThread, self).__init__()
         self.settings = settings
 
+        self.centerFinder = CenterFinder()
+        self.absoluteCenters = []
+
     @pyqtSlot()
     def debugCameraCapture(self):
+        time.sleep(1)
         self.stopRunning = False
         cap = cv2.VideoCapture(1)
         while not self.stopRunning:
@@ -248,6 +420,13 @@ class DebugImageThread(QtCore.QObject):
                 y = self.settings['roi_y']
                 w = self.settings['roi_w']
                 h = self.settings['roi_h']
+
+                #show the center of the center circle
+                roi, self.absoluteCenters = self.centerFinder.findCentersOfCircles(frame, [x,y,w,h])
+
+                cv2.rectangle(frame, (self.settings['camera_true_center_x'], 0), (self.settings['camera_true_center_x'], 480), (255, 0, 0), 1)
+                cv2.rectangle(frame, (0, self.settings['camera_true_center_y']), (640, self.settings['camera_true_center_y']), (255, 0, 0), 1)
+
                 cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0),2)
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
@@ -263,7 +442,7 @@ class DebugImageThread(QtCore.QObject):
         # self.terminate()
 
 class StatisticsWindow():
-    def init_ui(self, mainWindow):
+    def init_ui(self, mainWindow, database):
         self.layout = QGridLayout()
         self.layout.setSpacing(20)
 
@@ -286,15 +465,23 @@ class StatisticsWindow():
 
         vCharts = QVBoxLayout()
 
-        totalAccepted = self.totalAcceptedChart()
-        xAlignment = self.xAlignmentStats()
-        yAlignment = self.yAlignmentStats()
-        xyAlignment = self.xyAlignmentStats()
+        statisticsTitle = QLabel("Lifetime Statistics")
+        statisticsTitle.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
 
+        accepted = database['goodSample']
+        rejected = database['rejectedSample']
 
-        vCharts.addWidget(totalAccepted)
-        vCharts.addWidget(xAlignment)
-        vCharts.addWidget(yAlignment)
+        totalCameraLabel = QLabel("Total cameras Programmed: " + str(accepted + rejected))
+
+        acceptedCameraLabel = QLabel("Accepted: " + str(accepted))
+        rejectedCameraLabel = QLabel("Rejected: " + str(rejected))
+
+        xyAlignment = self.xyAlignmentStats(database['xyAlignmentStats'])
+
+        vCharts.addWidget(statisticsTitle)
+        vCharts.addWidget(totalCameraLabel)
+        vCharts.addWidget(acceptedCameraLabel)
+        vCharts.addWidget(rejectedCameraLabel)
         vCharts.addWidget(xyAlignment)
 
         #add scroll
@@ -303,6 +490,7 @@ class StatisticsWindow():
         scroll.setWidgetResizable(True)
         # scroll.setEnabled(True)
         scroll.setMinimumHeight(500)
+        scroll.setMinimumWidth(750)
         widget = QWidget()
         widget.setLayout(vCharts)
         scroll.setWidget(widget)
@@ -315,65 +503,24 @@ class StatisticsWindow():
         widget.setLayout(self.layout)
         mainWindow.setCentralWidget(widget)
 
-    def totalAcceptedChart(self):
+    def xyAlignmentStats(self,xyAlignmentStats):
         plot = pg.PlotWidget()
         plot.setMouseEnabled(x=False, y=False)
-        plot.setMinimumHeight(200)
-        # plot.setMinimumWidth(640)
-        plot.setBackground('w')
-        plot.setTitle('G vs NG plot', size='20pt')
+        plot.setMinimumHeight(480)
+        plot.setMinimumWidth(640)
+        plot.setBackground('#353535')
+        plot.setTitle('XY Alignment Distribution', size='20pt')
 
         pen = pg.mkPen(color=(255,0,0))
-        y1 = np.linspace(0,20, num=2)
-        x = np.arange(2)
-        barGraph = pg.BarGraphItem(x=x, height=y1, width = 0.5, brush='r', pen=pen)
 
-        plot.addItem(barGraph)
-        return plot
+        x = [item[0] for item in xyAlignmentStats]
+        y = [item[1] for item in xyAlignmentStats]
 
-    def xAlignmentStats(self):
-        plot = pg.PlotWidget()
-        plot.setMouseEnabled(x=False, y=False)
-        plot.setMinimumHeight(200)
-        plot.setBackground('w')
-        plot.setTitle('X alignment', size='20pt')
+        scatterPlot = pg.ScatterPlotItem(pen=pen, symbol='x') #size=10, pen=pen, symbol='O',  brush=pg.mkBrush(255, 255, 255, 120)
+        scatterPlot.addPoints(x, y)
 
-        pen = pg.mkPen(color=(209,0,59))
-        y1 = np.linspace(0,20, num=2)
-        x = np.arange(2)
-        barGraph = pg.BarGraphItem(x=x, height=y1, width = 0.5, brush='#d1003b', pen=pen)
+        plot.addItem(scatterPlot)
 
-        plot.addItem(barGraph)
-        return plot
-
-    def yAlignmentStats(self):
-        plot = pg.PlotWidget()
-        plot.setMouseEnabled(x=False, y=False)
-        plot.setMinimumHeight(200)
-        plot.setBackground('w')
-        plot.setTitle('Y alignment', size='20pt')
-
-        pen = pg.mkPen(color=(255,0,0))
-        y1 = np.linspace(0,20, num=2)
-        x = np.arange(2)
-        barGraph = pg.BarGraphItem(x=x, height=y1, width = 0.5, brush='r', pen=pen)
-
-        plot.addItem(barGraph)
-        return plot
-
-    def xyAlignmentStats(self):
-        plot = pg.PlotWidget()
-        plot.setMouseEnabled(x=False, y=False)
-        plot.setMinimumHeight(200)
-        plot.setBackground('w')
-        plot.setTitle('XY alignment', size='20pt')
-
-        pen = pg.mkPen(color=(255,0,0))
-        y1 = np.linspace(0,20, num=2)
-        x = np.arange(2)
-        barGraph = pg.BarGraphItem(x=x, height=y1, width = 0.5, brush='r', pen=pen)
-
-        plot.addItem(barGraph)
         return plot
 
 class LoginWindow():
@@ -482,11 +629,15 @@ class SettingsWindow():
         roiYLabel = QLabel("ROI Y: ")
         roiWLabel = QLabel("ROI W: ")
         roiHLabel = QLabel("ROI H: ")
+        centerXLabel = QLabel("X Center: ")
+        centerYLabel = QLabel("Y Center: ")
 
         self.roiXLabelvalue = QLabel(str(settings['roi_x']))
         self.roiYLabelvalue = QLabel(str(settings['roi_y']))
         self.roiWLabelvalue = QLabel(str(settings['roi_w']))
         self.roiHLabelvalue = QLabel(str(settings['roi_h']))
+        self.centerXLabelValue = QLabel(str(settings['camera_true_center_x']))
+        self.centerYLabelValue = QLabel(str(settings['camera_true_center_y']))
 
         self.roiXSlider = QSlider(Qt.Horizontal)
         self.roiXSlider.setMaximum(settings['camera_width'])
@@ -504,34 +655,48 @@ class SettingsWindow():
         self.roiHSlider.setMaximum(settings['camera_height'])
         self.roiHSlider.setValue(settings['roi_h'])
 
+        self.centerXSlider = QSlider(Qt.Horizontal)
+        self.centerXSlider.setMaximum(settings['camera_width'])
+        self.centerXSlider.setValue(settings['camera_true_center_x'])
+
+        self.centerYSlider = QSlider(Qt.Horizontal)
+        self.centerYSlider.setMaximum(settings['camera_height'])
+        self.centerYSlider.setValue(settings['camera_true_center_y'])
+
         self.saveButton = QPushButton('Save Settings')
 
         gridSettings.addWidget(roiXLabel, 0, 0)
         gridSettings.addWidget(roiYLabel, 1, 0)
         gridSettings.addWidget(roiWLabel, 2, 0)
         gridSettings.addWidget(roiHLabel, 3, 0)
+        gridSettings.addWidget(centerXLabel, 4,0)
+        gridSettings.addWidget(centerYLabel, 5,0)
 
         gridSettings.addWidget(self.roiXSlider, 0,1)
         gridSettings.addWidget(self.roiYSlider, 1,1)
         gridSettings.addWidget(self.roiWSlider, 2,1)
         gridSettings.addWidget(self.roiHSlider, 3,1)
+        gridSettings.addWidget(self.centerXSlider, 4, 1)
+        gridSettings.addWidget(self.centerYSlider, 5,1)
 
         gridSettings.addWidget(self.roiXLabelvalue, 0, 2)
         gridSettings.addWidget(self.roiYLabelvalue, 1, 2)
         gridSettings.addWidget(self.roiWLabelvalue, 2, 2)
         gridSettings.addWidget(self.roiHLabelvalue, 3, 2)
+        gridSettings.addWidget(self.centerXLabelValue, 4,2)
+        gridSettings.addWidget(self.centerYLabelValue,5,2)
 
-        gridSettings.addWidget(self.saveButton, 4,1)
+        gridSettings.addWidget(self.saveButton, 6,1)
 
         rightVBox = QVBoxLayout()
         rightVBox.setSpacing(10)
 
 
-        xCenterLabel = QLabel('X:   0   ')
-        xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
-
-        yCenterLabel = QLabel('Y:   0   ')
-        yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+        # xCenterLabel = QLabel('X:   0   ')
+        # xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+        #
+        # yCenterLabel = QLabel('Y:   0   ')
+        # yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
 
         manualControlLabel = QLabel("Manual Control")
         manualControlLabel.setFont(QtGui.QFont("Lato", pointSize=20))
@@ -539,16 +704,24 @@ class SettingsWindow():
         self.releaseButton = QPushButton("Release Hydraulics")
         self.engageButton = QPushButton("Engage Hydraulics")
         self.programOffsetButton = QPushButton("Manual Program")
+        self.tareButton = QPushButton("Tare Center")
 
-        rightVBox.addStretch(1)
-        rightVBox.addWidget(xCenterLabel)
-        rightVBox.addWidget(yCenterLabel)
-        rightVBox.addStretch(10)
+        self.chooseCurrentCamera = QtGui.QComboBox()
+        self.chooseCurrentCamera.addItem("d55l")
+        self.chooseCurrentCamera.addItem("cp1p")
+
+        # rightVBox.addStretch(1)
+        # rightVBox.addWidget(xCenterLabel)
+        # rightVBox.addWidget(yCenterLabel)
+        # rightVBox.addStretch(10)
 
         rightVBox.addWidget(manualControlLabel)
         rightVBox.addWidget(self.releaseButton)
         rightVBox.addWidget(self.engageButton)
         rightVBox.addWidget(self.programOffsetButton)
+        rightVBox.addWidget(self.tareButton)
+        rightVBox.addWidget(self.chooseCurrentCamera)
+        rightVBox.addStretch(1)
 
         layout.addLayout(vbox, 0, 0)
         layout.addLayout(rightVBox, 0, 2)
@@ -575,8 +748,13 @@ class MainWindow():
 
         self.mainLabel = QLabel("Main")
         self.mainLabel.setStyleSheet("background-color: #4a4a4a")
+        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+
         self.statisticsLabel = QLabel("Statistics")
+        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+
         self.settingsLabel = QLabel("Settings")
+        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
 
         vbox.addWidget(mainTitle)
         vbox.addWidget(self.mainLabel)
@@ -622,6 +800,8 @@ class MainWindow():
         self.yCenterRightLabel = QLabel('CRY:   0   ')
         self.yCenterRightLabel.setFont(QtGui.QFont("Lato", pointSize=20))
 
+        self.resetCamButton = QPushButton('Reset camera Offset')
+
         line = QtGui.QFrame()
         line.setFrameShape(QtGui.QFrame.HLine)
         line.setFrameShadow(QtGui.QFrame.Sunken)
@@ -634,6 +814,8 @@ class MainWindow():
         rightVBox.addWidget(self.xCenterRightLabel)
         rightVBox.addWidget(self.yCenterRightLabel)
         rightVBox.addWidget(line)
+
+        rightVBox.addWidget(self.resetCamButton)
 
         rightVBox.addStretch(10)
 
@@ -658,6 +840,7 @@ class MasterWindow(QMainWindow):
 
         # self.showStatsMenu(None)
 
+        #general flash settings
         self.settingsConfig = TinyDB('settings.json')
         settingsConfigField = Query()
         if not self.settingsConfig.search(settingsConfigField.title.exists()):
@@ -671,14 +854,33 @@ class MasterWindow(QMainWindow):
                 'camera_height': 480,
                 'camera_true_center_x':640/2,
                 'camera_true_center_y':480/2,
+                'currentCameraType':'d55l', #d55l or cp1p
             }, settingsConfigField.title == 'settingsConfig') #A good alternative is using contains instead
-
+        #general user settings
         if not self.settingsConfig.search(settingsConfigField.userTitle.exists()):
             self.settingsConfig.upsert({
                 'userTitle': 'userDetail',
                 'username': 'admin',
                 'password': 'admin',
             }, settingsConfigField.userTitle == 'userDetail')  # A good alternative is using contains instead
+
+        #general database settings
+        self.database = TinyDB('database.json')
+        databaseField = Query()
+        if not self.database.search(databaseField.title.exists()):
+            self.database.upsert({
+                'title': 'cameraStats',
+                'd55l': {
+                    'goodSample': 0,
+                    'rejectedSample': 0,
+                    'xyAlignmentStats': [],
+                },
+                'cp1p': {
+                    'goodSample': 0,
+                    'rejectedSample': 0,
+                    'xyAlignmentStats': [],
+                }
+            }, settingsConfigField.title == 'cameraStats')
 
         picSettings = self.settingsConfig.get(settingsConfigField.title == 'settingsConfig')
 
@@ -692,6 +894,12 @@ class MasterWindow(QMainWindow):
         self.programCam.moveToThread(self.programThread)
         self.programThread.start()
 
+        self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
+        self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
+        self.programCam.statsData.connect(self.recordStatsInDatabase)
+
+        self.programCam.currentCameraType = self.settingsConfig.all()[0]['currentCameraType']
+
         self.settingsImageCap = DebugImageThread(picSettings)
         self.settingsThread = QThread()
         self.settingsImageCap.moveToThread(self.settingsThread)
@@ -703,11 +911,49 @@ class MasterWindow(QMainWindow):
 
         self.showMainWindow(None)
 
+        self.isRecordingStats = False
+
+    @pyqtSlot(list)
+    def recordStatsInDatabase(self, stats):
+        #Stats is an array containing at index 0, success or fail
+        #at index 1 the centerpoints
+
+        if self.isRecordingStats:
+            currentCameraType = self.programCam.currentCameraType
+            database = self.database.all()[currentCameraType]
+
+            currentGoodSample = database['goodSample']
+            currentRejectedSample = database['rejectedSample']
+            currentAlignmentStats = database['xyAlignmentStats']
+
+            if stats[0] == 'failed':
+                currentRejectedSample += 1
+
+            if stats[0] == 'succeeded':
+                currentGoodSample += 1
+
+            if len(stats[1]) == 3:
+                currentAlignmentStats.append(stats[1][1])
+
+
+            databaseField = Query()
+            self.settingsConfig.update({
+                currentCameraType:{
+                    'goodSample':currentGoodSample,
+                    'rejectedSample':currentRejectedSample,
+                    'xyAlignmentStats':currentAlignmentStats,
+                }  # d55l or cp1p
+            }, databaseField.title == 'cameraStats')  # A good alternative is using contains instead
+
     def programCamera(self, param):
+        self.programCam.callDoubleProgramCamera.emit()
+
+    def resetCamera(self, param):
         self.programCam.callProgramCamera.emit()
 
     @pyqtSlot(QImage)
     def setImageCap(self,image):
+        self.imageCap.cameraStatus = self.programCam.currentProgrammingStep
         self.mainWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
 
     @pyqtSlot(QImage)
@@ -716,8 +962,6 @@ class MasterWindow(QMainWindow):
 
     @pyqtSlot(list)
     def setLabelData(self, stringList):
-        self.centers = stringList
-
         if len(stringList) >= 3:
             self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
             self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
@@ -730,22 +974,24 @@ class MasterWindow(QMainWindow):
 
     def stopImageSettingsCap(self):
         try:
-            self.settingsImageCap.changePixmap.disconnect()
+            self.settingsImageCap.disconnect()
+            pass
         except Exception as e:
             print(e)
-
         self.settingsImageCap.stop()
 
     def stopImageCap(self):
         try:
-            self.imageCap.changePixmap.disconnect()
+            self.imageCap.disconnect()
         except Exception as e:
             print(e)
         self.imageCap.stop()
 
     def showMainWindow(self, event):
-        # self.stopImageSettingsCap()
-        # self.stopImageCap()
+        self.isRecordingStats = True
+
+        self.stopImageSettingsCap()
+        self.stopImageCap()
 
         #left context menu
         self.mainWindow.init_ui(self)
@@ -759,9 +1005,10 @@ class MasterWindow(QMainWindow):
 
         self.imageCap.callImageCap.connect(self.imageCap.cameraCapture)
         self.imageCap.callImageCap.emit()
+        self.imageCap.centerLabels.connect(self.programCam.updateRelativeCenters)
 
-        self.programCam.callProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.mainWindow.GLabel.mousePressEvent = self.programCamera
+        self.mainWindow.resetCamButton.clicked.connect(self.resetCamera)
 
         #labels
         self.imageCap.centerLabels.connect(self.setLabelData)
@@ -774,22 +1021,27 @@ class MasterWindow(QMainWindow):
         self.stopImageCap()
         self.stopImageSettingsCap()
 
-        self.statsWindow.init_ui(self)
+        self.statsWindow.init_ui(self, self.database.all()[0][self.programCam.currentCameraType])
         self.statsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.statsWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
         self.setMaximumSize(self.statsWindow.layout.sizeHint())
         self.show()
 
     def updateLabels(self):
+        #this is for the settings window only
         self.settingsWindow.roiXLabelvalue.setText(str(self.settingsWindow.roiXSlider.value()))
         self.settingsWindow.roiYLabelvalue.setText(str(self.settingsWindow.roiYSlider.value()))
         self.settingsWindow.roiWLabelvalue.setText(str(self.settingsWindow.roiWSlider.value()))
         self.settingsWindow.roiHLabelvalue.setText(str(self.settingsWindow.roiHSlider.value()))
+        self.settingsWindow.centerXLabelValue.setText(str(self.settingsWindow.centerXSlider.value()))
+        self.settingsWindow.centerYLabelValue.setText(str(self.settingsWindow.centerYSlider.value()))
 
         self.settingsImageCap.settings['roi_x'] = self.settingsWindow.roiXSlider.value()
         self.settingsImageCap.settings['roi_y'] = self.settingsWindow.roiYSlider.value()
         self.settingsImageCap.settings['roi_w'] = self.settingsWindow.roiWSlider.value()
         self.settingsImageCap.settings['roi_h'] = self.settingsWindow.roiHSlider.value()
+        self.settingsImageCap.settings['camera_true_center_x'] = self.settingsWindow.centerXSlider.value()
+        self.settingsImageCap.settings['camera_true_center_y'] = self.settingsWindow.centerYSlider.value()
 
     def saveSettings(self):
         settingsConfigField = Query()
@@ -801,8 +1053,9 @@ class MasterWindow(QMainWindow):
             'roi_h': self.settingsWindow.roiHSlider.value(),
             'camera_width': 640,
             'camera_height': 480,
-            'camera_true_center_x': 640 / 2,
-            'camera_true_center_y': 480 / 2,
+            'camera_true_center_x': self.settingsWindow.centerXSlider.value(),
+            'camera_true_center_y': self.settingsWindow.centerYSlider.value(),
+            'currentCameraType': self.settingsWindow.chooseCurrentCamera.currentText(),  # d55l or cp1p
         }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
         self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
@@ -810,10 +1063,17 @@ class MasterWindow(QMainWindow):
         self.imageCap.roi[2] = self.settingsWindow.roiWSlider.value()
         self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
 
+        self.imageCap.screenCenterX = self.settingsWindow.centerXSlider.value()
+        self.imageCap.screenCenterY = self.settingsWindow.centerYSlider.value()
+
+        self.programCam.currentCameraType = self.settingsWindow.chooseCurrentCamera.currentText()
+
     def showSettingsMenu(self, event):
+        self.isRecordingStats = False
+
         self.stopImageCap()
         self.stopImageSettingsCap()
-        settings = self.settingsConfig.all()[0]
+        # settings = self.settingsConfig.all()[0]
         self.isAuthenticated = True
 
         if not self.isAuthenticated:
@@ -825,7 +1085,6 @@ class MasterWindow(QMainWindow):
             self.initSettingsMenu()
 
         self.show()
-
 
     def initSettingsMenu(self):
         settings = self.settingsConfig.all()[0]
@@ -843,10 +1102,22 @@ class MasterWindow(QMainWindow):
         self.settingsWindow.roiWSlider.valueChanged.connect(self.updateLabels)
         self.settingsWindow.roiHSlider.valueChanged.connect(self.updateLabels)
 
+        self.settingsWindow.centerXSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.centerYSlider.valueChanged.connect(self.updateLabels)
+
         self.updateLabels()
 
         self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
 
+        self.settingsWindow.tareButton.clicked.connect(self.tareCenter)
+
+    def tareCenter(self, params):
+        self.settingsImageCap.settings['camera_true_center_x'] = self.settingsImageCap.absoluteCenters[1][0]
+        self.settingsImageCap.settings['camera_true_center_y'] = self.settingsImageCap.absoluteCenters[1][1]
+        self.settingsWindow.centerXLabelValue.setText(str(self.settingsImageCap.absoluteCenters[1][0]))
+        self.settingsWindow.centerYLabelValue.setText(str(self.settingsImageCap.absoluteCenters[1][1]))
+        self.settingsWindow.centerXSlider.setValue(self.settingsImageCap.absoluteCenters[1][0])
+        self.settingsWindow.centerYSlider.setValue(self.settingsImageCap.absoluteCenters[1][1])
 
     def authenticate(self):
         userName = self.loginWindow.userNameTextBox.text()
@@ -874,7 +1145,6 @@ if __name__ == "__main__":
     db = TinyDB('database.json')
     # db.purge()
     title = Query()
-    db.upsert({'title':'goodvsNotGoodStats','goodSample':5, 'badSample':6}, title.title == 'goodvsNotGoodStats')
 
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle('Fusion')

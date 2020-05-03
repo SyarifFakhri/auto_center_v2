@@ -7,9 +7,13 @@ class FlashTool():
     def __init__(self):
         self.aptinaLocation = '\"C:\\Aptina Imaging\\bin\\flashtool.exe\"'
         self.fcfgLocation = '\"C:\\Users\\Default.DESKTOP-CAOIVKO\\PycharmProjects\\auto_lens_center\\src\\200102_cam 2_REFERENCE.fcfg\"'
-        self.sdatLocation = '\"C:\\Aptina Imaging\\sensor_data\\ASX350AT-REV3.xsdat\"'
         self.binLocation = '\"C:\\Users\\Default.DESKTOP-CAOIVKO\\PycharmProjects\\auto_lens_center\\src\\generated.bin\"'
         self.running = False
+
+        #list of sensor locations
+        self.sdatLocation = {
+            'cp1p': '\"C:\\Aptina Imaging\\sensor_data\\ASX350AT-REV3.xsdat\"'
+        }
 
     def alterCFGFileCameraOffset(self, cameraOffsetX, cameraOffsetY):
         readLocation = "C:\\Users\\Default.DESKTOP-CAOIVKO\\PycharmProjects\\auto_lens_center\\src\\200102_cam 2_REFERENCE.fcfg"
@@ -27,13 +31,16 @@ class FlashTool():
                 else:
                     output_file.write(line)
 
-    def createBinFileCmd(self):
+    # def alterCFGOverlay(self  ):
+
+    def createBinFileCmd(self, cameraType):
         #cmd = self.aptinaLocation + ' -1 -fcfg ' + 'cfg_automatic.fcfg' + ' -sdat ' + self.sdatLocation + ' -bin ' + self.binLocation
         #print(cmd)
+
         if self.running == False:
             print("Start running")
             self.running = True
-            args = shlex.split(self.aptinaLocation + ' -1 -fcfg ' + 'cfg_automatic.fcfg' + ' -sdat ' + self.sdatLocation + ' -bin ' + self.binLocation)
+            args = shlex.split(self.aptinaLocation + ' -1 -fcfg ' + 'cfg_automatic.fcfg' + ' -sdat ' + self.sdatLocation[cameraType] + ' -bin ' + self.binLocation)
             print (args)
             subprocess.run(args)
             print("Done running")
