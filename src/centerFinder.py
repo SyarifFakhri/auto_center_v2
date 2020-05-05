@@ -80,7 +80,7 @@ class CenterFinder():
             ret, roi = cv2.threshold(roi, 150, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
         try:
-            im, contours, hierarchy = cv2.findContours(roi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            contours, hierarchy = cv2.findContours(roi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
             contours, _ = self.sort_contours(contours)
             # cv2.imshow("Roi", roi)
             cv2.drawContours(color_roi, contours, -1, (0, 255, 0), 3)

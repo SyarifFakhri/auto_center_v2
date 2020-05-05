@@ -28,10 +28,16 @@ class ProgramCamera(QtCore.QObject):
         self.currentProgrammingStep = ''
         self.relativeCenters = []
         self.currentCameraType = ''
-        # self.arduinoController = ArduinoController()
-        # self.arduinoController.bothButtonsPressed.connect(self.retractSliders)
+        self.arduinoController = ArduinoController()
+        self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
+        self.arduinoController.onCamera()
+        self.arduinoController.releaseHydraulics()
+
     @pyqtSlot()
     def retractSliders(self):
+        print("RELEASE HYDRAULICS")
+        self.arduinoController.engageHydraulics()
+        time.sleep(2)
         self.arduinoController.releaseHydraulics()
 
     @pyqtSlot(list)
@@ -40,6 +46,8 @@ class ProgramCamera(QtCore.QObject):
 
     @pyqtSlot()
     def resetCameraOffsets(self):
+        self.arduinoController.onCamera()
+        # self.arduinoController.onLeds()
         self.isProgramming = True
         self.currentProgrammingStep = 'Alter CFG'
 
@@ -66,13 +74,27 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
             time.sleep(2)
             self.currentProgrammingStep = ''
+            self.arduinoController.offLeds()
             return False
+
+
+        self.powerCycleCamera()
 
         self.currentProgrammingStep = ''
         # QThread.sleep(10) #sleep an amount of time
         # time.sleep(10)
         print("Finished programming.")
+        self.arduinoController.offLeds()
         return True
+
+    def powerCycleCamera(self):
+        print("Power cycling camera")
+        self.arduinoController.offCamera()
+        time.sleep(1)
+        self.arduinoController.onCamera()
+        time.sleep(3)
+        QApplication.processEvents()
+        print("Camera reset")
 
     @pyqtSlot()
     def programCenterPointDoubleProgramMethod(self):
@@ -92,44 +114,57 @@ class ProgramCamera(QtCore.QObject):
         3. Check if  the new center point is correct
         """
 
+        self.arduinoController.engageHydraulics()
+        # self.arduinoController.onLeds()
+        self.arduinoController.onCamera()
+
+        QApplication.processEvents()
+        time.sleep(5)
+
         if self.relativeCenters == []:
             print("No valid centerpoints")
             self.statsData.emit(['failed', []])
+            # self.arduinoController.releaseHydraulics()
             return
 
         relativeCenterPoints = self.relativeCenters
-        centerPoints = relativeCenterPoints[1]
-        initialCenterPoints = relativeCenterPoints[1]
+        centerPoints = relativeCenterPoints[0]
+        initialCenterPoints = relativeCenterPoints[0]
+
 
         # check if it's already center
-        if self.isCenterPointCenter(centerPoints):
-            print("Camera Centered!")
-            self.currentProgrammingStep = "Camera Centered"
-            time.sleep(2)
-            self.currentProgrammingStep = ''
-            self.isProgramming = False
-            self.statsData.emit(['success', initialCenterPoints])
-            return
+        #REENABLE BACK
+        # if self.isCenterPointCenter(centerPoints):
+        #     print("Camera Centered!")
+        #     self.currentProgrammingStep = "Camera Centered"
+        #     time.sleep(2)
+        #     self.currentProgrammingStep = ''
+        #     self.isProgramming = False
+        #     self.statsData.emit(['success', initialCenterPoints])
+        #     return
 
-        succeeded = self.resetCameraOffsets()
+        #STEP 1 - RESET CAMERA OFFSETS
+        succeeded = self.resetCameraOffsets() #succeeded means programming did not fail
 
         if not succeeded:
             self.statsData.emit(['failed', initialCenterPoints])
+            # self.arduinoController.releaseHydraulics()
             return
 
-        for i in range(10):
-            self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
-            time.sleep(1)
-            QApplication.processEvents()
+        #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
+        # for i in range(10):
+        #     self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
+        self.powerCycleCamera()
 
         # if self.validImage == False:
         #     print("Invalid image")
         print('start')
         self.currentProgrammingStep = 'Alter CFG'
+        #STEP 2.1 - Check if already center
         relativeCenterPoints = self.relativeCenters
 
         # pass the center centerpoint
-        centerPoints = relativeCenterPoints[1]  # 0: left center point, 1: center center point, 2: right center point
+        centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
@@ -139,11 +174,12 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = ''
             self.isProgramming = False
             self.statsData.emit(['succeeded', initialCenterPoints])
+            # self.arduinoController.releaseHydraulics()
             return
 
         # self.stopRunning = True #temporarily pause the camera
 
-        programX = centerPoints[0] #Very strange that this doesn't require a negative sign. Did I mess up somewhere?
+        programX = centerPoints[0] #The camera is mirrored on the x axis
         programY = -centerPoints[1]
 
         programX = self.clipValue(programX)
@@ -170,21 +206,24 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
             time.sleep(2)
             self.currentProgrammingStep = ''
+            # self.arduinoController.releaseHydraulics()
             return
+
 
         self.currentProgrammingStep = ''
         # QThread.sleep(10) #sleep an amount of time
         # time.sleep(10)
+        self.powerCycleCamera()
 
-        for i in range(10):
-            self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
-            time.sleep(1)
-            QApplication.processEvents()
+        # for i in range(10):
+        #     self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
+        #     time.sleep(1)
+        #     QApplication.processEvents()
 
-        print("Relative centers: ", self.relativeCenters[1])
+        print("Relative centers: ", self.relativeCenters[0])
         ###Begin second camera flash
         relativeCenterPoints = self.relativeCenters
-        centerPoints = relativeCenterPoints[1]
+        centerPoints = relativeCenterPoints[0]
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
@@ -193,6 +232,7 @@ class ProgramCamera(QtCore.QObject):
             time.sleep(2)
             self.currentProgrammingStep = ''
             self.statsData.emit(['succeeded', initialCenterPoints])
+            # self.arduinoController.releaseHydraulics()
             return
 
         programX += centerPoints[0]
@@ -215,20 +255,23 @@ class ProgramCamera(QtCore.QObject):
         self.currentProgrammingStep = 'Finished Programming'
         print("Finished programming.")
 
-        time.sleep(1)
-        QApplication.processEvents()
+        self.powerCycleCamera()
 
         #check if it succeeded
         relativeCenterPoints = self.relativeCenters
-        centerPoints = relativeCenterPoints[1]
+        centerPoints = relativeCenterPoints[0]
 
         if self.isCenterPointCenter(centerPoints):
             self.currentProgrammingStep = 'Programming Suceeded'
             self.statsData.emit(['succeeded', initialCenterPoints])
 
         else:
+            self.currentProgrammingStep = 'Could not center'
             self.statsData.emit(['failed', initialCenterPoints])
-        time.sleep(1)
+        time.sleep(2)
+        self.currentProgrammingStep = ''
+
+        # self.arduinoController.releaseHydraulics()
 
     def clipValue(self, value, clipTo=35):
         if abs(value) > clipTo:
@@ -313,7 +356,7 @@ class ImageCaptureThread(QtCore.QObject):
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                     self.changePixmap.emit(p)
 
-                    if len(self.relativeCenters) == 3: #only emit if it's a valid centerpoint
+                    if len(self.relativeCenters) == 1: #only emit if it's a valid centerpoint
                         self.centerLabels.emit(self.relativeCenters)
                     else:
                         self.centerLabels.emit([])
@@ -920,7 +963,7 @@ class MasterWindow(QMainWindow):
 
         if self.isRecordingStats:
             currentCameraType = self.programCam.currentCameraType
-            database = self.database.all()[currentCameraType]
+            database = self.database.all()[0][currentCameraType]
 
             currentGoodSample = database['goodSample']
             currentRejectedSample = database['rejectedSample']
@@ -962,15 +1005,15 @@ class MasterWindow(QMainWindow):
 
     @pyqtSlot(list)
     def setLabelData(self, stringList):
-        if len(stringList) >= 3:
-            self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
-            self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
+        if len(stringList) >= 1:
+            # self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
+            # self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
 
-            self.mainWindow.xCenterLabel.setText("CCX: " + str(stringList[1][0]))
-            self.mainWindow.yCenterLabel.setText("CCY: " + str(stringList[1][1]))
+            self.mainWindow.xCenterLabel.setText("CCX: " + str(stringList[0][0]))
+            self.mainWindow.yCenterLabel.setText("CCY: " + str(stringList[0][1]))
 
-            self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
-            self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
+            # self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
+            # self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
 
     def stopImageSettingsCap(self):
         try:
@@ -1105,6 +1148,9 @@ class MasterWindow(QMainWindow):
         self.settingsWindow.centerXSlider.valueChanged.connect(self.updateLabels)
         self.settingsWindow.centerYSlider.valueChanged.connect(self.updateLabels)
 
+        # self.settingsWindow.engageButton.clicked.connect()
+        # self.settingsWindow
+
         self.updateLabels()
 
         self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
@@ -1177,3 +1223,6 @@ if __name__ == "__main__":
     masterWindow = MasterWindow()
 
     sys.exit(app.exec_())
+    masterWindow.capThread.quit()
+    masterWindow.settingsThread.quit()
+    masterWindow.programThread.quit()
