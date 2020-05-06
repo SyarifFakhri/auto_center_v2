@@ -3,6 +3,9 @@ from subprocess import PIPE, CalledProcessError, Popen
 import sys
 import os
 import numpy as np
+import win32console
+import msvcrt
+
 class FlashTool():
     def __init__(self):
         self.aptinaLocation = '\"C:\\Aptina Imaging\\bin\\flashtool.exe\"'
@@ -45,6 +48,20 @@ class FlashTool():
             subprocess.run(args)
             print("Done running")
             self.running = False
+
+    def testCreate(self):
+        if self.running == False:
+            ccsb = win32console.CreateConsoleScreenBuffer()
+            fd = msvcrt.open_osfhandle(ccsb, os.O_APPEND)
+            print("Start running")
+            self.running = True
+            args = shlex.split(self.aptinaLocation + ' -1 -fcfg ' + 'cfg_automatic.fcfg' + ' -sdat ' + self.sdatLocation['cp1p'] + ' -bin ' + self.binLocation)
+            print (args)
+            result = subprocess.run(args, stdout=fd) #, stdout=subprocess.PIPE)
+            print("Done running")
+            self.running = False
+            ccsb.ReadConsoleOutputCharacter(100,win32console.PyCOORDType(0, 0))  # reads 100 characters from the first line
+            return result
 
     def flashCameraCmd(self):
         if self.running == False:

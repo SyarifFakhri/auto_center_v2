@@ -22,15 +22,28 @@ class ProgramCamera(QtCore.QObject):
     callProgramCamera = pyqtSignal()
     statsData = pyqtSignal(list)
 
+    callEngageHydraulics = pyqtSignal()
+    callReleaseHydraulics = pyqtSignal()
+
     def __init__(self):
         super(ProgramCamera, self).__init__()
         self.flashTool = FlashTool()
         self.currentProgrammingStep = ''
         self.relativeCenters = []
         self.currentCameraType = ''
+
+        self.PROGRAMMING_TIME_THRESH = 5
+
         self.arduinoController = ArduinoController()
         self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
         self.arduinoController.onCamera()
+
+    @pyqtSlot()
+    def engageHydraulics(self):
+        self.arduinoController.engageHydraulics()
+
+    @pyqtSlot()
+    def releaseHydraulics(self):
         self.arduinoController.releaseHydraulics()
 
     @pyqtSlot()
@@ -70,13 +83,12 @@ class ProgramCamera(QtCore.QObject):
 
         timeTaken = toc - tic
 
-        if (timeTaken < 3):
+        if (timeTaken < self.PROGRAMMING_TIME_THRESH):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
             time.sleep(2)
             self.currentProgrammingStep = ''
             self.arduinoController.offLeds()
             return False
-
 
         self.powerCycleCamera()
 
@@ -89,6 +101,7 @@ class ProgramCamera(QtCore.QObject):
 
     def powerCycleCamera(self):
         print("Power cycling camera")
+        self.currentProgrammingStep = 'Power cycling camera'
         self.arduinoController.offCamera()
         time.sleep(1)
         self.arduinoController.onCamera()
@@ -202,7 +215,7 @@ class ProgramCamera(QtCore.QObject):
 
         timeTaken = toc - tic
 
-        if (timeTaken < 3):
+        if (timeTaken < self.PROGRAMMING_TIME_THRESH):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
             time.sleep(2)
             self.currentProgrammingStep = ''
@@ -283,7 +296,7 @@ class ProgramCamera(QtCore.QObject):
                 value = 0
         return value
 
-    def isCenterPointCenter(self, centerPoints, threshold=0):
+    def isCenterPointCenter(self, centerPoints, threshold=1):
         """Check if the RELATIVE center points are valid"""
         if abs(centerPoints[0]) <= threshold:
             if abs(centerPoints[1]) <= threshold:
@@ -750,6 +763,8 @@ class SettingsWindow():
         self.tareButton = QPushButton("Tare Center")
 
         self.chooseCurrentCamera = QtGui.QComboBox()
+        self.chooseCurrentCamera.addItem(settings['currentCameraType'])
+
         self.chooseCurrentCamera.addItem("d55l")
         self.chooseCurrentCamera.addItem("cp1p")
 
@@ -872,8 +887,8 @@ class MainWindow():
         mainWindow.setCentralWidget(widget)
 
 class MasterWindow(QMainWindow):
-    def __init__(self, *args, **kwargs):
-        super(MasterWindow, self).__init__(*args, **kwargs)
+    def __init__(self, app):
+        super(MasterWindow, self).__init__()
         self.setWindowTitle("Auto Center Tool")
         self.flashTool = FlashTool()
 
@@ -940,6 +955,8 @@ class MasterWindow(QMainWindow):
         self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
         self.programCam.statsData.connect(self.recordStatsInDatabase)
+        self.programCam.callEngageHydraulics.connect(self.programCam.engageHydraulics)
+        self.programCam.callReleaseHydraulics.connect(self.programCam.releaseHydraulics)
 
         self.programCam.currentCameraType = self.settingsConfig.all()[0]['currentCameraType']
 
@@ -955,6 +972,18 @@ class MasterWindow(QMainWindow):
         self.showMainWindow(None)
 
         self.isRecordingStats = False
+
+        app.aboutToQuit.connect(self.stopProgram)
+
+    def stopProgram(self):
+        print("Stop all")
+        self.capThread.quit()
+        self.settingsThread.quit()
+        self.programThread.quit()
+
+    def errorOutputWritten(self, text):
+        self.normalOutputWritten("*** ERROR: " + text)
+
 
     @pyqtSlot(list)
     def recordStatsInDatabase(self, stats):
@@ -1001,6 +1030,7 @@ class MasterWindow(QMainWindow):
 
     @pyqtSlot(QImage)
     def setSettingsImage(self,image):
+        self.imageCap.cameraStatus = self.programCam.currentProgrammingStep
         self.settingsWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
 
     @pyqtSlot(list)
@@ -1060,8 +1090,9 @@ class MasterWindow(QMainWindow):
         # self.showMaximized()
         self.show()
 
+        # self.programCam.arduinoController
+
     def showStatsMenu(self, event):
-        self.stopImageCap()
         self.stopImageSettingsCap()
 
         self.statsWindow.init_ui(self, self.database.all()[0][self.programCam.currentCameraType])
@@ -1111,6 +1142,19 @@ class MasterWindow(QMainWindow):
 
         self.programCam.currentCameraType = self.settingsWindow.chooseCurrentCamera.currentText()
 
+
+    def engageHydraulics(self, param):
+        # try:
+            #need to check if this causes the program to hang
+            # self.programCam.arduinoController.engageHydraulics()
+        self.programCam.callEngageHydraulics.emit()
+        # except Exception as e:
+        #     print(e)
+
+    def releaseHydraulics(self, param):
+        # self.programCam.arduinoController.releaseHydraulics()
+        self.programCam.callReleaseHydraulics.emit()
+
     def showSettingsMenu(self, event):
         self.isRecordingStats = False
 
@@ -1148,14 +1192,14 @@ class MasterWindow(QMainWindow):
         self.settingsWindow.centerXSlider.valueChanged.connect(self.updateLabels)
         self.settingsWindow.centerYSlider.valueChanged.connect(self.updateLabels)
 
-        # self.settingsWindow.engageButton.clicked.connect()
-        # self.settingsWindow
-
         self.updateLabels()
 
         self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
 
         self.settingsWindow.tareButton.clicked.connect(self.tareCenter)
+
+        self.settingsWindow.engageButton.clicked.connect(self.engageHydraulics)
+        self.settingsWindow.releaseButton.clicked.connect(self.releaseHydraulics)
 
     def tareCenter(self, params):
         self.settingsImageCap.settings['camera_true_center_x'] = self.settingsImageCap.absoluteCenters[1][0]
@@ -1220,9 +1264,6 @@ if __name__ == "__main__":
 
     sys.excepthook = exception_hook
 
-    masterWindow = MasterWindow()
+    masterWindow = MasterWindow(app)
 
     sys.exit(app.exec_())
-    masterWindow.capThread.quit()
-    masterWindow.settingsThread.quit()
-    masterWindow.programThread.quit()
