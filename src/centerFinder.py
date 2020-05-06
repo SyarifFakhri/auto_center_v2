@@ -94,6 +94,9 @@ class CenterFinder():
 
         for cnt in contours:
             try:
+                if cv2.contourArea(cnt) < 200:
+                    continue
+
                 moment = cv2.moments(cnt)
                 circle_center_x = int(moment['m10'] / (moment['m00'] + 0.0001))
                 circle_center_y = int(moment['m01'] / (moment['m00'] + 0.0001))

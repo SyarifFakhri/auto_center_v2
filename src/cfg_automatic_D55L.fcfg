@@ -157,7 +157,7 @@ PARAMETERS={
 	0x9408,	8,	0x23,	# NTSC_INTERLACED_PORT_PARALLEL_CONTROL
 	0xDC04,	8,	0x4,	# SYSMGR_CONFIG_MODE
 0xC860, 8, 0, #Generated automatically
-0xC861, 8, 0 #Generated automatically
+0xC861, 8, 10 #Generated automatically
  }
 
 [END]   # [INIT_TABLE]

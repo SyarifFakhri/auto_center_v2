@@ -60,6 +60,7 @@ class ArduinoController(QObject):
         if self.running == False:
             if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
                     self.board.digital_read(self.LEFT_BTN)[0] == 0):
+                self.running = True
                 #right btn is also pressed
                 self.bothButtonsPressed.emit()
                 # print("TRIGGER")
@@ -71,6 +72,7 @@ class ArduinoController(QObject):
         if self.running == False:
             if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
                     self.board.digital_read(self.LEFT_BTN)[0] == 0):
+                self.running = True
                 self.bothButtonsPressed.emit()
                 # print("TRIGGER")
                 # self.engageHydraulics()
@@ -80,8 +82,14 @@ class ArduinoController(QObject):
         print("RIGHT BUTTON PRESSED", self.board.digital_read(self.LEFT_BTN)[0])
 
     def engageHydraulics(self):
-        self.running = True
         #engage hydraulics here
+        isPogoExtended = self.checkPogoPinExtended()
+        isCamRetracted = self.checkCamHolderRetracted()
+
+
+        if (isPogoExtended == True and isCamRetracted == True):
+            return
+
         #put into flash mode
         self.board.digital_write(self.VALVE_POGO_PIN, 0) #first make sure the pogo pin is not in the way
         self.waitUntilPogoPinsRetracted()
@@ -91,7 +99,6 @@ class ArduinoController(QObject):
 
         self.board.digital_write(self.VALVE_POGO_PIN, 1)
         self.waitUntilPogoPinsExtended()
-        self.running = False
 
     def monitorReedSwitch(self):
         while True:
@@ -104,7 +111,13 @@ class ArduinoController(QObject):
 
 
     def releaseHydraulics(self):
-        self.running = True
+
+        isPogoRetracted = self.checkPogoPinRetracted()
+        isCamExtended = self.checkCamHolderExtended()
+
+        if (isPogoRetracted == True and isCamExtended == True):
+            return
+
         self.board.digital_write(self.VALVE_CAM_HOLDER, 0)
         self.waitUntilCamHolderRetracted()
         #release hydraulics here
@@ -113,42 +126,81 @@ class ArduinoController(QObject):
 
         self.board.digital_write(self.VALVE_CAM_HOLDER, 1)
         self.waitUntilCamHolderExtended()
-        self.running = False
+
+    def checkPogoPinRetracted(self):
+        reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
+        reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
+
+        if reedswPogoExtended == 0 and reedswPogoRetracted == 1:
+            return True
+        else:
+            return False
+
+    def checkPogoPinExtended(self):
+        reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
+        reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
+
+        if reedswPogoExtended == 1 and reedswPogoRetracted == 0:
+            return True
+        else:
+            return False
+
+    def checkCamHolderRetracted(self):
+        reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
+        reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
+        if reedswCamExtended == 0 and reedswCamRetracted == 1:
+            return True
+        else:
+            return False
+
+    def checkCamHolderExtended(self):
+        reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
+        reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
+        if reedswCamExtended == 1 and reedswCamRetracted == 0:
+            return True
+        else:
+            return False
 
     def waitUntilPogoPinsRetracted(self):
+        print("Waiting for pogo pins Retract")
         while True:
             reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
             reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
             if reedswPogoExtended == 0 and reedswPogoRetracted == 1:
                 break
+        print("Pogo pins Retracted")
 
-            print("Waiting for pogo pins Retract")
     def waitUntilPogoPinsExtended(self):
+        print("Waiting for pogo pins extend")
         while True:
             reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
             reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
             if reedswPogoExtended == 1 and reedswPogoRetracted== 0:
                 break
+        print("Pogo pins Extended")
 
-            print("Waiting for pogo pins extend" + str(reedswPogoRetracted) + ' ' + str(reedswPogoExtended))
+
 
     def waitUntilCamHolderRetracted(self):
+        print("Waiting for Cam Holder Retract")
         while True:
             reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
             reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
             if reedswCamExtended == 0 and reedswCamRetracted == 1:
                 break
+        print("Cam Holder Retracted")
 
-            print("Waiting for Cam Holder Retract")
+
 
     def waitUntilCamHolderExtended(self):
+        print("Waiting for Cam Holder Extend")
         while True:
             reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
             reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
             if reedswCamExtended == 1 and reedswCamRetracted == 0:
                 break
+        print("Cam Holder Extended")
 
-            print("Waiting for Cam Holder Extend")
 
 
 

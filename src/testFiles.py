@@ -1,13 +1,18 @@
-from arduinoController import ArduinoController
+# from arduinoController import ArduinoController
+#
+# arduinoController = ArduinoController()
+# arduinoController.onCamera()
+#
+# while True:
+#     pass
+#
 
-arduinoController = ArduinoController()
-arduinoController.onCamera()
-
-while True:
-    pass
-
-
-
+# from flashTool import FlashTool
+#
+# flasher =FlashTool()
+# flasher.alterCFGFileD55LCamera(0,0)
+# flasher.createBinFileD55LCmd('d55l')
+# flasher.flashCameraCmd()
 # import time
 #
 # # from pymata4 import pymata4
