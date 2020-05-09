@@ -34,9 +34,9 @@ class ProgramCamera(QtCore.QObject):
 
         self.PROGRAMMING_TIME_THRESH = 3
 
-        self.arduinoController = ArduinoController()
-        self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
-        self.arduinoController.onCamera()
+        # self.arduinoController = ArduinoController()
+        # self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
+        # self.arduinoController.onCamera()
         # self.arduinoController.onLeds()
 
 
@@ -500,7 +500,7 @@ class DebugImageThread(QtCore.QObject):
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
                 convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                p = convertToQtFormat.scaled(480, 360, Qt.KeepAspectRatio)
                 self.changePixmap.emit(p)
 
                 if len(self.relativeCenters) == 1:  # only emit if it's a valid centerpoint
@@ -706,6 +706,13 @@ class SettingsWindow():
 
         self.imageLabel = QLabel(mainWindow)
 
+        scroll = QScrollArea()
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setWidgetResizable(True)
+        # scroll.setEnabled(True)
+        scroll.setMaximumHeight(200)
+        # scroll.setMinimumWidth(750)
+
         gridSettings = QGridLayout()
         roiXLabel = QLabel("ROI X: ")
         roiYLabel = QLabel("ROI Y: ")
@@ -807,10 +814,15 @@ class SettingsWindow():
         rightVBox.addWidget(self.chooseCurrentCamera)
         rightVBox.addStretch(1)
 
+        widget = QWidget()
+        widget.setLayout(gridSettings)
+        scroll.setWidget(widget)
+
         layout.addLayout(vbox, 0, 0)
         layout.addLayout(rightVBox, 0, 2)
         layout.addWidget(self.imageLabel, 0, 1)
-        layout.addLayout(gridSettings, 1,1)
+        # layout.addLayout(gridSettings, 1,1)
+        layout.addWidget(scroll, 1, 1)
 
         widget = QWidget()
         widget.setLayout(layout)
@@ -847,6 +859,7 @@ class MainWindow():
         vbox.addStretch(1)
 
         self.imageLabel = QLabel(mainWindow)
+        self.imageLabel.setAlignment(Qt.AlignCenter)
 
         hbox = QHBoxLayout()
 
@@ -995,6 +1008,9 @@ class MasterWindow(QMainWindow):
 
         self.isAuthenticated = False
 
+        self.setMaximumWidth(1000)
+        self.setMaximumHeight(600)
+
         self.showMainWindow(None)
 
         self.isRecordingStats = False
@@ -1112,9 +1128,10 @@ class MasterWindow(QMainWindow):
         #labels
         self.imageCap.centerLabels.connect(self.setLabelData)
         # self.showMinimized()
-        self.setMaximumSize(self.mainWindow.layout.sizeHint())
-        # self.showMaximized()
-        self.show()
+        # self.setMaximumSize(self.mainWindow.layout.sizeHint())
+        # self.setMaximumSize()
+        self.showMaximized()
+        # self.show()
 
         # self.releaseHydraulics(None)
 
@@ -1125,8 +1142,8 @@ class MasterWindow(QMainWindow):
         self.statsWindow.init_ui(self, self.database.all()[0][self.programCam.currentCameraType])
         self.statsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.statsWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
-        self.setMaximumSize(self.statsWindow.layout.sizeHint())
-        self.show()
+        # self.setMaximumSize(self.statsWindow.layout.sizeHint())
+        self.showMaximized()
 
     def updateLabels(self):
         #this is for the settings window only
@@ -1198,7 +1215,8 @@ class MasterWindow(QMainWindow):
         else:
             self.initSettingsMenu()
 
-        self.show()
+        # self.show()
+        self.showMaximized()
 
     def initSettingsMenu(self):
         settings = self.settingsConfig.all()[0]
@@ -1251,6 +1269,9 @@ class MasterWindow(QMainWindow):
                 # self.isAuthenticated = False
                 #Have to get the username and password correct
                 self.initSettingsMenu()
+                # self.setMaximumSize(1000, 600)
+                self.setFixedSize(1000, 600)
+                # self.showMaximized()
                 self.show()
             else:
                 self.loginWindow.helpText.setText("Incorect Password")
