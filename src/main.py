@@ -187,8 +187,8 @@ class MasterWindow(QMainWindow):
             # self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
             # self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
 
-            self.mainWindow.xCenterLabel.setText("Center X: " + str(stringList[0][0]))
-            self.mainWindow.yCenterLabel.setText("Center Y: " + str(stringList[0][1]))
+            self.mainWindow.xCenterLabel.setText(str(stringList[0][0]))
+            self.mainWindow.yCenterLabel.setText(str(stringList[0][1]))
 
             # self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
             # self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))

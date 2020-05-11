@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 from PyQt5.QtWidgets import QApplication
 from flashTool import FlashTool
+from arduinoController import ArduinoController
 import time
 
 class ProgramCamera(QtCore.QObject):
@@ -23,10 +24,10 @@ class ProgramCamera(QtCore.QObject):
 
         self.PROGRAMMING_TIME_THRESH = 3
 
-        # self.arduinoController = ArduinoController()
-        # self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
-        # self.arduinoController.onCamera()
-        # self.arduinoController.onLeds()
+        self.arduinoController = ArduinoController()
+        self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
+        self.arduinoController.onCamera()
+        self.arduinoController.onLeds()
 
     @pyqtSlot()
     def simpleProgramCamera(self):

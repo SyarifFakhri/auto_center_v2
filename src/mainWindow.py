@@ -8,37 +8,54 @@ class MainWindow():
         self.centers = None
 
         self.layout = QGridLayout()
-        # self.layout.setSpacing(20)
-        # self.layout.setMargin(0)
-
-        menuDivider = QFrame()
-        menuDivider.setFrameShape(QtGui.QFrame.VLine)
-        # menuDivider.setStyleSheet("border: 2px solid #1f1f1f")
-        menuDivider.setFrameShadow(QtGui.QFrame.Sunken)
+        self.layout.setSpacing(10)
+        self.layout.setMargin(10)
 
         vbox = QVBoxLayout()
-        vbox.setSpacing(10)
+        vbox.setSpacing(0)
+        vbox.setContentsMargins(5,5,5,5)
 
         mainTitle = QLabel("Auto Center Tool")
         mainTitle.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        mainTitle.setContentsMargins(0,0,0,10)
+
+        menuFrame = QFrame()
+        # menuFrame.setContentsMargins(0,0,0)
+        menuFrame.setContentsMargins(0,0,0,0)
+        # menuFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#686868;}")
+
+        innerMenuVbox = QVBoxLayout()
+        innerMenuVbox.setContentsMargins(5,5,5,5)
 
         self.mainLabel = QLabel("Main")
         self.mainLabel.setStyleSheet("background-color: #4a4a4a")
         self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.mainLabel.setContentsMargins(5,5,10,5)
 
         self.statisticsLabel = QLabel("Statistics")
         self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.statisticsLabel.setContentsMargins(5,5,10,5)
 
         self.settingsLabel = QLabel("Settings")
         self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.settingsLabel.setContentsMargins(5,5,10,5)
+
+        innerMenuFrame = QFrame()
+        innerMenuFrame.setContentsMargins(0,0,0,0)
+
+        innerMenuVbox.addWidget(self.mainLabel)
+        innerMenuVbox.addWidget(self.statisticsLabel)
+        innerMenuVbox.addWidget(self.settingsLabel)
+        # innerMenuVbox.addStretch(1)
+
+        innerMenuFrame.setLayout(innerMenuVbox)
+        innerMenuFrame.setStyleSheet("background-color:#373737;border-radius: 5px;")
 
         vbox.addWidget(mainTitle)
-        vbox.addWidget(self.mainLabel)
-        vbox.addWidget(self.statisticsLabel)
-        vbox.addWidget(self.settingsLabel)
+        vbox.addWidget(innerMenuFrame)
         vbox.addStretch(1)
 
-        # menuFrame.setLayout(vbox)
+        menuFrame.setLayout(vbox)
 
         centerVBox = QVBoxLayout()
 
@@ -46,6 +63,7 @@ class MainWindow():
         self.imageLabel.setAlignment(Qt.AlignCenter)
 
         self.statusLabel = QLabel("Machine Idle")
+        self.statusLabel.setStyleSheet("background-color:#686868;border-radius: 5px")
         self.statusLabel.setAlignment(Qt.AlignCenter)
         self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
 
@@ -71,44 +89,19 @@ class MainWindow():
         rightVBox = QVBoxLayout()
         rightVBox.setSpacing(10)
 
-        self.xCenterLabel = QLabel('Center X:   0   ')
-        self.xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+        xCenterTitle, self.xCenterLabel = self.infoWidget("Center X")
+        yCenterTitle, self.yCenterLabel = self.infoWidget("Center Y")
 
-        self.yCenterLabel = QLabel('Center Y:   0   ')
-        self.yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=20))
+        # line = QtGui.QFrame()
+        # line.setFrameShape(QtGui.QFrame.HLine)
+        # line.setFrameShadow(QtGui.QFrame.Sunken)
 
-        # self.xCenterLeftLabel = QLabel('CLX:   0   ')
-        # self.xCenterLeftLabel.setFont(QtGui.QFont("Lato", pointSize=20))
-        #
-        # self.yCenterleftLabel = QLabel('CLY:   0   ')
-        # self.yCenterleftLabel.setFont(QtGui.QFont("Lato", pointSize=20))
-        #
-        # self.xCenterRightLabel = QLabel('CRX:   0   ')
-        # self.xCenterRightLabel.setFont(QtGui.QFont("Lato", pointSize=20))
-        #
-        # self.yCenterRightLabel = QLabel('CRY:   0   ')
-        # self.yCenterRightLabel.setFont(QtGui.QFont("Lato", pointSize=20))
-
-        # self.resetCamButton = QPushButton('Reset camera Offset')
-
-        line = QtGui.QFrame()
-        line.setFrameShape(QtGui.QFrame.HLine)
-        line.setFrameShadow(QtGui.QFrame.Sunken)
-
-        # rightVBox.addStretch(1)
-        # rightVBox.addWidget(self.xCenterLeftLabel)
-        # rightVBox.addWidget(self.yCenterleftLabel)
-        rightVBox.addWidget(self.xCenterLabel)
-        rightVBox.addWidget(self.yCenterLabel)
-        # rightVBox.addWidget(self.xCenterRightLabel)
-        # rightVBox.addWidget(self.yCenterRightLabel)
-        rightVBox.addWidget(line)
-
-        # rightVBox.addWidget(self.resetCamButton)
+        rightVBox.addWidget(xCenterTitle)
+        rightVBox.addWidget(yCenterTitle)
 
         rightVBox.addStretch(10)
 
-        self.layout.addLayout(vbox, 0, 0)
+        self.layout.addWidget(menuFrame, 0, 0)
         # self.layout.addWidget(menuDivider, 0,1)
         self.layout.addLayout(centerVBox, 0, 1)
         self.layout.addLayout(rightVBox, 0, 2)
@@ -116,3 +109,32 @@ class MainWindow():
         widget = QWidget()
         widget.setLayout(self.layout)
         mainWindow.setCentralWidget(widget)
+
+    def infoWidget(self, title):
+        roundedFrame = QFrame()
+        roundedFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#686868;}")
+        roundedFrame.setContentsMargins(0,0,0,0)
+
+        vBox = QVBoxLayout()
+        # vBox.setSpacing(10)
+        vBox.setContentsMargins(5,5,5,5)
+
+        titleBox = QLabel(title)
+        # titleBox.setStyleSheet("background-color:#1f1f1f;")
+        # titleBox.setAlignment(Qt.AlignCenter)
+        titleBox.setFont(QtGui.QFont("Lato", pointSize=20))
+        titleBox.setContentsMargins(0,0,10,0)
+
+        labelText = QLabel("0")
+        labelText.setFont(QtGui.QFont("Lato", pointSize=20))
+        labelText.setAlignment(Qt.AlignCenter)
+        labelText.setStyleSheet("background-color:#373737;border-radius: 5px;color:#2AA1D3")
+        labelText.setContentsMargins(10,10,10,10)
+        vBox.addWidget(titleBox)
+        vBox.addWidget(labelText)
+
+        roundedFrame.setLayout(vBox)
+
+        return roundedFrame, labelText
+
+
