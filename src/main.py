@@ -105,7 +105,7 @@ class MasterWindow(QMainWindow):
 
         self.isAuthenticated = False
 
-        self.setMaximumWidth(1000)
+        self.setMaximumWidth(1024)
         self.setMaximumHeight(600)
 
         self.showMainWindow(None)
@@ -161,11 +161,11 @@ class MasterWindow(QMainWindow):
             }, databaseField.title == 'cameraStats')  # A good alternative is using contains instead
 
     @pyqtSlot()
-    def programCamera(self, param):
+    def programCamera(self):
         self.programCam.callDoubleProgramCamera.emit()
 
     @pyqtSlot()
-    def resetCamera(self, param):
+    def resetCamera(self):
         self.programCam.callProgramCamera.emit()
 
     @pyqtSlot(QImage)

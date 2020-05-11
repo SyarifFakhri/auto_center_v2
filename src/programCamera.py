@@ -51,8 +51,8 @@ class ProgramCamera(QtCore.QObject):
 
         # self.stopRunning = True #temporarily pause the camera
 
-        programX = centerPoints[0]  # The camera is mirrored on the x axis
-        programY = -centerPoints[1]
+        programX = -centerPoints[0]  # The camera is mirrored on the x axis
+        programY = centerPoints[1]
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -82,8 +82,8 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = ''
             # self.arduinoController.releaseHydraulics()
             return
-
-        self.currentProgrammingStep = ''
+        self.powerCycleCamera()
+        self.currentProgrammingStep = 'Machine Idle'
 
 
     @pyqtSlot()
@@ -108,7 +108,7 @@ class ProgramCamera(QtCore.QObject):
     @pyqtSlot()
     def resetCameraOffsets(self):
         self.arduinoController.onCamera()
-        # self.arduinoController.onLeds()
+        self.arduinoController.onLeds()
         self.isProgramming = True
         self.currentProgrammingStep = 'Alter CFG'
 
@@ -143,7 +143,7 @@ class ProgramCamera(QtCore.QObject):
 
         self.currentProgrammingStep = 'Machine Idle'
         print("Finished programming.")
-        self.arduinoController.offLeds()
+        #self.arduinoController.offLeds()
         return True
 
     def powerCycleCamera(self):
@@ -178,7 +178,7 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.onCamera()
         self.currentProgrammingStep = "Engaging Hydraulics"
         self.arduinoController.engageHydraulics()
-        # self.arduinoController.onLeds()
+        self.arduinoController.onLeds()
 
         QApplication.processEvents()
         time.sleep(3)
@@ -188,7 +188,7 @@ class ProgramCamera(QtCore.QObject):
             self.statsData.emit(['failed', []])
             # self.arduinoController.releaseHydraulics()
             return
-
+        self.arduinoController.onLeds()
         relativeCenterPoints = self.relativeCenters
         centerPoints = relativeCenterPoints[0]
         initialCenterPoints = relativeCenterPoints[0]
@@ -211,6 +211,7 @@ class ProgramCamera(QtCore.QObject):
             self.statsData.emit(['failed', initialCenterPoints])
             # self.arduinoController.releaseHydraulics()
             return
+        self.arduinoController.onLeds()
 
         #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
         # for i in range(10):
@@ -234,8 +235,8 @@ class ProgramCamera(QtCore.QObject):
 
         # self.stopRunning = True #temporarily pause the camera
 
-        programX = centerPoints[0] #The camera is mirrored on the x axis
-        programY = -centerPoints[1]
+        programX = -centerPoints[0] #The camera is mirrored on the x axis
+        programY = centerPoints[1]
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -287,8 +288,8 @@ class ProgramCamera(QtCore.QObject):
             self.statsData.emit(['succeeded', initialCenterPoints])
             return
 
-        programX += centerPoints[0]
-        programY += -centerPoints[1]
+        programX += -centerPoints[0]
+        programY += centerPoints[1]
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)

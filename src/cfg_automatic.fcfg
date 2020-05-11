@@ -156,8 +156,8 @@ PARAMETERS={
 	0xC85C,	16,	0x0,	# CAM_FRAME_SCAN_CONTROL
 	0x9408,	8,	0x23,	# NTSC_INTERLACED_PORT_PARALLEL_CONTROL
 	0xDC04,	8,	0x4,	# SYSMGR_CONFIG_MODE
-0xC860, 8, 14, #Generated automatically
-0xC861, 8, -4 #Generated automatically
+0xC860, 8, -11, #Generated automatically
+0xC861, 8, -3 #Generated automatically
  }
 
 [END]   # [INIT_TABLE]

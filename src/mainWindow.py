@@ -16,7 +16,7 @@ class MainWindow():
         vbox.setContentsMargins(5,5,5,5)
 
         mainTitle = QLabel("Auto Center Tool")
-        mainTitle.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=18, weight=QtGui.QFont.Bold))
         mainTitle.setContentsMargins(0,0,0,10)
 
         menuFrame = QFrame()
@@ -88,6 +88,7 @@ class MainWindow():
 
         rightVBox = QVBoxLayout()
         rightVBox.setSpacing(10)
+        #rightVBox.setContentsMargins(5,5,5,5)
 
         xCenterTitle, self.xCenterLabel = self.infoWidget("Center X")
         yCenterTitle, self.yCenterLabel = self.infoWidget("Center Y")
