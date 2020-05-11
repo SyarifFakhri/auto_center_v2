@@ -8,24 +8,51 @@ class SettingsWindow():
         layout.setSpacing(20)
 
         vbox = QVBoxLayout()
-        vbox.setSpacing(10)
+        vbox.setSpacing(0)
+        vbox.setContentsMargins(5,5,5,5)
 
         mainTitle = QLabel("Auto Center Tool")
-        mainTitle.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
+        mainTitle.setContentsMargins(0,0,0,10)
 
+        menuFrame = QFrame()
+        menuFrame.setContentsMargins(0,0,0,0)
+        # menuFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#686868;}")
+
+        innerMenuVbox = QVBoxLayout()
+        #innerMenuVbox.setContentsMargins(5,5,5,5)
+        innerMenuVbox.setContentsMargins(0,0,0,0)
+        
         self.mainLabel = QLabel("Main")
+        
         self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.mainLabel.setContentsMargins(5,5,10,5)
+
         self.statisticsLabel = QLabel("Statistics")
         self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.statisticsLabel.setContentsMargins(5,5,10,5)
+
         self.settingsLabel = QLabel("Settings")
         self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
         self.settingsLabel.setStyleSheet("background-color: #4a4a4a")
+        self.settingsLabel.setContentsMargins(5,5,10,5)
+
+        innerMenuFrame = QFrame()
+        innerMenuFrame.setContentsMargins(0,0,0,0)
+
+        innerMenuVbox.addWidget(self.mainLabel)
+        innerMenuVbox.addWidget(self.statisticsLabel)
+        innerMenuVbox.addWidget(self.settingsLabel)
+        # innerMenuVbox.addStretch(1)
+
+        innerMenuFrame.setLayout(innerMenuVbox)
+        #innerMenuFrame.setStyleSheet("background-color:#373737;border-radius: 5px;")
 
         vbox.addWidget(mainTitle)
-        vbox.addWidget(self.mainLabel)
-        vbox.addWidget(self.statisticsLabel)
-        vbox.addWidget(self.settingsLabel)
+        vbox.addWidget(innerMenuFrame)
         vbox.addStretch(1)
+
+        menuFrame.setLayout(vbox)
 
         self.imageLabel = QLabel(mainWindow)
         self.imageLabel.setAlignment(Qt.AlignCenter)
@@ -155,7 +182,7 @@ class SettingsWindow():
         widget.setLayout(gridSettings)
         scroll.setWidget(widget)
 
-        layout.addLayout(vbox, 0, 0)
+        layout.addWidget(menuFrame, 0, 0)
         layout.addLayout(rightVBox, 0, 2)
         layout.addWidget(self.imageLabel, 0, 1)
         # layout.addLayout(gridSettings, 1,1)

@@ -87,6 +87,8 @@ class MasterWindow(QMainWindow):
         self.programCam.moveToThread(self.programThread)
         self.programThread.start()
 
+        
+        self.programCam.arduinoController.bothButtonsPressed.connect(self.programCamera)
         self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
         self.programCam.statsData.connect(self.recordStatsInDatabase)
@@ -131,23 +133,38 @@ class MasterWindow(QMainWindow):
     def recordStatsInDatabase(self, stats):
         #Stats is an array containing at index 0, success or fail
         #at index 1 the centerpoints
+        self.isRecordingStats = True
+        print("recording stats callback")
         if self.isRecordingStats:
+            print("entering stats recording", stats)
             currentCameraType = self.programCam.currentCameraType
             database = self.database.all()[0][currentCameraType]
 
             currentGoodSample = database['goodSample']
             currentRejectedSample = database['rejectedSample']
             currentAlignmentStats = database['xyAlignmentStats']
-
+            
             if stats[0] == 'failed':
+                self.mainWindow.NGLabel.setStyleSheet("background-color: #eb4034")
                 currentRejectedSample += 1
 
             if stats[0] == 'succeeded':
+                self.mainWindow.GLabel.setStyleSheet("background-color: #22c928");
                 currentGoodSample += 1
 
-            if len(stats[1]) == 1:
-                currentAlignmentStats.append(stats[0])
+            
 
+            else:
+                assert 0, "Error, camera stats not in list"
+            print("len stats:", len(stats[1]))
+            if len(stats[1]) == 2:
+                if len(currentAlignmentStats) < 1000:
+                    print("Appending stats")
+                    currentAlignmentStats.insert(0,stats[1])
+                else:
+                    currentAlignmentStats.pop()
+                    currentAlignmentStats.insert(0,stats[1])
+            print("current alignment stats:",currentAlignmentStats)
             cycleTime = 45
 
             databaseField = Query()
@@ -162,6 +179,8 @@ class MasterWindow(QMainWindow):
 
     @pyqtSlot()
     def programCamera(self):
+        self.mainWindow.GLabel.setStyleSheet("background-color: #686868");
+        self.mainWindow.NGLabel.setStyleSheet("background-color: #686868")
         self.programCam.callDoubleProgramCamera.emit()
 
     @pyqtSlot()
@@ -250,7 +269,7 @@ class MasterWindow(QMainWindow):
         self.showFullScreen()
         # self.show()
         # QApplication.processEvents()
-        # self.releaseHydraulics(None)
+        self.releaseHydraulics()
 
     def showStatsMenu(self, event):
         self.stopImageSettingsCap()
@@ -313,7 +332,7 @@ class MasterWindow(QMainWindow):
         # except Exception as e:
         #     print(e)
 
-    def releaseHydraulics(self, param):
+    def releaseHydraulics(self):
         # self.programCam.arduinoController.releaseHydraulics()
         self.programCam.callReleaseHydraulics.emit()
 

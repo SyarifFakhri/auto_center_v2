@@ -57,23 +57,25 @@ class ArduinoController(QObject):
     def leftButtonCallback(self, data):
         # print("LEFT BUTTON PRESSED", self.board.digital_read(self.RIGHT_BTN)[0])
         self.monitorButtons()
-
-        if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
-                self.board.digital_read(self.LEFT_BTN)[0] == 0):
-
-            #right btn is also pressed
-            self.bothButtonsPressed.emit()
-            # print("TRIGGER")
-            # self.engageHydraulics()
+        if self.running == False:
+            if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
+                    self.board.digital_read(self.LEFT_BTN)[0] == 0):
+                self.running = True
+                #right btn is also pressed
+                self.bothButtonsPressed.emit()
+                # print("TRIGGER")
+                # self.engageHydraulics()
 
     def rightButtonCallback(self, data):
         # print("RIGHT BUTTON PRESSED", self.board.digital_read(self.LEFT_BTN)[0])
         self.monitorButtons()
-        if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
-                self.board.digital_read(self.LEFT_BTN)[0] == 0):
-            self.bothButtonsPressed.emit()
-            # print("TRIGGER")
-            # self.engageHydraulics()
+        if self.running == False:
+            if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
+                    self.board.digital_read(self.LEFT_BTN)[0] == 0):
+                self.running = True
+                self.bothButtonsPressed.emit()
+                # print("TRIGGER")
+                # self.engageHydraulics()
 
     def monitorButtons(self):
         print("LEFT BUTTON PRESSED", self.board.digital_read(self.RIGHT_BTN)[0])

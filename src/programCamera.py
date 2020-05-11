@@ -9,7 +9,7 @@ class ProgramCamera(QtCore.QObject):
     callDoubleProgramCamera = pyqtSignal()
     callProgramCamera = pyqtSignal()
     statsData = pyqtSignal(list)
-
+    
     callSimpleProgramCamera = pyqtSignal()
 
     callEngageHydraulics = pyqtSignal()
@@ -25,7 +25,6 @@ class ProgramCamera(QtCore.QObject):
         self.PROGRAMMING_TIME_THRESH = 3
 
         self.arduinoController = ArduinoController()
-        self.arduinoController.bothButtonsPressed.connect(self.programCenterPointDoubleProgramMethod)
         self.arduinoController.onCamera()
         self.arduinoController.onLeds()
 
@@ -47,6 +46,7 @@ class ProgramCamera(QtCore.QObject):
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
+            self.statsData.emit(['succeeded', centerPoints])
             return
 
         # self.stopRunning = True #temporarily pause the camera
@@ -180,35 +180,35 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.engageHydraulics()
         self.arduinoController.onLeds()
 
-        QApplication.processEvents()
+        
         time.sleep(3)
-
+        QApplication.processEvents()
+        
         if self.relativeCenters == []:
             print("No valid centerpoints")
             self.statsData.emit(['failed', []])
-            # self.arduinoController.releaseHydraulics()
+            self.arduinoController.releaseHydraulics()
+            self.arduinoController.running = False
             return
+        
         self.arduinoController.onLeds()
         relativeCenterPoints = self.relativeCenters
         centerPoints = relativeCenterPoints[0]
         initialCenterPoints = relativeCenterPoints[0]
 
         # check if it's already center
-        #REENABLE BACK
-        # if self.isCenterPointCenter(centerPoints):
-        #     print("Camera Centered!")
-        #     self.currentProgrammingStep = "Camera Centered"
-        #     time.sleep(2)
-        #     self.currentProgrammingStep = ''
-        #     self.isProgramming = False
-        #     self.statsData.emit(['success', initialCenterPoints])
-        #     return
+        if self.isCenterPointCenter(centerPoints):
+            print("center points: ", centerPoints)
+            self.statsData.emit(['succeeded', initialCenterPoints])
+            self.arduinoController.running = False
+            return
 
         #STEP 1 - RESET CAMERA OFFSETS
         succeeded = self.resetCameraOffsets() #succeeded means programming did not fail
 
         if not succeeded:
             self.statsData.emit(['failed', initialCenterPoints])
+            self.arduinoController.running = False
             # self.arduinoController.releaseHydraulics()
             return
         self.arduinoController.onLeds()
@@ -224,13 +224,14 @@ class ProgramCamera(QtCore.QObject):
         self.currentProgrammingStep = 'Alter CFG'
         #STEP 2.1 - Check if already center
         relativeCenterPoints = self.relativeCenters
-
+        initialCenterPoints = relativeCenterPoints[0]
         # pass the center centerpoint
         centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
             self.statsData.emit(['succeeded', initialCenterPoints])
+            self.arduinoController.running = False
             return
 
         # self.stopRunning = True #temporarily pause the camera
@@ -265,6 +266,7 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = 'Machine Idle'
             self.arduinoController.releaseHydraulics()
             self.statsData.emit(['failed', initialCenterPoints])
+            self.arduinoController.running = False
             return
 
 
@@ -285,7 +287,9 @@ class ProgramCamera(QtCore.QObject):
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
+            print("emit stats data")
             self.statsData.emit(['succeeded', initialCenterPoints])
+            self.arduinoController.running = False
             return
 
         programX += -centerPoints[0]
@@ -318,6 +322,7 @@ class ProgramCamera(QtCore.QObject):
         if self.isCenterPointCenter(centerPoints):
             # self.currentProgrammingStep = 'Programming Suceeded'
             self.statsData.emit(['succeeded', initialCenterPoints])
+            self.arduinoController.running = False
             return
 
         else:
@@ -345,16 +350,15 @@ class ProgramCamera(QtCore.QObject):
         return value
 
 
-    def isCenterPointCenter(self, centerPoints, threshold=1):
+    def isCenterPointCenter(self, centerPoints,threshold=1):
         """Check if the RELATIVE center points are valid"""
         if abs(centerPoints[0]) <= threshold:
             if abs(centerPoints[1]) <= threshold:
                 print("Camera Centered!")
                 self.currentProgrammingStep = "Camera Centered"
-                time.sleep(5)
+                time.sleep(2)
                 self.currentProgrammingStep = 'Releasing Hydraulics'
                 self.isProgramming = False
-                # self.arduinoController.releaseHydraulics()
                 self.arduinoController.releaseHydraulics()
                 self.currentProgrammingStep = 'Machine Idle'
                 return True

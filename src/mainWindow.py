@@ -16,17 +16,17 @@ class MainWindow():
         vbox.setContentsMargins(5,5,5,5)
 
         mainTitle = QLabel("Auto Center Tool")
-        mainTitle.setFont(QtGui.QFont("Lato", pointSize=18, weight=QtGui.QFont.Bold))
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
         mainTitle.setContentsMargins(0,0,0,10)
 
         menuFrame = QFrame()
-        # menuFrame.setContentsMargins(0,0,0)
         menuFrame.setContentsMargins(0,0,0,0)
         # menuFrame.setStyleSheet(".QFrame{border-radius: 5px;background-color:#686868;}")
 
         innerMenuVbox = QVBoxLayout()
-        innerMenuVbox.setContentsMargins(5,5,5,5)
-
+        #innerMenuVbox.setContentsMargins(5,5,5,5)
+        innerMenuVbox.setContentsMargins(0,0,0,0)
+        
         self.mainLabel = QLabel("Main")
         self.mainLabel.setStyleSheet("background-color: #4a4a4a")
         self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
@@ -49,7 +49,7 @@ class MainWindow():
         # innerMenuVbox.addStretch(1)
 
         innerMenuFrame.setLayout(innerMenuVbox)
-        innerMenuFrame.setStyleSheet("background-color:#373737;border-radius: 5px;")
+        #innerMenuFrame.setStyleSheet("background-color:#373737;border-radius: 5px;")
 
         vbox.addWidget(mainTitle)
         vbox.addWidget(innerMenuFrame)
@@ -70,17 +70,19 @@ class MainWindow():
         hbox = QHBoxLayout()
 
         self.GLabel = QLabel("G")
-        self.GLabel.setStyleSheet("background-color: #22c928");
+        #self.GLabel.setStyleSheet("background-color: #22c928");
+        self.GLabel.setStyleSheet("background-color: #686868");
         self.GLabel.setAlignment(Qt.AlignCenter)
         self.GLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
 
-        NGLabel = QLabel("NG")
-        NGLabel.setStyleSheet("background-color: #eb4034")
-        NGLabel.setAlignment(Qt.AlignCenter)
-        NGLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        self.NGLabel = QLabel("NG")
+        #NGLabel.setStyleSheet("background-color: #eb4034")
+        self.NGLabel.setStyleSheet("background-color: #686868")
+        self.NGLabel.setAlignment(Qt.AlignCenter)
+        self.NGLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
 
         hbox.addWidget(self.GLabel)
-        hbox.addWidget(NGLabel)
+        hbox.addWidget(self.NGLabel)
 
         centerVBox.addWidget(self.imageLabel)
         centerVBox.addWidget(self.statusLabel)
