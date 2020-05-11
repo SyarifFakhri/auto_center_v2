@@ -246,7 +246,8 @@ class MasterWindow(QMainWindow):
         # self.showMinimized()
         # self.setMaximumSize(self.mainWindow.layout.sizeHint())
         # self.setMaximumSize()
-        self.showMaximized()
+        # self.showMaximized()
+        self.showFullScreen()
         # self.show()
         # QApplication.processEvents()
         # self.releaseHydraulics(None)
@@ -259,7 +260,8 @@ class MasterWindow(QMainWindow):
         self.statsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.statsWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
         # self.setMaximumSize(self.statsWindow.layout.sizeHint())
-        self.showMaximized()
+        # self.showMaximized()
+        self.showFullScreen()
 
     def updateLabels(self):
         #this is for the settings window only
@@ -332,7 +334,8 @@ class MasterWindow(QMainWindow):
             self.initSettingsMenu()
 
         # self.show()
-        self.showMaximized()
+        # self.showMaximized()
+        self.showFullScreen()
 
     def initSettingsMenu(self):
         settings = self.settingsConfig.all()[0]
