@@ -185,8 +185,10 @@ class ProgramCamera(QtCore.QObject):
         QApplication.processEvents()
         
         if self.relativeCenters == []:
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
             print("No valid centerpoints")
-            self.statsData.emit(['failed', []])
+            self.statsData.emit(['failed', [], timeTaken])
             self.arduinoController.releaseHydraulics()
             self.arduinoController.running = False
             return
@@ -198,8 +200,11 @@ class ProgramCamera(QtCore.QObject):
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
             print("center points: ", centerPoints)
-            self.statsData.emit(['succeeded', initialCenterPoints])
+            self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
+            self.arduinoController.releaseHydraulics()
             self.arduinoController.running = False
             return
 
@@ -207,10 +212,13 @@ class ProgramCamera(QtCore.QObject):
         succeeded = self.resetCameraOffsets() #succeeded means programming did not fail
 
         if not succeeded:
-            self.statsData.emit(['failed', initialCenterPoints])
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
+            self.statsData.emit(['failed', initialCenterPoints, timeTaken])
             self.arduinoController.running = False
-            # self.arduinoController.releaseHydraulics()
+            self.arduinoController.releaseHydraulics()
             return
+        
         self.arduinoController.onLeds()
 
         #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
@@ -230,7 +238,9 @@ class ProgramCamera(QtCore.QObject):
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
-            self.statsData.emit(['succeeded', initialCenterPoints])
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
+            self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
             self.arduinoController.running = False
             return
 
@@ -261,11 +271,14 @@ class ProgramCamera(QtCore.QObject):
         timeTaken = toc - tic
 
         if (timeTaken < self.PROGRAMMING_TIME_THRESH):
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
             self.currentProgrammingStep = 'Programming failed. Check connection.'
-            time.sleep(5)
+            time.sleep(2)
             self.currentProgrammingStep = 'Machine Idle'
             self.arduinoController.releaseHydraulics()
-            self.statsData.emit(['failed', initialCenterPoints])
+            self.statsData.emit(['failed', initialCenterPoints,timeTaken])
+            self.arduinoController.releaseHydraulics()
             self.arduinoController.running = False
             return
 
@@ -287,8 +300,10 @@ class ProgramCamera(QtCore.QObject):
 
         # check if it's already center
         if self.isCenterPointCenter(centerPoints):
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
             print("emit stats data")
-            self.statsData.emit(['succeeded', initialCenterPoints])
+            self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
             self.arduinoController.running = False
             return
 
@@ -320,8 +335,10 @@ class ProgramCamera(QtCore.QObject):
         centerPoints = relativeCenterPoints[0]
 
         if self.isCenterPointCenter(centerPoints):
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
             # self.currentProgrammingStep = 'Programming Suceeded'
-            self.statsData.emit(['succeeded', initialCenterPoints])
+            self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
             self.arduinoController.running = False
             return
 
@@ -329,15 +346,16 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = 'Could not center'
             self.statsData.emit(['failed', initialCenterPoints])
 
-        time.sleep(5)
+        time.sleep(2)
         self.currentProgrammingStep = 'Releasing Hydraulics'
         self.arduinoController.releaseHydraulics()
         self.currentProgrammingStep = 'Machine Idle'
         timeEnd = time.perf_counter()
-
+        timeTaken = timeEnd - timeStart
         print("Time taken: ", str(timeEnd - timeStart))
 
         self.arduinoController.running = False
+        return
 
     def clipValue(self, value, clipTo=35):
         if abs(value) > clipTo:
