@@ -10,13 +10,16 @@ class ArduinoController(QObject):
     #Board is based on pymata4 controller
     def __init__(self):
         super(ArduinoController, self).__init__()
-        self.running = False
+        
         
         self.board = pymata4.Pymata4("COM9", arduino_instance_id=1)
         self.leonardoBoard = pymata4.Pymata4("COM7", arduino_instance_id=2)
         
         self.setupArduino()
         self.setupLeonardo()
+
+        self.running = False
+        self.checkShutdown = False
         
         self.offGreenLed()
         self.offRedLed()
@@ -28,7 +31,7 @@ class ArduinoController(QObject):
         self.RED_LED = 23
         self.GREEN_LED = 22
         self.BUZZER = 3
-        self.SHUTDOWN_PIN = 7
+        self.SHUTDOWN_PIN = 10
 
         self.leonardoBoard.set_pin_mode_digital_output(self.RED_LED)
         self.leonardoBoard.set_pin_mode_digital_output(self.GREEN_LED)
@@ -65,19 +68,25 @@ class ArduinoController(QObject):
         print("Finished setup")
 
     def sendShutdownSignal(self, data):
-        # if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
-        #     self.shutdownSignal.emit()
+        #print("CALL BACK CALLED")
+        #print(self.checkShutdown)
+        if self.checkShutdown == False:
+            #print("SHUTDOWN BUTTON PRESSED", str(self.leonardoBoard.digital_read(self.SHUTDOWN_PIN))[0])
+            if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN)[0] == 0:
+                #print("EMIT SHUTDOWN SIGNAL")
+                self.checkShutdown = True
+                self.shutdownSignal.emit()
 
         # global debounce_time, previous_change_time
         # see if we waited long enough for debounce
         # get the reported change time
-        CB_TIME = 2
-        ts_milliseconds = int(round(data[CB_TIME] * 1000))
+        #CB_TIME = 2
+        #ts_milliseconds = int(round(data[CB_TIME] * 1000))
 
-        if ts_milliseconds - self.previous_change_time > self.debounce_time:
-            if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
-                self.shutdownSignal.emit()
-            self.previous_change_time = ts_milliseconds
+        #if ts_milliseconds - self.previousChangeTime > self.debounceTime:
+        #    if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
+        #        self.shutdownSignal.emit()
+        #    self.previousChangeTime = ts_milliseconds
 
     def playNGTone(self):
         for i in range(15):

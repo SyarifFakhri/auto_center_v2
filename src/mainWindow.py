@@ -16,7 +16,7 @@ class MainWindow():
         mainLayout.addLayout(mainMenuTitleLayout)
 
         mainTitle = QLabel('Camera Auto Center System')
-        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=25, weight=QtGui.QFont.Bold))
         mainTitle.setAlignment(Qt.AlignCenter)
         mainMenuTitleLayout.addWidget(mainTitle)
 

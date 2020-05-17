@@ -123,31 +123,40 @@ class MasterWindow(QMainWindow):
         ret = QtWidgets.QMessageBox.question(self, "Warning",
                                              "Are you sure? This will shutdown the computer.",
                                              QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.Abort)
+        
+        
 
         if ret == QtWidgets.QMessageBox.Yes:
             print("Confirmed shutdown")
+            self.programCam.arduinoController.checkShutdown = False
+            os.system("shutdown /s /t 10")
+            #self.stopProgram()
+            QApplication.exit()
+            
         else:
+            self.programCam.arduinoController.checkShutdown = False
             print("Shutdown aborted")
             return
 
-        """
-        self.stopProgram()
-        os.system("shutdown /s /t 1")
         
+        
+        
+        #os.system("shutdown /s /t 1")
+        """
         # self.quit()
         """
         # sys.exit(app.exec_())
 
     def stopProgram(self):
         print("Stop all")
-        self.programCam.stop()
-        self.settingsImageCap.stop()
-        self.imageCap.stop()
+        #self.programCam.stop()
+        #self.settingsImageCap.stop()
+        #self.imageCap.stop()
 
         self.capThread.quit()
         self.settingsThread.quit()
         self.programThread.quit()
-        self.quit()
+        #QApplication.exit()
 
     def errorOutputWritten(self, text):
         self.normalOutputWritten("*** ERROR: " + text)
@@ -511,16 +520,16 @@ if __name__ == "__main__":
     palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(142, 45, 197).lighter())
     palette.setColor(QtGui.QPalette.HighlightedText, QtCore.Qt.black)
     app.setPalette(palette)
-
+    """
     sys._excepthook = sys.excepthook
 
-
+    
     def exception_hook(exctype, value, traceback):
         print(exctype, value, traceback)
         sys._excepthook(exctype, value, traceback)
         sys.exit(1)
-
-    sys.excepthook = exception_hook
+    """
+    #sys.excepthook = exception_hook
 
     masterWindow = MasterWindow(app)
 
