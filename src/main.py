@@ -120,6 +120,16 @@ class MasterWindow(QMainWindow):
     def shutdownComputer(self):
         print("SHUTTING DOWN COMPUTER")
 
+        ret = QtWidgets.QMessageBox.question(self, "Warning",
+                                             "Are you sure? This will shutdown the computer.",
+                                             QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.Abort)
+
+        if ret == QtWidgets.QMessageBox.Yes:
+            print("Confirmed shutdown")
+        else:
+            print("Shutdown aborted")
+            return
+
         """
         self.stopProgram()
         os.system("shutdown /s /t 1")

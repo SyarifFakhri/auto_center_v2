@@ -21,6 +21,9 @@ class ArduinoController(QObject):
         self.offGreenLed()
         self.offRedLed()
 
+        self.previousChangeTime = 0
+        self.debounceTime = 600
+
     def setupLeonardo(self):
         self.RED_LED = 23
         self.GREEN_LED = 22
@@ -62,8 +65,19 @@ class ArduinoController(QObject):
         print("Finished setup")
 
     def sendShutdownSignal(self, data):
-        if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
-            self.shutdownSignal.emit()
+        # if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
+        #     self.shutdownSignal.emit()
+
+        # global debounce_time, previous_change_time
+        # see if we waited long enough for debounce
+        # get the reported change time
+        CB_TIME = 2
+        ts_milliseconds = int(round(data[CB_TIME] * 1000))
+
+        if ts_milliseconds - self.previous_change_time > self.debounce_time:
+            if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
+                self.shutdownSignal.emit()
+            self.previous_change_time = ts_milliseconds
 
     def playNGTone(self):
         for i in range(15):
