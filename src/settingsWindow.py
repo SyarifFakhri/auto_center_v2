@@ -145,7 +145,7 @@ class SettingsWindow():
         self.tareButton = QPushButton("Tare Center")
         self.resetStatistics = QPushButton("Reset Statistics")
 
-        buttonLayout, self.saveButton = self.bottomAlignedButton("Save Settings")
+        #buttonLayout, self.saveButton = self.bottomAlignedButton("Save Settings")
         # self.saveButton.setAlignment(Qt.AlignCenter)
 
         self.chooseCurrentCamera = QtGui.QComboBox()
@@ -178,11 +178,12 @@ class SettingsWindow():
         rightVBox.addWidget(self.xCenterLabel)
         rightVBox.addWidget(self.yCenterLabel)
 
-        rightVBox.addStretch(1)
-
         self.saveButton = QPushButton("Save Settings")
         rightVBox.addWidget(self.saveButton)
 
+        rightVBox.addStretch(1)
+
+        
 
         widget = QWidget()
         widget.setLayout(mainLayout)

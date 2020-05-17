@@ -71,6 +71,13 @@ class MainWindow():
         bottomLayout = QHBoxLayout()
         mainLayout.addLayout(bottomLayout)
 
+        self.NGLabel = QLabel("NG")
+        # NGLabel.setStyleSheet("background-color: #eb4034")
+        self.NGLabel.setStyleSheet("background-color: #686868; border-radius: 5px")
+        self.NGLabel.setAlignment(Qt.AlignCenter)
+        self.NGLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        bottomLayout.addWidget(self.NGLabel)
+
         self.GLabel = QLabel("G")
         # self.GLabel.setStyleSheet("background-color: #22c928");
         self.GLabel.setStyleSheet("background-color: #686868; border-radius: 5px");
@@ -78,12 +85,7 @@ class MainWindow():
         self.GLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
         bottomLayout.addWidget(self.GLabel)
 
-        self.NGLabel = QLabel("NG")
-        # NGLabel.setStyleSheet("background-color: #eb4034")
-        self.NGLabel.setStyleSheet("background-color: #686868; border-radius: 5px")
-        self.NGLabel.setAlignment(Qt.AlignCenter)
-        self.NGLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
-        bottomLayout.addWidget(self.NGLabel)
+
 
         statusTitle, self.statusLabel = self.infoWidget("Machine Status")
         # self.statusLabel.setStyleSheet("background-color:#686868;border-radius: 5px")

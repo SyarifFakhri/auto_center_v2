@@ -46,8 +46,8 @@ class ImageCaptureThread(QtCore.QObject):
             cap.set(cv2.CAP_FFMPEG, True)
             cap.set(cv2.CAP_PROP_FPS, 30)
 
-            imageWidth = int(640 * 0.7)
-            imageHeight = int(480 * 0.7)
+            imageWidth = int(640 * 0.65)
+            imageHeight = int(480 * 0.65)
             while not self.stopRunning:
                 # counter += 1
 
@@ -219,7 +219,7 @@ class DebugImageThread(QtCore.QObject):
                     h, w, ch = rgbImage.shape
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                    p = convertToQtFormat.scaled(480, 360, Qt.KeepAspectRatio)
+                    p = convertToQtFormat.scaled(300, 360, Qt.KeepAspectRatio)
                     self.changePixmap.emit(p)
 
                     if len(self.relativeCenters) == 1:  # only emit if it's a valid centerpoint

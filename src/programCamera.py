@@ -52,8 +52,8 @@ class ProgramCamera(QtCore.QObject):
 
         # self.stopRunning = True #temporarily pause the camera
 
-        programX = -centerPoints[0]  # The camera is mirrored on the x axis
-        programY = centerPoints[1]
+        programX = centerPoints[0]  # The camera is mirrored on the x axis
+        programY = -centerPoints[1]
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -70,7 +70,7 @@ class ProgramCamera(QtCore.QObject):
         if self.currentCameraType == 'cp1p':
             self.flashTool.alterCFGFileCameraOffset(programX, programY)
         else:
-            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L"
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
@@ -128,8 +128,12 @@ class ProgramCamera(QtCore.QObject):
         print("Value to Program X: " + str(programX))
         print("Value to Program Y: " + str(programY))
 
-        #self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'd55l':
+            self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'cp1p':
+            self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
         self.currentProgrammingStep = 'Resetting Camera Offsets'
@@ -254,8 +258,8 @@ class ProgramCamera(QtCore.QObject):
 
         # self.stopRunning = True #temporarily pause the camera
 
-        programX = -centerPoints[0] #The camera is mirrored on the x axis
-        programY = centerPoints[1]
+        programX = centerPoints[0] #The camera is mirrored on the x axis
+        programY = -centerPoints[1]
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -266,8 +270,12 @@ class ProgramCamera(QtCore.QObject):
         print("Value to Program X: " + str(programX))
         print("Value to Program Y: " + str(programY))
 
-        # self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'd55l':
+            self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'cp1p':
+            self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
         self.currentProgrammingStep = 'Flashing Camera 1 - DO NOT UNPLUG'
@@ -315,8 +323,8 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.running = False
             return
 
-        programX += -centerPoints[0]
-        programY += centerPoints[1]
+        programX += centerPoints[0]
+        programY += -centerPoints[1]
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -327,8 +335,12 @@ class ProgramCamera(QtCore.QObject):
         print("Value to Program X: " + str(programX))
         print("Value to Program Y: " + str(programY))
 
-        # self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'd55l':
+            self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'cp1p':
+            self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
         self.currentProgrammingStep = 'Flashing Camera 2 - DO NOT UNPLUG'

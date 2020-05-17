@@ -9,17 +9,19 @@ class ArduinoController(QObject):
     #Board is based on pymata4 controller
     def __init__(self):
         super(ArduinoController, self).__init__()
-        self.board = pymata4.Pymata4(arduino_instance_id=1)
-        self.leonardoBoard = pymata4.Pymata4(arduino_instance_id=2)
+        self.board = pymata4.Pymata4("COM9", arduino_instance_id=1)
+        self.leonardoBoard = pymata4.Pymata4("COM7", arduino_instance_id=2)
         self.setupArduino()
         self.setupLeonardo()
+        self.offGreenLed()
+        self.offRedLed()
         self.running = False
     def setupLeonardo(self):
-        self.RED_LED = 22
-        self.GREEN_LED = 23
+        self.RED_LED = 23
+        self.GREEN_LED = 22
 
-        self.leonardoBoard.set_pin_mode_digital_output(self.VALVE_POGO_PIN)
-        self.leonardoBoard.set_pin_mode_digital_output(self.VALVE_CAM_HOLDER)
+        self.leonardoBoard.set_pin_mode_digital_output(self.RED_LED)
+        self.leonardoBoard.set_pin_mode_digital_output(self.GREEN_LED)
 
 
     def setupArduino(self):

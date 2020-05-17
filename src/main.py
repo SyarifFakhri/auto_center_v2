@@ -150,12 +150,10 @@ class MasterWindow(QMainWindow):
                 self.mainWindow.NGLabel.setStyleSheet("background-color: #eb4034")
                 currentRejectedSample += 1
 
-            if stats[0] == 'succeeded':
+            elif stats[0] == 'succeeded':
                 self.programCam.arduinoController.onGreenLed()
                 self.mainWindow.GLabel.setStyleSheet("background-color: #22c928");
                 currentGoodSample += 1
-
-            
 
             else:
                 assert 0, "Error, camera stats not in list"
@@ -211,8 +209,8 @@ class MasterWindow(QMainWindow):
     @pyqtSlot(QImage)
     def setImageCap(self,image):
         # print("SET IMAGE")
-        # self.mainWindow.statusLabel.setText(self.programCam.currentProgrammingStep)
-        self.mainWindow.statusLabel.setText("Machine Idle")
+        self.mainWindow.statusLabel.setText(self.programCam.currentProgrammingStep)
+        #self.mainWindow.statusLabel.setText("Machine Idle")
         self.mainWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
 
     @pyqtSlot(QImage)
@@ -450,9 +448,9 @@ class MasterWindow(QMainWindow):
                 #Have to get the username and password correct
                 self.initSettingsMenu()
                 # self.setMaximumSize(1000, 600)
-                self.setFixedSize(1000, 600)
+                #self.setFixedSize(1000, 600)
                 # self.showMaximized()
-                self.show()
+                self.showFullScreen()
             else:
                 self.loginWindow.helpText.setText("Incorect Password")
         else:

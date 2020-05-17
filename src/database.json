@@ -1,1 +1,1 @@
-{"_default": {"1": {"title": "cameraStats", "d55l": {"goodSample": 0, "rejectedSample": 0, "xyAlignmentStats": [], "averageCyleTime": 0}, "cp1p": {"goodSample": 0, "rejectedSample": 0, "xyAlignmentStats": []}}}}
+{"_default": {"1": {"title": "cameraStats", "d55l": {"goodSample": 0, "rejectedSample": 0, "xyAlignmentStats": [], "averageCyleTime": 0}, "cp1p": {"goodSample": 3, "rejectedSample": 2, "xyAlignmentStats": [[-12, -8], [-9, -8], [-8, 4], [9, -4], [9, -4]], "averageCyleTime": 45}}}}
