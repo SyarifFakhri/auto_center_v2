@@ -239,9 +239,11 @@ class MasterWindow(QMainWindow):
         if len(stringList) >= 1:
             # self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
             # self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
-
             self.mainWindow.xCenterLabel.setText(str(stringList[0][0]))
             self.mainWindow.yCenterLabel.setText(str(stringList[0][1]))
+        else:
+            self.mainWindow.xCenterLabel.setText("N/A")
+            self.mainWindow.yCenterLabel.setText("N/A")
 
             # self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
             # self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))

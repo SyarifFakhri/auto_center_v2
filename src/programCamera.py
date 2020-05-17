@@ -55,11 +55,11 @@ class ProgramCamera(QtCore.QObject):
 
         # self.stopRunning = True #temporarily pause the camera
         if self.currentCameraType == 'd55l':
-            programX = centerPoints[0]  # The camera is mirrored on the x axis
-            programY = -centerPoints[1]
-        elif self.currentCameraType == 'cp1p':
             programX = -centerPoints[0]  # The camera is mirrored on the x axis
             programY = centerPoints[1]
+        elif self.currentCameraType == 'cp1p':
+            programX = centerPoints[0]  # The camera is mirrored on the x axis
+            programY = -centerPoints[1]
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
@@ -203,7 +203,7 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.offGreenLed()
         self.arduinoController.offRedLed()
         
-        time.sleep(3)
+        time.sleep(2)
         QApplication.processEvents()
         
         if self.relativeCenters == []:
@@ -232,7 +232,7 @@ class ProgramCamera(QtCore.QObject):
 
         #STEP 1 - RESET CAMERA OFFSETS
         succeeded = self.resetCameraOffsets() #succeeded means programming did not fail
-
+        #succeeded = True
         if not succeeded:
             timeEnd = time.perf_counter()
             timeTaken = timeEnd - timeStart
@@ -259,13 +259,13 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.running = False
             return
 
-        #STEP 3 - THIRD TIME PROGRAMMING
+        
         if self.currentCameraType == 'd55l':
-            programX = centerPoints[0]  # The camera is mirrored on the x axis
-            programY = -centerPoints[1]
-        elif self.currentCameraType == 'cp1p':
             programX = -centerPoints[0]  # The camera is mirrored on the x axis
             programY = centerPoints[1]
+        elif self.currentCameraType == 'cp1p':
+            programX = centerPoints[0]  # The camera is mirrored on the x axis
+            programY = -centerPoints[1]
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
@@ -328,11 +328,11 @@ class ProgramCamera(QtCore.QObject):
 
         # self.stopRunning = True #temporarily pause the camera
         if self.currentCameraType == 'd55l':
-            programX = centerPoints[0]  # The camera is mirrored on the x axis
-            programY = -centerPoints[1]
-        elif self.currentCameraType == 'cp1p':
             programX = -centerPoints[0]  # The camera is mirrored on the x axis
             programY = centerPoints[1]
+        elif self.currentCameraType == 'cp1p':
+            programX = centerPoints[0]  # The camera is mirrored on the x axis
+            programY = -centerPoints[1]
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 

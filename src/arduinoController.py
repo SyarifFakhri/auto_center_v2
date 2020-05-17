@@ -9,13 +9,16 @@ class ArduinoController(QObject):
     #Board is based on pymata4 controller
     def __init__(self):
         super(ArduinoController, self).__init__()
+        self.running = False
+        
         self.board = pymata4.Pymata4("COM9", arduino_instance_id=1)
         self.leonardoBoard = pymata4.Pymata4("COM7", arduino_instance_id=2)
+        
         self.setupArduino()
         self.setupLeonardo()
+        
         self.offGreenLed()
         self.offRedLed()
-        self.running = False
 
     def setupLeonardo(self):
         self.RED_LED = 23
@@ -56,10 +59,12 @@ class ArduinoController(QObject):
         print("Finished setup")
 
     def playNGTone(self):
-        self.leonardoBoard.play_tone(self.BUZZER, 1000, 500)
-
+        for i in range(15):
+            self.leonardoBoard.play_tone(self.BUZZER, 1000, 80)
+            time.sleep(0.11)
+            
     def playGTone(self):
-        self.leonardoBoard.play_tone(self.BUZZER, 1000, 750)
+        self.leonardoBoard.play_tone(self.BUZZER, 1000, 2000)
     def shutDown(self):
         self.leonardoBoard.shutdown()
         self.board.shutdown()

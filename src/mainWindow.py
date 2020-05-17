@@ -15,7 +15,7 @@ class MainWindow():
         mainMenuTitleLayout = QVBoxLayout()
         mainLayout.addLayout(mainMenuTitleLayout)
 
-        mainTitle = QLabel('Auto Center System')
+        mainTitle = QLabel('Camera Auto Center System')
         mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
         mainTitle.setAlignment(Qt.AlignCenter)
         mainMenuTitleLayout.addWidget(mainTitle)
@@ -49,13 +49,30 @@ class MainWindow():
         centerLayout = QHBoxLayout() #Contains the images, as well as x and y labels
         mainLayout.addLayout(centerLayout)
 
+        rawImageLayout = QVBoxLayout()
         self.rawImageLabel = QLabel(mainWindow)
         # self.rawImageLabel.setAlignment(Qt.AlignCenter)
-        centerLayout.addWidget(self.rawImageLabel)
+        rawImageLayout.addWidget(self.rawImageLabel)
 
+        rawLabel = QLabel("Raw Image")
+        rawLabel.setFont(QtGui.QFont("Lato", pointSize=15))
+        rawLabel.setAlignment(Qt.AlignCenter)
+        
+        rawImageLayout.addWidget(rawLabel )
+        
+        centerLayout.addLayout(rawImageLayout)
+
+        processedImageLayout = QVBoxLayout()
         self.imageLabel = QLabel(mainWindow)
         self.imageLabel.setAlignment(Qt.AlignCenter)
-        centerLayout.addWidget(self.imageLabel)
+        processedImageLayout.addWidget(self.imageLabel)
+
+        processedLabel = QLabel("Processed Image")
+        processedLabel.setFont(QtGui.QFont("Lato", pointSize=15))
+        processedLabel.setAlignment(Qt.AlignCenter)
+        processedImageLayout.addWidget(processedLabel)
+        
+        centerLayout.addLayout(processedImageLayout)
 
         centerXYLabelLayout = QVBoxLayout()
         centerLayout.addLayout(centerXYLabelLayout)
@@ -67,6 +84,7 @@ class MainWindow():
         centerXYLabelLayout.addWidget(yCenterTitle)
 
         mainLayout.addStretch(1)
+        
 
         bottomLayout = QHBoxLayout()
         mainLayout.addLayout(bottomLayout)

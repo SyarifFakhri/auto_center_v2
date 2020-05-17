@@ -95,7 +95,7 @@ class ImageCaptureThread(QtCore.QObject):
 
                     self.changePixmap.emit(p)
                     # print("EMIT CAP", counter)
-                    if len(self.relativeCenters) == 1: #only emit if it's a valid centerpoint
+                    if len(self.relativeCenters) == 1 and self.validImage == True: #only emit if it's a valid centerpoint
                         self.centerLabels.emit(self.relativeCenters)
                     else:
                         self.centerLabels.emit([])
@@ -111,8 +111,8 @@ class ImageCaptureThread(QtCore.QObject):
     def isValidImage(self, image):
         #Check if the image is too dark
         average = np.mean(image)
-        if average < 50:
-            # print("Invalid Image", average)
+        if average < 20:
+            #print("Invalid Image", average)
             return False
         return True
 
