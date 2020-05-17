@@ -55,16 +55,24 @@ class StatisticsWindow():
         rejected = database['rejectedSample']
 
         totalCameraLabel = QLabel("Total cameras Programmed: " + str(accepted + rejected))
-
+        totalCameraLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        
         acceptedCameraLabel = QLabel("Accepted: " + str(accepted))
+        acceptedCameraLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        
         rejectedCameraLabel = QLabel("Rejected: " + str(rejected))
-
+        rejectedCameraLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        
+        averageCycleTimeLabel = QLabel("Average Cycle Time: " + str(round(database['averageCycleTime'],2)) + " seconds")
+        averageCycleTimeLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        
         xyAlignment = self.xyAlignmentStats(database['xyAlignmentStats'])
 
         vCharts.addWidget(statisticsTitle)
         vCharts.addWidget(totalCameraLabel)
         vCharts.addWidget(acceptedCameraLabel)
         vCharts.addWidget(rejectedCameraLabel)
+        vCharts.addWidget(averageCycleTimeLabel)
         vCharts.addWidget(xyAlignment)
 
         # add scroll

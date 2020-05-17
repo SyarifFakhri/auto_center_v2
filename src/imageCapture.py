@@ -219,7 +219,7 @@ class DebugImageThread(QtCore.QObject):
                     h, w, ch = rgbImage.shape
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                    p = convertToQtFormat.scaled(300, 360, Qt.KeepAspectRatio)
+                    p = convertToQtFormat.scaled(400, 360, Qt.KeepAspectRatio)
                     self.changePixmap.emit(p)
 
                     if len(self.relativeCenters) == 1:  # only emit if it's a valid centerpoint

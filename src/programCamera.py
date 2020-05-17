@@ -22,7 +22,7 @@ class ProgramCamera(QtCore.QObject):
         self.relativeCenters = []
         self.currentCameraType = ''
 
-        self.PROGRAMMING_TIME_THRESH = 3
+        self.PROGRAMMING_TIME_THRESH = 7
 
         if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
             self.arduinoController = ArduinoController()
@@ -84,7 +84,7 @@ class ProgramCamera(QtCore.QObject):
 
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
-        self.currentProgrammingStep = 'Flashing Camera 1 - DO NOT UNPLUG'
+        self.currentProgrammingStep = 'Flashing Camera (1st Attempt)'
 
         tic = time.perf_counter()
         self.flashTool.flashCameraCmd()
@@ -94,7 +94,7 @@ class ProgramCamera(QtCore.QObject):
 
         if (timeTaken < self.PROGRAMMING_TIME_THRESH):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
-            self.statsData.emit(['failed', centerPoints])
+            #self.statsData.emit(['failed', centerPoints])
             time.sleep(5)
             self.currentProgrammingStep = ''
             # self.arduinoController.releaseHydraulics()
@@ -129,7 +129,7 @@ class ProgramCamera(QtCore.QObject):
         self.isProgramming = True
         self.currentProgrammingStep = 'Alter CFG'
 
-        programX = 0  # Very strange that this doesn't require a negative sign. Did I mess up somewhere?
+        programX = 0  
         programY = 0
 
         programX = self.clipValue(programX)
@@ -157,7 +157,7 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
             time.sleep(3)
             self.currentProgrammingStep = 'Machine Idle'
-            self.arduinoController.offLeds()
+            #self.arduinoController.offLeds()
             return False
 
         self.powerCycleCamera()
@@ -211,6 +211,7 @@ class ProgramCamera(QtCore.QObject):
             timeTaken = timeEnd - timeStart
             print("No valid centerpoints")
             self.statsData.emit(['failed', [], timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.releaseHydraulics()
             self.arduinoController.running = False
             return
@@ -226,6 +227,7 @@ class ProgramCamera(QtCore.QObject):
             timeTaken = timeEnd - timeStart
             print("center points: ", centerPoints)
             self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.releaseHydraulics()
             self.arduinoController.running = False
             return
@@ -237,12 +239,13 @@ class ProgramCamera(QtCore.QObject):
             timeEnd = time.perf_counter()
             timeTaken = timeEnd - timeStart
             self.statsData.emit(['failed', initialCenterPoints, timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.running = False
             self.arduinoController.releaseHydraulics()
             return
         
         self.arduinoController.onLeds()
-
+        
         #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
         print('start')
         self.currentProgrammingStep = 'Alter CFG'
@@ -256,6 +259,7 @@ class ProgramCamera(QtCore.QObject):
             timeEnd = time.perf_counter()
             timeTaken = timeEnd - timeStart
             self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.running = False
             return
 
@@ -286,7 +290,7 @@ class ProgramCamera(QtCore.QObject):
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
-        self.currentProgrammingStep = 'Flashing Camera 1 - DO NOT UNPLUG'
+        self.currentProgrammingStep = 'Flashing Camera (1st Attempt)'
 
         tic = time.perf_counter()
         self.flashTool.flashCameraCmd()
@@ -302,6 +306,7 @@ class ProgramCamera(QtCore.QObject):
             self.currentProgrammingStep = 'Machine Idle'
             self.arduinoController.releaseHydraulics()
             self.statsData.emit(['failed', initialCenterPoints,timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.releaseHydraulics()
             self.arduinoController.running = False
             return
@@ -323,6 +328,7 @@ class ProgramCamera(QtCore.QObject):
             timeTaken = timeEnd - timeStart
             print("emit stats data")
             self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.running = False
             return
 
@@ -353,7 +359,7 @@ class ProgramCamera(QtCore.QObject):
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
-        self.currentProgrammingStep = 'Flashing Camera 2 - DO NOT UNPLUG'
+        self.currentProgrammingStep = 'Flashing Camera (2nd Attempt)'
         self.flashTool.flashCameraCmd()
         self.currentProgrammingStep = 'Finished Programming'
         # print("Finished programming.")
@@ -369,6 +375,7 @@ class ProgramCamera(QtCore.QObject):
             timeTaken = timeEnd - timeStart
             # self.currentProgrammingStep = 'Programming Suceeded'
             self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
             self.arduinoController.running = False
             return
 
@@ -382,7 +389,7 @@ class ProgramCamera(QtCore.QObject):
         self.currentProgrammingStep = 'Machine Idle'
         timeEnd = time.perf_counter()
         timeTaken = timeEnd - timeStart
-        print("Time taken: ", str(timeEnd - timeStart))
+        self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
 
         self.arduinoController.running = False
         return
@@ -408,6 +415,5 @@ class ProgramCamera(QtCore.QObject):
                 self.currentProgrammingStep = 'Releasing Hydraulics'
                 self.isProgramming = False
                 self.arduinoController.releaseHydraulics()
-                self.currentProgrammingStep = 'Machine Idle'
                 return True
         return False

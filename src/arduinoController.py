@@ -6,7 +6,7 @@ import time
 class ArduinoController(QObject):
     bothButtonsPressed = pyqtSignal()
     shutdownSignal = pyqtSignal()
-
+    closeBoards = pyqtSignal()
     #Board is based on pymata4 controller
     def __init__(self):
         super(ArduinoController, self).__init__()
@@ -95,10 +95,11 @@ class ArduinoController(QObject):
             
     def playGTone(self):
         self.leonardoBoard.play_tone(self.BUZZER, 1000, 2000)
-
+    
     def shutDown(self):
         self.leonardoBoard.shutdown()
         self.board.shutdown()
+        pass
 
     def onGreenLed(self):
         self.leonardoBoard.digital_write(self.GREEN_LED,1)

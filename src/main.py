@@ -68,11 +68,15 @@ class MasterWindow(QMainWindow):
                     'goodSample': 0,
                     'rejectedSample': 0,
                     'xyAlignmentStats': [],
+                    'totalCycleTime': 0,
+                    'averageCycleTime': 0
                 },
                 'cp1p': {
                     'goodSample': 0,
                     'rejectedSample': 0,
                     'xyAlignmentStats': [],
+                    'totalCycleTime': 0,
+                    'averageCycleTime': 0
                 }
             }, settingsConfigField.title == 'cameraStats')
 
@@ -91,6 +95,7 @@ class MasterWindow(QMainWindow):
         if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
             self.programCam.arduinoController.bothButtonsPressed.connect(self.programCamera)
             self.programCam.arduinoController.shutdownSignal.connect(self.shutdownComputer)
+            self.programCam.arduinoController.closeBoards.connect(self.programCam.arduinoController.shutDown)
         self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
         self.programCam.statsData.connect(self.recordStatsInDatabase)
@@ -129,8 +134,8 @@ class MasterWindow(QMainWindow):
         if ret == QtWidgets.QMessageBox.Yes:
             print("Confirmed shutdown")
             self.programCam.arduinoController.checkShutdown = False
-            os.system("shutdown /s /t 10")
-            #self.stopProgram()
+            os.system("shutdown -s -t 3")
+            self.stopProgram()
             QApplication.exit()
             
         else:
@@ -149,14 +154,19 @@ class MasterWindow(QMainWindow):
 
     def stopProgram(self):
         print("Stop all")
-        #self.programCam.stop()
-        #self.settingsImageCap.stop()
-        #self.imageCap.stop()
-
-        self.capThread.quit()
-        self.settingsThread.quit()
-        self.programThread.quit()
+        self.settingsImageCap.stop()
+        self.imageCap.stop()
+        #self.programCam.arduinoController.closeBoards.emit()
+        
+        """
+        print("Waiting to join cap")
+        self.capThread.join()
+        print("Waiting to join Setting")
+        self.settingsThread.join()
+        print("Waiting to join program")
+        self.programThread.join()
         #QApplication.exit()
+        """
 
     def errorOutputWritten(self, text):
         self.normalOutputWritten("*** ERROR: " + text)
@@ -205,7 +215,8 @@ class MasterWindow(QMainWindow):
                     currentAlignmentStats.pop()
                     currentAlignmentStats.insert(0,stats[1])
             print("current alignment stats:",currentAlignmentStats)
-            cycleTime = 45
+            
+            totalCycleTime = database['averageCycleTime'] + stats[2]
 
             databaseField = Query()
             self.database.update({
@@ -213,7 +224,8 @@ class MasterWindow(QMainWindow):
                     'goodSample':currentGoodSample,
                     'rejectedSample':currentRejectedSample,
                     'xyAlignmentStats':currentAlignmentStats,
-                    'averageCyleTime': cycleTime
+                    'totalCycleTime': totalCycleTime,
+                    'averageCycleTime': totalCycleTime / (currentGoodSample + currentRejectedSample)
                 }  # d55l or cp1p
             }, databaseField.title == 'cameraStats')  # A good alternative is using contains instead
 
@@ -230,16 +242,20 @@ class MasterWindow(QMainWindow):
                     'goodSample': 0,
                     'rejectedSample': 0,
                     'xyAlignmentStats': [],
-                    'averageCyleTime': 0
+                    'totalCycleTime': 0,
+                    'averageCycleTime': 0
                 }  # d55l or cp1p
             }, databaseField.title == 'cameraStats')  # A good alternative is using contains instead
 
 
     @pyqtSlot()
     def programCamera(self):
-        self.mainWindow.GLabel.setStyleSheet("background-color: #686868");
-        self.mainWindow.NGLabel.setStyleSheet("background-color: #686868")
-        self.programCam.callDoubleProgramCamera.emit()
+        if self.bothButtonsEnabled:
+            self.mainWindow.GLabel.setStyleSheet("background-color: #686868");
+            self.mainWindow.NGLabel.setStyleSheet("background-color: #686868")
+            self.programCam.callDoubleProgramCamera.emit()
+        else:
+            self.programCam.arduinoController.running = False
 
     @pyqtSlot()
     def resetCamera(self):
@@ -307,6 +323,7 @@ class MasterWindow(QMainWindow):
 
     def showMainWindow(self, event):
         self.isRecordingStats = True
+        self.bothButtonsEnabled = True
 
         self.stopImageSettingsCap()
         self.stopImageCap()
@@ -346,6 +363,8 @@ class MasterWindow(QMainWindow):
         self.stopImageSettingsCap()
         self.stopImageCap()
 
+        self.bothButtonsEnabled = False
+
         self.statsWindow.init_ui(self, self.database.all()[0][self.programCam.currentCameraType], self.programCam.currentCameraType)
         self.statsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.statsWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
@@ -369,8 +388,13 @@ class MasterWindow(QMainWindow):
         self.settingsImageCap.settings['roi_y'] = self.settingsWindow.roiYSlider.value()
         self.settingsImageCap.settings['roi_w'] = self.settingsWindow.roiWSlider.value()
         self.settingsImageCap.settings['roi_h'] = self.settingsWindow.roiHSlider.value()
+        
+        self.settingsImageCap.screenCenterX = self.settingsWindow.centerXSlider.value()
         self.settingsImageCap.settings['camera_true_center_x'] = self.settingsWindow.centerXSlider.value()
+        
+        self.settingsImageCap.screenCenterY = self.settingsWindow.centerYSlider.value()
         self.settingsImageCap.settings['camera_true_center_y'] = self.settingsWindow.centerYSlider.value()
+        
 
     def saveSettings(self):
         settingsConfigField = Query()
@@ -411,8 +435,8 @@ class MasterWindow(QMainWindow):
         self.programCam.callReleaseHydraulics.emit()
 
     def showSettingsMenu(self, event):
+        self.bothButtonsEnabled = False
         self.isRecordingStats = True
-
         self.stopImageCap()
         self.stopImageSettingsCap()
         # settings = self.settingsConfig.all()[0]
