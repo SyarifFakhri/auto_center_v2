@@ -17,7 +17,7 @@ from settingsWindow import SettingsWindow
 from statisticsWindow import StatisticsWindow
 from imageCapture import ImageCaptureThread, DebugImageThread
 from loginWindow import LoginWindow
-
+import os
 import numpy as np
 
 import cv2
@@ -90,6 +90,7 @@ class MasterWindow(QMainWindow):
 
         if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
             self.programCam.arduinoController.bothButtonsPressed.connect(self.programCamera)
+            self.programCam.arduinoController.shutdownSignal.connect(self.shutdownComputer)
         self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
         self.programCam.statsData.connect(self.recordStatsInDatabase)
@@ -116,6 +117,16 @@ class MasterWindow(QMainWindow):
         self.isRecordingStats = False
 
         app.aboutToQuit.connect(self.stopProgram)
+    def shutdownComputer(self):
+        print("SHUTTING DOWN COMPUTER")
+
+        """
+        self.stopProgram()
+        os.system("shutdown /s /t 1")
+        
+        # self.quit()
+        """
+        # sys.exit(app.exec_())
 
     def stopProgram(self):
         print("Stop all")
@@ -126,6 +137,7 @@ class MasterWindow(QMainWindow):
         self.capThread.quit()
         self.settingsThread.quit()
         self.programThread.quit()
+        self.quit()
 
     def errorOutputWritten(self, text):
         self.normalOutputWritten("*** ERROR: " + text)

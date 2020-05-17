@@ -5,6 +5,7 @@ import time
 
 class ArduinoController(QObject):
     bothButtonsPressed = pyqtSignal()
+    shutdownSignal = pyqtSignal()
 
     #Board is based on pymata4 controller
     def __init__(self):
@@ -24,10 +25,12 @@ class ArduinoController(QObject):
         self.RED_LED = 23
         self.GREEN_LED = 22
         self.BUZZER = 3
+        self.SHUTDOWN_PIN = 7
 
         self.leonardoBoard.set_pin_mode_digital_output(self.RED_LED)
         self.leonardoBoard.set_pin_mode_digital_output(self.GREEN_LED)
         self.leonardoBoard.set_pin_mode_tone(self.BUZZER)
+        self.leonardoBoard.set_pin_mode_digital_input_pullup(self.SHUTDOWN_PIN, callback=self.sendShutdownSignal)
 
     def setupArduino(self):
         self.VALVE_POGO_PIN = 2 #Low is retract
@@ -58,6 +61,10 @@ class ArduinoController(QObject):
         #setup all the pins
         print("Finished setup")
 
+    def sendShutdownSignal(self, data):
+        if self.leonardoBoard.digital_read(self.SHUTDOWN_PIN) == 0:
+            self.shutdownSignal.emit()
+
     def playNGTone(self):
         for i in range(15):
             self.leonardoBoard.play_tone(self.BUZZER, 1000, 80)
@@ -65,6 +72,7 @@ class ArduinoController(QObject):
             
     def playGTone(self):
         self.leonardoBoard.play_tone(self.BUZZER, 1000, 2000)
+
     def shutDown(self):
         self.leonardoBoard.shutdown()
         self.board.shutdown()
