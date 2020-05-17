@@ -5,6 +5,86 @@ import pyqtgraph as pg
 
 class StatisticsWindow():
     def init_ui(self, mainWindow, database, currentCameraType):
+        mainLayout = QVBoxLayout()
+        mainLayout.setSpacing(10)
+        mainLayout.setContentsMargins(10, 10, 10, 10)
+
+        menuFrame = QFrame()
+        menuFrame.setContentsMargins(0, 0, 0, 0)
+        # menuFrame.setStyleSheet("background-color: #4a4a4a")
+
+        mainMenuTitleLayout = QVBoxLayout()
+        mainLayout.addLayout(mainMenuTitleLayout)
+
+        mainTitle = QLabel('Auto Center System')
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
+        mainTitle.setAlignment(Qt.AlignCenter)
+        mainMenuTitleLayout.addWidget(mainTitle)
+
+        menuLayout = QHBoxLayout()
+        menuLayout.setSpacing(20)
+        menuLayout.setContentsMargins(15, 15, 25, 15)  # LTRB
+        mainMenuTitleLayout.addLayout(menuLayout)
+
+        self.mainLabel = QLabel("Main")
+        # self.mainLabel.setStyleSheet("background-color: #4a4a4a; border-radius: 5px")
+        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.mainLabel.setAlignment(Qt.AlignCenter)
+        # self.mainLabel.setContentsMargins(15, 10, 15, 10)  # LTRB
+        menuLayout.addWidget(self.mainLabel)
+
+        self.statisticsLabel = QLabel("Statistics")
+        self.statisticsLabel.setStyleSheet("background-color: #4a4a4a; border-radius: 5px")
+        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.statisticsLabel.setContentsMargins(15,10,15,10)
+        self.statisticsLabel.setAlignment(Qt.AlignCenter)
+        menuLayout.addWidget(self.statisticsLabel)
+
+        self.settingsLabel = QLabel("Settings")
+        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        # self.settingsLabel.setContentsMargins(15,15,15,15)
+        self.settingsLabel.setAlignment(Qt.AlignCenter)
+        menuLayout.addWidget(self.settingsLabel)
+
+        vCharts = QVBoxLayout()
+
+        statisticsTitle = QLabel("Lifetime Statistics for Camera " + str(currentCameraType.upper()))
+        statisticsTitle.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+
+        accepted = database['goodSample']
+        rejected = database['rejectedSample']
+
+        totalCameraLabel = QLabel("Total cameras Programmed: " + str(accepted + rejected))
+
+        acceptedCameraLabel = QLabel("Accepted: " + str(accepted))
+        rejectedCameraLabel = QLabel("Rejected: " + str(rejected))
+
+        xyAlignment = self.xyAlignmentStats(database['xyAlignmentStats'])
+
+        vCharts.addWidget(statisticsTitle)
+        vCharts.addWidget(totalCameraLabel)
+        vCharts.addWidget(acceptedCameraLabel)
+        vCharts.addWidget(rejectedCameraLabel)
+        vCharts.addWidget(xyAlignment)
+
+        # add scroll
+        scroll = QScrollArea()
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        scroll.setWidgetResizable(True)
+        # scroll.setEnabled(True)
+        scroll.setMinimumHeight(400)
+        scroll.setMinimumWidth(750)
+        widget = QWidget()
+        widget.setLayout(vCharts)
+        scroll.setWidget(widget)
+
+        mainLayout.addWidget(scroll)
+
+        #FINAL QT LINE
+        widget = QWidget()
+        widget.setLayout(mainLayout)
+        mainWindow.setCentralWidget(widget)
+    def init_ui_2(self, mainWindow, database, currentCameraType):
         self.layout = QGridLayout()
         self.layout.setSpacing(20)
 

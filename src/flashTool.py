@@ -9,8 +9,11 @@ import msvcrt
 class FlashTool():
     def __init__(self):
         self.aptinaLocation = '\"C:\\Aptina Imaging\\bin\\flashtool.exe\"'
-        self.fcfgLocation = '\"C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\200102_cam 2_REFERENCE.fcfg\"'
-        self.binLocation = '\"C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\generated.bin\"'
+
+        self.fcfgLocation = '\"C:\\Users\\Default.DESKTOP-CAOIVKO\PycharmProjects\\auto_center_v2\\src\\200102_cam 2_REFERENCE.fcfg\"'
+        self.binLocation = '\"C:\\Users\\Default.DESKTOP-CAOIVKO\PycharmProjects\\auto_center_v2\\src\\generated.bin\"'
+        #self.fcfgLocation = '\"C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\200102_cam 2_REFERENCE.fcfg\"'
+        #self.binLocation = '\"C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\generated.bin\"'
         self.running = False
 
         #list of sensor locations
@@ -20,7 +23,7 @@ class FlashTool():
         }
 
     def alterCFGFileCameraOffset(self, cameraOffsetX, cameraOffsetY):
-        readLocation = "C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\200102_cam 2_REFERENCE.fcfg"
+        readLocation = "C:\\Users\\Default.DESKTOP-CAOIVKO\PycharmProjects\\auto_center_v2\\src\\200102_cam 2_REFERENCE.fcfg"
         searchStrX = '0x12, CAM_FOV_CALIB_X_OFFSET,  8, 0x00,	# 0x5C'
         searchStrY = '0x12, CAM_FOV_CALIB_Y_OFFSET,  8, 0x00 	# 0x5D'
 
@@ -37,7 +40,7 @@ class FlashTool():
 
     # def alterCFGOverlay(self  ):
     def alterCFGFileD55LCamera(self, cameraOffsetX, cameraOffsetY):
-        readLocation = "C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\D55L_CFG_REF.fcfg"
+        readLocation = "C:\\Users\\Default.DESKTOP-CAOIVKO\PycharmProjects\\auto_center_v2\\src\\D55L_CFG_REF.fcfg"
         searchStrX = '0xC860, 8,	0x0,	#CAM_FOV_CALIB_X_OFFSET'
         searchStrY = '0xC861, 8,	0x0	#CAM_FOV_CALIB_Y_OFFSET'
 

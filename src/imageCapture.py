@@ -7,10 +7,11 @@ import time
 import numpy as np
 import math
 from centerFinder import CenterFinder
-
+import debugConfigs
 
 class ImageCaptureThread(QtCore.QObject):
     changePixmap = pyqtSignal(QImage)
+    rawPixmap = pyqtSignal(QImage)
     centerLabels = pyqtSignal(list)
     callImageCap = pyqtSignal()
 
@@ -41,15 +42,29 @@ class ImageCaptureThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             cap.set(cv2.CAP_FFMPEG, True)
             cap.set(cv2.CAP_PROP_FPS, 30)
+
+            imageWidth = int(640 * 0.7)
+            imageHeight = int(480 * 0.7)
             while not self.stopRunning:
                 # counter += 1
 
                 ret, frame = cap.read()
 
                 if ret:
+                    height, width = frame.shape[:2]
+                    margin = 100
+                    croppedRaw = frame[margin:height - margin, margin:width-margin]
+                    rgbImage = cv2.cvtColor(croppedRaw, cv2.COLOR_BGR2RGB)
+                    # rgbImage = cv2.cvtColor(roi, cv2.COLOR_GRAY2RGB)
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    rawImg = convertToQtFormat.scaled(imageWidth,imageHeight, Qt.KeepAspectRatio)
+
+                    self.rawPixmap.emit(rawImg)
                     # print("Get image")
                     self.validImage = self.isValidImage(frame)
 
@@ -76,7 +91,7 @@ class ImageCaptureThread(QtCore.QObject):
                     h, w, ch = rgbImage.shape
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    p = convertToQtFormat.scaled(imageWidth, imageHeight, Qt.KeepAspectRatio)
 
                     self.changePixmap.emit(p)
                     # print("EMIT CAP", counter)
@@ -184,7 +199,7 @@ class DebugImageThread(QtCore.QObject):
         try:
             time.sleep(1)
             self.stopRunning = False
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             while not self.stopRunning:
                 ret, frame = cap.read()
                 if ret:

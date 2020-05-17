@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication
 from flashTool import FlashTool
 from arduinoController import ArduinoController
 import time
+import debugConfigs
 
 class ProgramCamera(QtCore.QObject):
     callDoubleProgramCamera = pyqtSignal()
@@ -11,7 +12,6 @@ class ProgramCamera(QtCore.QObject):
     statsData = pyqtSignal(list)
     
     callSimpleProgramCamera = pyqtSignal()
-
     callEngageHydraulics = pyqtSignal()
     callReleaseHydraulics = pyqtSignal()
 
@@ -24,9 +24,10 @@ class ProgramCamera(QtCore.QObject):
 
         self.PROGRAMMING_TIME_THRESH = 3
 
-        self.arduinoController = ArduinoController()
-        self.arduinoController.onCamera()
-        self.arduinoController.onLeds()
+        if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
+            self.arduinoController = ArduinoController()
+            self.arduinoController.onCamera()
+            self.arduinoController.onLeds()
 
     @pyqtSlot()
     def simpleProgramCamera(self):
@@ -64,7 +65,13 @@ class ProgramCamera(QtCore.QObject):
         print("Value to Program Y: " + str(programY))
 
         # self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'd55l':
+            self.flashTool.alterCFGFileD55LCamera(programX, programY)
+        if self.currentCameraType == 'cp1p':
+            self.flashTool.alterCFGFileCameraOffset(programX, programY)
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L"
+
         self.currentProgrammingStep = 'Create Bin'
         self.flashTool.createBinFileCmd(self.currentCameraType)
         self.currentProgrammingStep = 'Flashing Camera 1 - DO NOT UNPLUG'
@@ -179,7 +186,8 @@ class ProgramCamera(QtCore.QObject):
         self.currentProgrammingStep = "Engaging Hydraulics"
         self.arduinoController.engageHydraulics()
         self.arduinoController.onLeds()
-
+        self.arduinoController.offGreenLed()
+        self.arduinoController.offRedLed()
         
         time.sleep(3)
         QApplication.processEvents()

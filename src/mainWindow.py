@@ -4,8 +4,99 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 
 class MainWindow():
     def init_ui(self, mainWindow):
+        mainLayout = QVBoxLayout()
+        mainLayout.setSpacing(10)
+        mainLayout.setContentsMargins(10,10,10,10)
 
-        self.centers = None
+        menuFrame = QFrame()
+        menuFrame.setContentsMargins(0,0,0,0)
+        # menuFrame.setStyleSheet("background-color: #4a4a4a")
+
+        mainMenuTitleLayout = QVBoxLayout()
+        mainLayout.addLayout(mainMenuTitleLayout)
+
+        mainTitle = QLabel('Auto Center System')
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
+        mainTitle.setAlignment(Qt.AlignCenter)
+        mainMenuTitleLayout.addWidget(mainTitle)
+
+        menuLayout = QHBoxLayout()
+        menuLayout.setSpacing(20)
+        menuLayout.setContentsMargins(15,15,25,15)    #LTRB
+        mainMenuTitleLayout.addLayout(menuLayout)
+
+        self.mainLabel = QLabel("Main")
+        self.mainLabel.setStyleSheet("background-color: #4a4a4a; border-radius: 5px")
+        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.mainLabel.setAlignment(Qt.AlignCenter)
+        self.mainLabel.setContentsMargins(15,10,15,10) #LTRB
+        menuLayout.addWidget(self.mainLabel)
+
+        self.statisticsLabel = QLabel("Statistics")
+        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        # self.statisticsLabel.setContentsMargins(15,15,15,15)
+        self.statisticsLabel.setAlignment(Qt.AlignCenter)
+        menuLayout.addWidget(self.statisticsLabel)
+
+        self.settingsLabel = QLabel("Settings")
+        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        # self.settingsLabel.setContentsMargins(15,15,15,15)
+        self.settingsLabel.setAlignment(Qt.AlignCenter)
+        menuLayout.addWidget(self.settingsLabel)
+
+
+        #CENTER LABELS AND IMAGES
+        centerLayout = QHBoxLayout() #Contains the images, as well as x and y labels
+        mainLayout.addLayout(centerLayout)
+
+        self.rawImageLabel = QLabel(mainWindow)
+        # self.rawImageLabel.setAlignment(Qt.AlignCenter)
+        centerLayout.addWidget(self.rawImageLabel)
+
+        self.imageLabel = QLabel(mainWindow)
+        self.imageLabel.setAlignment(Qt.AlignCenter)
+        centerLayout.addWidget(self.imageLabel)
+
+        centerXYLabelLayout = QVBoxLayout()
+        centerLayout.addLayout(centerXYLabelLayout)
+
+        xCenterTitle, self.xCenterLabel = self.infoWidget("Center X")
+        centerXYLabelLayout.addWidget(xCenterTitle)
+
+        yCenterTitle, self.yCenterLabel = self.infoWidget("Center Y")
+        centerXYLabelLayout.addWidget(yCenterTitle)
+
+        mainLayout.addStretch(1)
+
+        bottomLayout = QHBoxLayout()
+        mainLayout.addLayout(bottomLayout)
+
+        self.GLabel = QLabel("G")
+        # self.GLabel.setStyleSheet("background-color: #22c928");
+        self.GLabel.setStyleSheet("background-color: #686868; border-radius: 5px");
+        self.GLabel.setAlignment(Qt.AlignCenter)
+        self.GLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        bottomLayout.addWidget(self.GLabel)
+
+        self.NGLabel = QLabel("NG")
+        # NGLabel.setStyleSheet("background-color: #eb4034")
+        self.NGLabel.setStyleSheet("background-color: #686868; border-radius: 5px")
+        self.NGLabel.setAlignment(Qt.AlignCenter)
+        self.NGLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        bottomLayout.addWidget(self.NGLabel)
+
+        statusTitle, self.statusLabel = self.infoWidget("Machine Status")
+        # self.statusLabel.setStyleSheet("background-color:#686868;border-radius: 5px")
+        # self.statusLabel.setAlignment(Qt.AlignCenter)
+        # self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=20, weight=QtGui.QFont.Bold))
+        bottomLayout.addWidget(statusTitle)
+
+        widget = QWidget()
+        widget.setLayout(mainLayout)
+        mainWindow.setCentralWidget(widget)
+
+
+    def init_ui_2(self, mainWindow):
 
         self.layout = QGridLayout()
         self.layout.setSpacing(10)
@@ -15,7 +106,7 @@ class MainWindow():
         vbox.setSpacing(0)
         vbox.setContentsMargins(5,5,5,5)
 
-        mainTitle = QLabel("Auto Center Tool")
+        mainTitle = QLabel("Auto Center System")
         mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
         mainTitle.setContentsMargins(0,0,0,10)
 
@@ -124,7 +215,7 @@ class MainWindow():
 
         titleBox = QLabel(title)
         # titleBox.setStyleSheet("background-color:#1f1f1f;")
-        # titleBox.setAlignment(Qt.AlignCenter)
+        titleBox.setAlignment(Qt.AlignCenter)
         titleBox.setFont(QtGui.QFont("Lato", pointSize=20))
         titleBox.setContentsMargins(0,0,10,0)
 

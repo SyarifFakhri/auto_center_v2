@@ -11,6 +11,7 @@ from centerFinder import CenterFinder
 from flashTool import FlashTool
 from arduinoController import ArduinoController
 from programCamera import ProgramCamera
+import debugConfigs
 from mainWindow import MainWindow
 from settingsWindow import SettingsWindow
 from statisticsWindow import StatisticsWindow
@@ -87,8 +88,8 @@ class MasterWindow(QMainWindow):
         self.programCam.moveToThread(self.programThread)
         self.programThread.start()
 
-        
-        self.programCam.arduinoController.bothButtonsPressed.connect(self.programCamera)
+        if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
+            self.programCam.arduinoController.bothButtonsPressed.connect(self.programCamera)
         self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
         self.programCam.statsData.connect(self.recordStatsInDatabase)
@@ -145,10 +146,12 @@ class MasterWindow(QMainWindow):
             currentAlignmentStats = database['xyAlignmentStats']
             
             if stats[0] == 'failed':
+                self.programCam.arduinoController.onRedLed()
                 self.mainWindow.NGLabel.setStyleSheet("background-color: #eb4034")
                 currentRejectedSample += 1
 
             if stats[0] == 'succeeded':
+                self.programCam.arduinoController.onGreenLed()
                 self.mainWindow.GLabel.setStyleSheet("background-color: #22c928");
                 currentGoodSample += 1
 
@@ -178,6 +181,24 @@ class MasterWindow(QMainWindow):
             }, databaseField.title == 'cameraStats')  # A good alternative is using contains instead
 
     @pyqtSlot()
+    def resetStatistics(self):
+        ret = QtWidgets.QMessageBox.question(self, "Warning", "Are you sure? This will delete all Statistics for the currently selected camera.", QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.Abort)
+
+        if ret == QtWidgets.QMessageBox.Yes:
+            print("Reset Stats")
+            currentCameraType = self.programCam.currentCameraType
+            databaseField = Query()
+            self.database.update({
+                currentCameraType: {
+                    'goodSample': 0,
+                    'rejectedSample': 0,
+                    'xyAlignmentStats': [],
+                    'averageCyleTime': 0
+                }  # d55l or cp1p
+            }, databaseField.title == 'cameraStats')  # A good alternative is using contains instead
+
+
+    @pyqtSlot()
     def programCamera(self):
         self.mainWindow.GLabel.setStyleSheet("background-color: #686868");
         self.mainWindow.NGLabel.setStyleSheet("background-color: #686868")
@@ -190,8 +211,15 @@ class MasterWindow(QMainWindow):
     @pyqtSlot(QImage)
     def setImageCap(self,image):
         # print("SET IMAGE")
-        self.mainWindow.statusLabel.setText(self.programCam.currentProgrammingStep)
+        # self.mainWindow.statusLabel.setText(self.programCam.currentProgrammingStep)
+        self.mainWindow.statusLabel.setText("Machine Idle")
         self.mainWindow.imageLabel.setPixmap(QPixmap.fromImage(image))
+
+    @pyqtSlot(QImage)
+    def setRawImageCap(self, image):
+        # print("SET RAW IMAGE")
+        self.mainWindow.rawImageLabel.setPixmap(QPixmap.fromImage(image))
+        pass
 
     @pyqtSlot(QImage)
     def setSettingsImage(self,image):
@@ -253,7 +281,7 @@ class MasterWindow(QMainWindow):
         #image
 
         self.imageCap.changePixmap.connect(self.setImageCap)
-
+        self.imageCap.rawPixmap.connect(self.setRawImageCap)
         self.imageCap.callImageCap.connect(self.imageCap.cameraCapture)
         self.imageCap.callImageCap.emit()
         self.imageCap.centerLabels.connect(self.programCam.updateRelativeCenters)
@@ -266,10 +294,14 @@ class MasterWindow(QMainWindow):
         # self.setMaximumSize(self.mainWindow.layout.sizeHint())
         # self.setMaximumSize()
         # self.showMaximized()
-        self.showFullScreen()
+        if debugConfigs.FULLSCREEN:
+            self.showFullScreen()
+        else:
+            self.showMaximized()
         # self.show()
         # QApplication.processEvents()
-        self.releaseHydraulics()
+        if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
+            self.releaseHydraulics()
 
     def showStatsMenu(self, event):
         self.stopImageSettingsCap()
@@ -280,7 +312,10 @@ class MasterWindow(QMainWindow):
         self.statsWindow.settingsLabel.mousePressEvent = self.showSettingsMenu
         # self.setMaximumSize(self.statsWindow.layout.sizeHint())
         # self.showMaximized()
-        self.showFullScreen()
+        if debugConfigs.FULLSCREEN:
+            self.showFullScreen()
+        else:
+            self.showMaximized()
 
     def updateLabels(self):
         #this is for the settings window only
@@ -342,7 +377,7 @@ class MasterWindow(QMainWindow):
         self.stopImageCap()
         self.stopImageSettingsCap()
         # settings = self.settingsConfig.all()[0]
-        self.isAuthenticated = True
+        self.isAuthenticated = False
 
         if not self.isAuthenticated:
             self.loginWindow.init_ui(self)
@@ -352,9 +387,10 @@ class MasterWindow(QMainWindow):
         else:
             self.initSettingsMenu()
 
-        # self.show()
-        # self.showMaximized()
-        self.showFullScreen()
+        if debugConfigs.FULLSCREEN:
+            self.showFullScreen()
+        else:
+            self.showMaximized()
 
     def initSettingsMenu(self):
         settings = self.settingsConfig.all()[0]
@@ -387,6 +423,8 @@ class MasterWindow(QMainWindow):
 
         self.settingsWindow.resetCameraOffsetButton.clicked.connect(self.resetCamera)
         self.settingsWindow.programOffsetButton.clicked.connect(self.simpleProgramCamera)
+
+        self.settingsWindow.resetStatistics.clicked.connect(self.resetStatistics)
 
     def tareCenter(self, params):
         self.settingsImageCap.settings['camera_true_center_x'] = self.settingsImageCap.absoluteCenters[0][0]

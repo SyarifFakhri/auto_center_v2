@@ -9,11 +9,20 @@ class ArduinoController(QObject):
     #Board is based on pymata4 controller
     def __init__(self):
         super(ArduinoController, self).__init__()
-        self.board = pymata4.Pymata4()
-        self.setup()
+        self.board = pymata4.Pymata4(arduino_instance_id=1)
+        self.leonardoBoard = pymata4.Pymata4(arduino_instance_id=2)
+        self.setupArduino()
+        self.setupLeonardo()
         self.running = False
+    def setupLeonardo(self):
+        self.RED_LED = 22
+        self.GREEN_LED = 23
 
-    def setup(self):
+        self.leonardoBoard.set_pin_mode_digital_output(self.VALVE_POGO_PIN)
+        self.leonardoBoard.set_pin_mode_digital_output(self.VALVE_CAM_HOLDER)
+
+
+    def setupArduino(self):
         self.VALVE_POGO_PIN = 2 #Low is retract
         self.VALVE_CAM_HOLDER = 3 #Low is retract
         self.CAMERA_POWER = 6
@@ -42,7 +51,19 @@ class ArduinoController(QObject):
         #setup all the pins
         print("Finished setup")
 
+    def onGreenLed(self):
+        self.leonardoBoard.digital_write(self.GREEN_LED,1)
+
+    def offGreenLed(self):
+        self.leonardoBoard.digital_write(self.GREEN_LED,0)
+
+    def onRedLed(self):
+        self.leonardoBoard.digital_write(self.RED_LED,1)
+    def offRedLed(self):
+        self.leonardoBoard.digital_write(self.RED_LED,0)
+
     def onLeds(self):
+        print("BACKLIGHT")
         self.board.digital_write(self.BACKLIGHT, 1)
 
     def offLeds(self):
