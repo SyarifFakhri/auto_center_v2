@@ -29,6 +29,9 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.onCamera()
             self.arduinoController.onLeds()
 
+    def stop(self):
+        self.arduinoController.shutDown()
+
     @pyqtSlot()
     def simpleProgramCamera(self):
         #Doesn't do any fancy stuff, just programs the camera to what it currently detects as the center
@@ -51,9 +54,16 @@ class ProgramCamera(QtCore.QObject):
             return
 
         # self.stopRunning = True #temporarily pause the camera
+        if self.currentCameraType == 'd55l':
+            programX = centerPoints[0]  # The camera is mirrored on the x axis
+            programY = -centerPoints[1]
+        elif self.currentCameraType == 'cp1p':
+            programX = -centerPoints[0]  # The camera is mirrored on the x axis
+            programY = centerPoints[1]
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
-        programX = centerPoints[0]  # The camera is mirrored on the x axis
-        programY = -centerPoints[1]
+
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -234,12 +244,6 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.onLeds()
 
         #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
-        # for i in range(10):
-        #     self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
-        # self.powerCycleCamera()
-
-        # if self.validImage == False:
-        #     print("Invalid image")
         print('start')
         self.currentProgrammingStep = 'Alter CFG'
         #STEP 2.1 - Check if already center
@@ -248,7 +252,6 @@ class ProgramCamera(QtCore.QObject):
         # pass the center centerpoint
         centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
 
-        # check if it's already center
         if self.isCenterPointCenter(centerPoints):
             timeEnd = time.perf_counter()
             timeTaken = timeEnd - timeStart
@@ -256,10 +259,15 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.running = False
             return
 
-        # self.stopRunning = True #temporarily pause the camera
-
-        programX = centerPoints[0] #The camera is mirrored on the x axis
-        programY = -centerPoints[1]
+        #STEP 3 - THIRD TIME PROGRAMMING
+        if self.currentCameraType == 'd55l':
+            programX = centerPoints[0]  # The camera is mirrored on the x axis
+            programY = -centerPoints[1]
+        elif self.currentCameraType == 'cp1p':
+            programX = -centerPoints[0]  # The camera is mirrored on the x axis
+            programY = centerPoints[1]
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -272,7 +280,7 @@ class ProgramCamera(QtCore.QObject):
 
         if self.currentCameraType == 'd55l':
             self.flashTool.alterCFGFileD55LCamera(programX, programY)
-        if self.currentCameraType == 'cp1p':
+        elif self.currentCameraType == 'cp1p':
             self.flashTool.alterCFGFileCameraOffset(programX, programY)
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
@@ -304,11 +312,6 @@ class ProgramCamera(QtCore.QObject):
         # time.sleep(10)
         self.powerCycleCamera()
 
-        # for i in range(10):
-        #     self.currentProgrammingStep = 'Restart cam: ' + str(10 - i)
-        #     time.sleep(1)
-        #     QApplication.processEvents()
-
         print("Relative centers: ", self.relativeCenters[0])
         ###Begin second camera flash
         relativeCenterPoints = self.relativeCenters
@@ -323,8 +326,15 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.running = False
             return
 
-        programX += centerPoints[0]
-        programY += -centerPoints[1]
+        # self.stopRunning = True #temporarily pause the camera
+        if self.currentCameraType == 'd55l':
+            programX = centerPoints[0]  # The camera is mirrored on the x axis
+            programY = -centerPoints[1]
+        elif self.currentCameraType == 'cp1p':
+            programX = -centerPoints[0]  # The camera is mirrored on the x axis
+            programY = centerPoints[1]
+        else:
+            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
         programX = self.clipValue(programX)
         programY = self.clipValue(programY)
@@ -337,7 +347,7 @@ class ProgramCamera(QtCore.QObject):
 
         if self.currentCameraType == 'd55l':
             self.flashTool.alterCFGFileD55LCamera(programX, programY)
-        if self.currentCameraType == 'cp1p':
+        elif self.currentCameraType == 'cp1p':
             self.flashTool.alterCFGFileCameraOffset(programX, programY)
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType

@@ -16,13 +16,15 @@ class ArduinoController(QObject):
         self.offGreenLed()
         self.offRedLed()
         self.running = False
+
     def setupLeonardo(self):
         self.RED_LED = 23
         self.GREEN_LED = 22
+        self.BUZZER = 3
 
         self.leonardoBoard.set_pin_mode_digital_output(self.RED_LED)
         self.leonardoBoard.set_pin_mode_digital_output(self.GREEN_LED)
-
+        self.leonardoBoard.set_pin_mode_tone(self.BUZZER)
 
     def setupArduino(self):
         self.VALVE_POGO_PIN = 2 #Low is retract
@@ -52,6 +54,15 @@ class ArduinoController(QObject):
         self.board.set_pin_mode_digital_input(self.REEDSW_POGOPIN_EXTEND)
         #setup all the pins
         print("Finished setup")
+
+    def playNGTone(self):
+        self.leonardoBoard.play_tone(self.BUZZER, 1000, 500)
+
+    def playGTone(self):
+        self.leonardoBoard.play_tone(self.BUZZER, 1000, 750)
+    def shutDown(self):
+        self.leonardoBoard.shutdown()
+        self.board.shutdown()
 
     def onGreenLed(self):
         self.leonardoBoard.digital_write(self.GREEN_LED,1)

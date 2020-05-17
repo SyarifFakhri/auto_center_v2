@@ -119,6 +119,10 @@ class MasterWindow(QMainWindow):
 
     def stopProgram(self):
         print("Stop all")
+        self.programCam.stop()
+        self.settingsImageCap.stop()
+        self.imageCap.stop()
+
         self.capThread.quit()
         self.settingsThread.quit()
         self.programThread.quit()
@@ -147,11 +151,15 @@ class MasterWindow(QMainWindow):
             
             if stats[0] == 'failed':
                 self.programCam.arduinoController.onRedLed()
+                self.programCam.arduinoController.playNGTone()
+
                 self.mainWindow.NGLabel.setStyleSheet("background-color: #eb4034")
                 currentRejectedSample += 1
 
             elif stats[0] == 'succeeded':
                 self.programCam.arduinoController.onGreenLed()
+                self.programCam.arduinoController.playGTone()
+
                 self.mainWindow.GLabel.setStyleSheet("background-color: #22c928");
                 currentGoodSample += 1
 
