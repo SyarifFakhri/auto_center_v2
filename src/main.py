@@ -216,7 +216,7 @@ class MasterWindow(QMainWindow):
                     currentAlignmentStats.insert(0,stats[1])
             print("current alignment stats:",currentAlignmentStats)
             
-            totalCycleTime = database['averageCycleTime'] + stats[2]
+            totalCycleTime = database['totalCycleTime'] + stats[2]
 
             databaseField = Query()
             self.database.update({

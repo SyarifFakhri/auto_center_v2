@@ -77,7 +77,7 @@ class ProgramCamera(QtCore.QObject):
         # self.flashTool.alterCFGFileCameraOffset(programX, programY)
         if self.currentCameraType == 'd55l':
             self.flashTool.alterCFGFileD55LCamera(programX, programY)
-        if self.currentCameraType == 'cp1p':
+        elif self.currentCameraType == 'cp1p':
             self.flashTool.alterCFGFileCameraOffset(programX, programY)
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
@@ -121,6 +121,10 @@ class ProgramCamera(QtCore.QObject):
     @pyqtSlot(list)
     def updateRelativeCenters(self, cameraCenters):
         self.relativeCenters = cameraCenters
+        #print(self.relativeCenters)
+        if self.relativeCenters != []:
+            self.relativeCenters[0][0] = int(self.relativeCenters[0][0]/1.5)
+            self.relativeCenters[0][1] = int(self.relativeCenters[0][1]/1.5)
 
     @pyqtSlot()
     def resetCameraOffsets(self):
@@ -140,7 +144,7 @@ class ProgramCamera(QtCore.QObject):
 
         if self.currentCameraType == 'd55l':
             self.flashTool.alterCFGFileD55LCamera(programX, programY)
-        if self.currentCameraType == 'cp1p':
+        elif self.currentCameraType == 'cp1p':
             self.flashTool.alterCFGFileCameraOffset(programX, programY)
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
@@ -155,7 +159,7 @@ class ProgramCamera(QtCore.QObject):
 
         if (timeTaken < self.PROGRAMMING_TIME_THRESH):
             self.currentProgrammingStep = 'Programming failed. Check connection.'
-            time.sleep(3)
+            time.sleep(2)
             self.currentProgrammingStep = 'Machine Idle'
             #self.arduinoController.offLeds()
             return False
@@ -175,10 +179,21 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.onCamera()
         time.sleep(2)
         QApplication.processEvents()
+        time.sleep(1)
+        QApplication.processEvents()
         print("Camera reset")
 
     @pyqtSlot()
-    def programCenterPointDoubleProgramMethod(self):
+    def programCenterPointDoubleProgramMethodTest(self):
+        while True:
+            QApplication.processEvents()
+            self.programCenterPointDoubleProgramMethodReal()
+            QApplication.processEvents()
+            time.sleep(10)
+            QApplication.processEvents()
+
+    @pyqtSlot()
+    def programCenterPointDoubleProgramMethod(self, debugging=False):
         """
         It's very likely we won't get the correct amount on the first try.
         So this method first programs it once, then calculates the offsets again, then adds that adjustment amount to the old amount
@@ -196,203 +211,250 @@ class ProgramCamera(QtCore.QObject):
         """
         timeStart = time.perf_counter()
 
-        self.arduinoController.onCamera()
-        self.currentProgrammingStep = "Engaging Hydraulics"
-        self.arduinoController.engageHydraulics()
-        self.arduinoController.onLeds()
-        self.arduinoController.offGreenLed()
-        self.arduinoController.offRedLed()
-        
-        time.sleep(2)
-        QApplication.processEvents()
-        
-        if self.relativeCenters == []:
-            timeEnd = time.perf_counter()
-            timeTaken = timeEnd - timeStart
-            print("No valid centerpoints")
-            self.statsData.emit(['failed', [], timeTaken])
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-            self.arduinoController.releaseHydraulics()
-            self.arduinoController.running = False
-            return
-        
-        self.arduinoController.onLeds()
-        relativeCenterPoints = self.relativeCenters
-        centerPoints = relativeCenterPoints[0]
-        initialCenterPoints = relativeCenterPoints[0]
-
-        # check if it's already center
-        if self.isCenterPointCenter(centerPoints):
-            timeEnd = time.perf_counter()
-            timeTaken = timeEnd - timeStart
-            print("center points: ", centerPoints)
-            self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-            self.arduinoController.releaseHydraulics()
-            self.arduinoController.running = False
-            return
-
-        #STEP 1 - RESET CAMERA OFFSETS
-        succeeded = self.resetCameraOffsets() #succeeded means programming did not fail
-        #succeeded = True
-        if not succeeded:
-            timeEnd = time.perf_counter()
-            timeTaken = timeEnd - timeStart
-            self.statsData.emit(['failed', initialCenterPoints, timeTaken])
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-            self.arduinoController.running = False
-            self.arduinoController.releaseHydraulics()
-            return
-        
-        self.arduinoController.onLeds()
-        
-        #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
-        print('start')
-        self.currentProgrammingStep = 'Alter CFG'
-        #STEP 2.1 - Check if already center
-        relativeCenterPoints = self.relativeCenters
-        initialCenterPoints = relativeCenterPoints[0]
-        # pass the center centerpoint
-        centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
-
-        if self.isCenterPointCenter(centerPoints):
-            timeEnd = time.perf_counter()
-            timeTaken = timeEnd - timeStart
-            self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-            self.arduinoController.running = False
-            return
-
-        
-        if self.currentCameraType == 'd55l':
-            programX = -centerPoints[0]  # The camera is mirrored on the x axis
-            programY = centerPoints[1]
-        elif self.currentCameraType == 'cp1p':
-            programX = centerPoints[0]  # The camera is mirrored on the x axis
-            programY = -centerPoints[1]
-        else:
-            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
-
-        programX = self.clipValue(programX)
-        programY = self.clipValue(programY)
-
-        # programX = 0
-        # programY = 0
-
-        print("Value to Program X: " + str(programX))
-        print("Value to Program Y: " + str(programY))
-
-        if self.currentCameraType == 'd55l':
-            self.flashTool.alterCFGFileD55LCamera(programX, programY)
-        elif self.currentCameraType == 'cp1p':
-            self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        else:
-            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
-        self.currentProgrammingStep = 'Create Bin'
-        self.flashTool.createBinFileCmd(self.currentCameraType)
-        self.currentProgrammingStep = 'Flashing Camera (1st Attempt)'
-
-        tic = time.perf_counter()
-        self.flashTool.flashCameraCmd()
-        toc = time.perf_counter()
-
-        timeTaken = toc - tic
-
-        if (timeTaken < self.PROGRAMMING_TIME_THRESH):
-            timeEnd = time.perf_counter()
-            timeTaken = timeEnd - timeStart
-            self.currentProgrammingStep = 'Programming failed. Check connection.'
+        try:
+            self.arduinoController.onCamera()
+            self.currentProgrammingStep = "Engaging Hydraulics"
+            self.arduinoController.engageHydraulics()
+            self.arduinoController.onLeds()
+            self.arduinoController.offGreenLed()
+            self.arduinoController.offRedLed()
+            
+            QApplication.processEvents()
             time.sleep(2)
+            QApplication.processEvents()
+            time.sleep(2) #allows it to capture the image ca
+            QApplication.processEvents()
+            """
+            if self.relativeCenters == []:
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                print("No valid centerpoints")
+                self.statsData.emit(['failed', [], timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.releaseHydraulics()
+                self.arduinoController.running = False
+                return
+            
+            
+            self.arduinoController.onLeds()
+            relativeCenterPoints = self.relativeCenters
+            centerPoints = relativeCenterPoints[0]
+            initialCenterPoints = relativeCenterPoints[0]
+
+            if not debugging:
+                # check if it's already center
+                if self.isCenterPointCenter(centerPoints):
+                    timeEnd = time.perf_counter()
+                    timeTaken = timeEnd - timeStart
+                    print("center points: ", centerPoints)
+                    self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
+                    self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                    self.arduinoController.releaseHydraulics()
+                    self.arduinoController.running = False
+                    return
+            """
+            #STEP 1 - RESET CAMERA OFFSETS
+            succeeded = self.resetCameraOffsets() #succeeded means programming did not fail
+            #succeeded = True
+            if not succeeded:
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                self.statsData.emit(['failed', [], timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.running = False
+                self.arduinoController.releaseHydraulics()
+                return
+            
+            self.arduinoController.onLeds()
+            
+            #STEP 2 - PROGRAM FIRST CENTER POINT CORRECTION
+            print('start')
+            self.currentProgrammingStep = 'Alter CFG'
+
+            if self.relativeCenters == []:
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                print("No valid centerpoints")
+                self.statsData.emit(['failed', [], timeTaken])
+                self.currentProgrammingStep = 'No Valid Center'
+                time.sleep(2)
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.releaseHydraulics()
+                self.arduinoController.running = False
+                return
+            
+            #STEP 2.1 - Check if already center
+            relativeCenterPoints = self.relativeCenters
+            initialCenterPoints = relativeCenterPoints[0]
+            # pass the center centerpoint
+            centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
+
+            if abs(centerPoints[0]) > 35 or abs(centerPoints[1]) > 35:
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                print("Center beyond 30; too much to be programmed. ")
+                self.currentProgrammingStep = 'Center beyond 30'
+                time.sleep(2)
+                self.statsData.emit(['failed', [], timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.releaseHydraulics()
+                self.arduinoController.running = False
+                return
+                       
+            if self.isCenterPointCenter(centerPoints):
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                self.statsData.emit(['succeeded', initialCenterPoints, timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.running = False
+                return
+
+            
+            if self.currentCameraType == 'd55l':
+                programX = -centerPoints[0]  # The camera is mirrored on the x axis
+                programY = centerPoints[1]
+            elif self.currentCameraType == 'cp1p':
+                programX = centerPoints[0]  # The camera is mirrored on the x axis
+                programY = -centerPoints[1]
+            else:
+                assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
+
+            programX = self.clipValue(programX)
+            programY = self.clipValue(programY)
+
+            # programX = 0
+            # programY = 0
+
+            print("Value to Program X: " + str(programX))
+            print("Value to Program Y: " + str(programY))
+
+            if self.currentCameraType == 'd55l':
+                self.flashTool.alterCFGFileD55LCamera(programX, programY)
+            elif self.currentCameraType == 'cp1p':
+                self.flashTool.alterCFGFileCameraOffset(programX, programY)
+            else:
+                assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
+            self.currentProgrammingStep = 'Create Bin'
+            self.flashTool.createBinFileCmd(self.currentCameraType)
+            self.currentProgrammingStep = 'Flashing Camera (1st Attempt)'
+
+            tic = time.perf_counter()
+            self.flashTool.flashCameraCmd()
+            toc = time.perf_counter()
+
+            timeTaken = toc - tic
+
+            if (timeTaken < self.PROGRAMMING_TIME_THRESH):
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                self.currentProgrammingStep = 'Programming failed. Check connection.'
+                time.sleep(2)
+                self.currentProgrammingStep = 'Machine Idle'
+                self.arduinoController.releaseHydraulics()
+                self.statsData.emit(['failed', initialCenterPoints,timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.releaseHydraulics()
+                self.arduinoController.running = False
+                return
+
+
             self.currentProgrammingStep = 'Machine Idle'
+            # QThread.sleep(10) #sleep an amount of time
+            # time.sleep(10)
+            self.powerCycleCamera()
+
+            print("Relative centers: ", self.relativeCenters[0])
+            ###Begin second camera flash
+            relativeCenterPoints = self.relativeCenters
+            centerPoints = relativeCenterPoints[0]
+
+            # check if it's already center
+            if self.isCenterPointCenter(centerPoints):
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                print("emit stats data")
+                self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.running = False
+                return
+
+            # self.stopRunning = True #temporarily pause the camera
+            if self.currentCameraType == 'd55l':
+                programX += -centerPoints[0]  # The camera is mirrored on the x axis
+                programY += centerPoints[1]
+            elif self.currentCameraType == 'cp1p':
+                programX += centerPoints[0]  # The camera is mirrored on the x axis
+                programY += -centerPoints[1]
+            else:
+                assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
+
+            programX = self.clipValue(programX)
+            programY = self.clipValue(programY)
+
+            # programX = 0
+            # programY = 0
+
+            print("Value to Program X: " + str(programX))
+            print("Value to Program Y: " + str(programY))
+
+            if self.currentCameraType == 'd55l':
+                self.flashTool.alterCFGFileD55LCamera(programX, programY)
+            elif self.currentCameraType == 'cp1p':
+                self.flashTool.alterCFGFileCameraOffset(programX, programY)
+            else:
+                assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
+            self.currentProgrammingStep = 'Create Bin'
+            self.flashTool.createBinFileCmd(self.currentCameraType)
+            self.currentProgrammingStep = 'Flashing Camera (2nd Attempt)'
+            self.flashTool.flashCameraCmd()
+            self.currentProgrammingStep = 'Finished Programming'
+            # print("Finished programming.")
+
+            self.powerCycleCamera()
+
+            #check if it succeeded
+            relativeCenterPoints = self.relativeCenters
+            centerPoints = relativeCenterPoints[0]
+
+            if self.isCenterPointCenter(centerPoints):
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                # self.currentProgrammingStep = 'Programming Suceeded'
+                self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
+                self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+                self.arduinoController.running = False
+                return
+
+            else:
+                timeEnd = time.perf_counter()
+                timeTaken = timeEnd - timeStart
+                self.currentProgrammingStep = 'Could not center'
+                self.statsData.emit(['failed', initialCenterPoints, timeTaken])
+
+            time.sleep(2)
+            self.currentProgrammingStep = 'Releasing Hydraulics'
             self.arduinoController.releaseHydraulics()
-            self.statsData.emit(['failed', initialCenterPoints,timeTaken])
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-            self.arduinoController.releaseHydraulics()
-            self.arduinoController.running = False
-            return
-
-
-        self.currentProgrammingStep = 'Machine Idle'
-        # QThread.sleep(10) #sleep an amount of time
-        # time.sleep(10)
-        self.powerCycleCamera()
-
-        print("Relative centers: ", self.relativeCenters[0])
-        ###Begin second camera flash
-        relativeCenterPoints = self.relativeCenters
-        centerPoints = relativeCenterPoints[0]
-
-        # check if it's already center
-        if self.isCenterPointCenter(centerPoints):
+            self.currentProgrammingStep = 'Machine Idle'
             timeEnd = time.perf_counter()
             timeTaken = timeEnd - timeStart
-            print("emit stats data")
-            self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
             self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+
             self.arduinoController.running = False
             return
+        except Exception as e:
+            print("ERROR IN CAMERA THREAD: ")
+            print(e)
 
-        # self.stopRunning = True #temporarily pause the camera
-        if self.currentCameraType == 'd55l':
-            programX = -centerPoints[0]  # The camera is mirrored on the x axis
-            programY = centerPoints[1]
-        elif self.currentCameraType == 'cp1p':
-            programX = centerPoints[0]  # The camera is mirrored on the x axis
-            programY = -centerPoints[1]
-        else:
-            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
-
-        programX = self.clipValue(programX)
-        programY = self.clipValue(programY)
-
-        # programX = 0
-        # programY = 0
-
-        print("Value to Program X: " + str(programX))
-        print("Value to Program Y: " + str(programY))
-
-        if self.currentCameraType == 'd55l':
-            self.flashTool.alterCFGFileD55LCamera(programX, programY)
-        elif self.currentCameraType == 'cp1p':
-            self.flashTool.alterCFGFileCameraOffset(programX, programY)
-        else:
-            assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
-        self.currentProgrammingStep = 'Create Bin'
-        self.flashTool.createBinFileCmd(self.currentCameraType)
-        self.currentProgrammingStep = 'Flashing Camera (2nd Attempt)'
-        self.flashTool.flashCameraCmd()
-        self.currentProgrammingStep = 'Finished Programming'
-        # print("Finished programming.")
-
-        self.powerCycleCamera()
-
-        #check if it succeeded
-        relativeCenterPoints = self.relativeCenters
-        centerPoints = relativeCenterPoints[0]
-
-        if self.isCenterPointCenter(centerPoints):
-            timeEnd = time.perf_counter()
-            timeTaken = timeEnd - timeStart
-            # self.currentProgrammingStep = 'Programming Suceeded'
-            self.statsData.emit(['succeeded', initialCenterPoints,timeTaken])
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-            self.arduinoController.running = False
-            return
-
-        else:
-            self.currentProgrammingStep = 'Could not center'
+            self.currentProgrammingStep = 'Machine Error. Please contact Engineering Team.'
             self.statsData.emit(['failed', initialCenterPoints])
-
-        time.sleep(2)
-        self.currentProgrammingStep = 'Releasing Hydraulics'
-        self.arduinoController.releaseHydraulics()
-        self.currentProgrammingStep = 'Machine Idle'
-        timeEnd = time.perf_counter()
-        timeTaken = timeEnd - timeStart
-        self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-
-        self.arduinoController.running = False
-        return
+            time.sleep(2)
+            self.currentProgrammingStep = 'Releasing Hydraulics'
+            self.arduinoController.releaseHydraulics()
+            self.currentProgrammingStep = 'Machine Idle'
+            timeEnd = time.perf_counter()
+            timeTaken = timeEnd - timeStart
+            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+            
 
     def clipValue(self, value, clipTo=35):
         if abs(value) > clipTo:
@@ -407,13 +469,12 @@ class ProgramCamera(QtCore.QObject):
 
     def isCenterPointCenter(self, centerPoints,threshold=1):
         """Check if the RELATIVE center points are valid"""
-        if abs(centerPoints[0]) <= threshold:
-            if abs(centerPoints[1]) <= threshold:
-                print("Camera Centered!")
-                self.currentProgrammingStep = "Camera Centered"
-                time.sleep(2)
-                self.currentProgrammingStep = 'Releasing Hydraulics'
-                self.isProgramming = False
-                self.arduinoController.releaseHydraulics()
-                return True
+        if abs(centerPoints[0]) <= threshold and abs(centerPoints[1]) <= threshold:
+            print("Camera Centered!")
+            self.currentProgrammingStep = "Camera Centered"
+            time.sleep(2)
+            self.currentProgrammingStep = 'Releasing Hydraulics'
+            self.isProgramming = False
+            self.arduinoController.releaseHydraulics()
+            return True
         return False

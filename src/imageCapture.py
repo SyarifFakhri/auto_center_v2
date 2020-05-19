@@ -42,18 +42,24 @@ class ImageCaptureThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
-            cap.set(cv2.CAP_FFMPEG, True)
-            cap.set(cv2.CAP_PROP_FPS, 30)
-
+            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
+            #cap.set(cv2.CAP_FFMPEG, True)
+            #cap.set(cv2.CAP_PROP_FPS, 30)
+            
             imageWidth = int(640 * 0.65)
             imageHeight = int(480 * 0.65)
+
+            sizeMult = 1.5
+            picWidth = int(640*sizeMult)
+            picHeight = int(480*sizeMult)
             while not self.stopRunning:
                 # counter += 1
 
                 ret, frame = cap.read()
 
                 if ret:
+                    frame = cv2.resize(frame,(picWidth,picHeight))
+                    
                     height, width = frame.shape[:2]
                     margin = 100
                     croppedRaw = frame[margin:height - margin, margin:width-margin]
@@ -70,6 +76,8 @@ class ImageCaptureThread(QtCore.QObject):
 
                     # self.centers = []
                     #find the center
+                    #h, w, ch = frame.shape
+                    #print(h,w)
                     roi, centers = self.centerFinder.findCentersOfCircles(frame,self.roi)
 
                     #should only return one center
@@ -78,10 +86,10 @@ class ImageCaptureThread(QtCore.QObject):
                     self.relativeCenters = self.getRelativeCenterPoints()
 
                     #Add centers of circles
-                    cv2.rectangle(frame, (self.screenCenterX, 0), (self.screenCenterX, 480), (255,0,0), 1)
-                    cv2.rectangle(frame, (0, self.screenCenterY), (640, self.screenCenterY), (255, 0, 0), 1)
+                    cv2.rectangle(frame, (self.screenCenterX, 0), (self.screenCenterX, picHeight), (255,0,0), 1)
+                    cv2.rectangle(frame, (0, self.screenCenterY), (picWidth, self.screenCenterY), (255, 0, 0), 1)
 
-                    cv2.putText(frame, self.cameraStatus, (20,300), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),3 )
+                    #cv2.putText(frame, self.cameraStatus, (20,300), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),3 )
 
                     height, width = frame.shape[:2]
                     margin = 100
@@ -200,9 +208,13 @@ class DebugImageThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            sizeMult = 1.5
+            picWidth = int(640*sizeMult)
+            picHeight = int(480*sizeMult)
             while not self.stopRunning:
                 ret, frame = cap.read()
                 if ret:
+                    frame = cv2.resize(frame,(picWidth,picHeight))
                     x = self.settings['roi_x']
                     y = self.settings['roi_y']
                     w = self.settings['roi_w']
@@ -211,8 +223,8 @@ class DebugImageThread(QtCore.QObject):
                     #show the center of the center circle
                     roi, self.absoluteCenters = self.centerFinder.findCentersOfCircles(frame, [x,y,w,h])
                     self.relativeCenters = self.getRelativeCenterPoints()
-                    cv2.rectangle(frame, (self.settings['camera_true_center_x'], 0), (self.settings['camera_true_center_x'], 480), (255, 0, 0), 1)
-                    cv2.rectangle(frame, (0, self.settings['camera_true_center_y']), (640, self.settings['camera_true_center_y']), (255, 0, 0), 1)
+                    cv2.rectangle(frame, (self.settings['camera_true_center_x'], 0), (self.settings['camera_true_center_x'], picHeight), (255, 0, 0), 1)
+                    cv2.rectangle(frame, (0, self.settings['camera_true_center_y']), (picWidth, self.settings['camera_true_center_y']), (255, 0, 0), 1)
 
                     cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0),2)
                     rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

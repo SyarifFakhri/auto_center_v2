@@ -235,6 +235,7 @@ class ArduinoController(QObject):
     def waitUntilPogoPinsRetracted(self):
         print("Waiting for pogo pins Retract")
         while True:
+            QApplication.processEvents()
             reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
             reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
             if reedswPogoExtended == 0 and reedswPogoRetracted == 1:
@@ -244,6 +245,7 @@ class ArduinoController(QObject):
     def waitUntilPogoPinsExtended(self):
         print("Waiting for pogo pins extend")
         while True:
+            QApplication.processEvents()
             reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
             reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
             if reedswPogoExtended == 1 and reedswPogoRetracted== 0:
@@ -255,6 +257,7 @@ class ArduinoController(QObject):
     def waitUntilCamHolderRetracted(self):
         print("Waiting for Cam Holder Retract")
         while True:
+            QApplication.processEvents()
             reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
             reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
             if reedswCamExtended == 0 and reedswCamRetracted == 1:
@@ -266,6 +269,7 @@ class ArduinoController(QObject):
     def waitUntilCamHolderExtended(self):
         print("Waiting for Cam Holder Extend")
         while True:
+            QApplication.processEvents()
             reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
             reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
             if reedswCamExtended == 1 and reedswCamRetracted == 0:

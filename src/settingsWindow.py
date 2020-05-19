@@ -77,28 +77,31 @@ class SettingsWindow():
         self.centerXLabelValue = QLabel(str(settings['camera_true_center_x']))
         self.centerYLabelValue = QLabel(str(settings['camera_true_center_y']))
 
+        picWidth = 960
+        picHeight = 720
+
         self.roiXSlider = QSlider(Qt.Horizontal)
-        self.roiXSlider.setMaximum(settings['camera_width'])
+        self.roiXSlider.setMaximum(picWidth)
         self.roiXSlider.setValue(settings['roi_x'])
 
         self.roiYSlider = QSlider(Qt.Horizontal)
-        self.roiYSlider.setMaximum(settings['camera_height'])
+        self.roiYSlider.setMaximum(picHeight)
         self.roiYSlider.setValue(settings['roi_y'])
 
         self.roiWSlider = QSlider(Qt.Horizontal)
-        self.roiWSlider.setMaximum(settings['camera_width'])
+        self.roiWSlider.setMaximum(picWidth)
         self.roiWSlider.setValue(settings['roi_w'])
 
         self.roiHSlider = QSlider(Qt.Horizontal)
-        self.roiHSlider.setMaximum(settings['camera_height'])
+        self.roiHSlider.setMaximum(picHeight)
         self.roiHSlider.setValue(settings['roi_h'])
 
         self.centerXSlider = QSlider(Qt.Horizontal)
-        self.centerXSlider.setMaximum(settings['camera_width'])
+        self.centerXSlider.setMaximum(picWidth)
         self.centerXSlider.setValue(settings['camera_true_center_x'])
 
         self.centerYSlider = QSlider(Qt.Horizontal)
-        self.centerYSlider.setMaximum(settings['camera_height'])
+        self.centerYSlider.setMaximum(picHeight)
         self.centerYSlider.setValue(settings['camera_true_center_y'])
 
         gridSettings.addWidget(roiXLabel, 0, 0)
@@ -135,11 +138,11 @@ class SettingsWindow():
         manualControlLabel = QLabel("Manual Control")
         manualControlLabel.setFont(QtGui.QFont("Lato", pointSize=20))
 
-        self.releaseButton = QPushButton("Release Hydraulics")
+        self.releaseButton = QPushButton("Release Pneumatics")
         self.releaseButton.setStyleSheet("padding-left: 50px; padding-right: 50px;"
 "padding-top: 5px; padding-bottom: 5px;")
 
-        self.engageButton = QPushButton("Engage Hydraulics")
+        self.engageButton = QPushButton("Engage Pneumatics")
         self.resetCameraOffsetButton = QPushButton("Reset Camera Offset")
         self.programOffsetButton = QPushButton("Program Center")
         self.tareButton = QPushButton("Tare Center")
