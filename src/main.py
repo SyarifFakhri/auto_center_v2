@@ -137,7 +137,7 @@ class MasterWindow(QMainWindow):
         if ret == QtWidgets.QMessageBox.Yes:
             print("Confirmed shutdown")
             self.programCam.arduinoController.checkShutdown = False
-            os.system("shutdown -s -t 3")
+            os.system("shutdown -s -t 7")
             self.stopProgram()
             QApplication.exit()
             
@@ -183,9 +183,7 @@ class MasterWindow(QMainWindow):
         #Stats is an array containing at index 0, success or fail
         #at index 1 the centerpoints
         self.isRecordingStats = True
-        print("recording stats callback")
         if self.isRecordingStats:
-            print("entering stats recording", stats)
             currentCameraType = self.programCam.currentCameraType
             database = self.database.all()[0][currentCameraType]
 
@@ -209,9 +207,13 @@ class MasterWindow(QMainWindow):
 
             else:
                 assert 0, "Error, camera stats not in list"
-            print("len stats:", len(stats[1]))
+                
+            print("stats:", stats[1])
             if len(stats[1]) == 2:
-                xyStats = stats[1] + stats[0]  # data will look like this: [20,30, failed]
+                print("stats:", stats[1])
+                xyStats = [] + stats[1]
+                xyStats.append(stats[0])
+                print("XY  stats: ",xyStats)
                 if len(currentAlignmentStats) < 1000:
                     print("Appending stats")
                     currentAlignmentStats.insert(0, xyStats)

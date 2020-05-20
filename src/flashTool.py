@@ -19,9 +19,10 @@ class FlashTool():
     def alterCFGFileCameraOffset(self, cameraOffsetX, cameraOffsetY, withOverlay=False):
 
         if withOverlay:
-            readLocation = "C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\200102_cam 2_REFERENCE_no_overlay.fcfg"
-        else:
             readLocation = "C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\200102_cam 2_REFERENCE_overlay.fcfg"
+        else:
+            readLocation = "C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\200102_cam 2_REFERENCE_no_overlay.fcfg"
+            
 
         searchStrX = '0x12, CAM_FOV_CALIB_X_OFFSET,  8, 0x00,	# 0x5C'
         searchStrY = '0x12, CAM_FOV_CALIB_Y_OFFSET,  8, 0x00 	# 0x5D'

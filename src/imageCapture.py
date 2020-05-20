@@ -43,8 +43,8 @@ class ImageCaptureThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
-            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
+            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             
             imageWidth = int(640 * 0.65)
             imageHeight = int(480 * 0.65)

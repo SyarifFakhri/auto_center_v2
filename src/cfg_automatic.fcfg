@@ -80,8 +80,8 @@ PARAMETERS={
 
 TYPE=create_var_set_v1
 PARAMETERS={
-0x12, CAM_FOV_CALIB_X_OFFSET,  8, -17, #Generated automatically
-0x12, CAM_FOV_CALIB_Y_OFFSET,  8, 5 #Generated automatically
+0x12, CAM_FOV_CALIB_X_OFFSET,  8, -11, #Generated automatically
+0x12, CAM_FOV_CALIB_Y_OFFSET,  8, 2 #Generated automatically
  }
 
 
@@ -463,13 +463,13 @@ PARAMETERS={
 #############################################################################
 #
 [OVERLAY_INIT_TABLE]
-#TYPE=create_command
-#PARAMETERS={ Enable_Overlay, 0x01   }
+TYPE=create_command
+PARAMETERS={ Enable_Overlay, 0x01   }
 
-#TYPE=create_command
-#PARAMETERS={ Load_Buffer, 0x0, 0x0, 0x0, 0x1   }
-#TYPE=create_command
-#PARAMETERS={ Enable_Layer, 0x0, 0x0, 0x1   }
+TYPE=create_command
+PARAMETERS={ Load_Buffer, 0x0, 0x0, 0x0, 0x1   }
+TYPE=create_command
+PARAMETERS={ Enable_Layer, 0x0, 0x0, 0x1   }
 [END]  # [OVERLAY_INIT_TABLE]
 
 
@@ -496,8 +496,8 @@ PARAMETERS={
 #############################################################################
 #
 [OVERLAY_BITMAP_TOC]
-# TYPE=create_overlay_bitmap
-# PARAMETERS={ "200102_overlay on vehicle_3.rle" }
+ TYPE=create_overlay_bitmap
+ PARAMETERS={ "200102_overlay on vehicle_3.rle" }
 [END]   # [OVERLAY_BITMAP_TOC]
 
 
