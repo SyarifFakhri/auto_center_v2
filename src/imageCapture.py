@@ -21,6 +21,7 @@ class ImageCaptureThread(QtCore.QObject):
         # self.screenCenterY = int(480/2)
         self.screenCenterX = settingsConfig['camera_true_center_x']
         self.screenCenterY = settingsConfig['camera_true_center_y']
+        self.isRunning = False
 
         self.centerFinder = CenterFinder()
         self.absoluteCenters = []
@@ -42,9 +43,8 @@ class ImageCaptureThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
-            #cap.set(cv2.CAP_FFMPEG, True)
-            #cap.set(cv2.CAP_PROP_FPS, 30)
+            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
+            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             
             imageWidth = int(640 * 0.65)
             imageHeight = int(480 * 0.65)
@@ -115,6 +115,8 @@ class ImageCaptureThread(QtCore.QObject):
         except Exception as e:
             print("Error at camera capture thread")
             print(e)
+
+
 
     def isValidImage(self, image):
         #Check if the image is too dark
@@ -201,12 +203,14 @@ class DebugImageThread(QtCore.QObject):
 
         self.centerFinder = CenterFinder()
         self.absoluteCenters = []
+        self.isRunning = False
 
     @pyqtSlot()
     def debugCameraCapture(self):
         try:
             time.sleep(1)
             self.stopRunning = False
+            self.isRunning = True
             cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             sizeMult = 1.5
             picWidth = int(640*sizeMult)
@@ -240,6 +244,7 @@ class DebugImageThread(QtCore.QObject):
                         self.centerLabels.emit([])
 
             cap.release()
+            self.isRunning = False
         except Exception as e:
             try:
                 cap.release()

@@ -1,6 +1,8 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,QScrollArea, QSlider,QLineEdit, QFrame
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QPushButton, QVBoxLayout, QHBoxLayout,QScrollArea, QSlider,QLineEdit, QFrame, QCheckBox
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
+
+import windowStyling
 
 class SettingsWindow():
     def init_ui(self, mainWindow, settings):
@@ -16,7 +18,7 @@ class SettingsWindow():
         mainLayout.addLayout(mainMenuTitleLayout)
 
         mainTitle = QLabel('Auto Center System')
-        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuTitleSize, weight=QtGui.QFont.Bold))
         mainTitle.setAlignment(Qt.AlignCenter)
         mainMenuTitleLayout.addWidget(mainTitle)
 
@@ -26,18 +28,18 @@ class SettingsWindow():
         mainMenuTitleLayout.addLayout(menuLayout)
 
         self.mainLabel = QLabel("Main")
-        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuFontSize))
         self.mainLabel.setAlignment(Qt.AlignCenter)
         menuLayout.addWidget(self.mainLabel)
 
         self.statisticsLabel = QLabel("Statistics")
-        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuFontSize))
         # self.statisticsLabel.setContentsMargins(15,15,15,15)
         self.statisticsLabel.setAlignment(Qt.AlignCenter)
         menuLayout.addWidget(self.statisticsLabel)
 
         self.settingsLabel = QLabel("Settings")
-        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuFontSize))
         self.settingsLabel.setStyleSheet("background-color: #4a4a4a; border-radius: 5px")
         self.settingsLabel.setContentsMargins(15,10,15,10)
         self.settingsLabel.setAlignment(Qt.AlignCenter)
@@ -157,17 +159,26 @@ class SettingsWindow():
         self.chooseCurrentCamera.addItem("d55l")
         self.chooseCurrentCamera.addItem("cp1p")
 
+        self.overlayOption = QtGui.QComboBox()
+
+        self.overlayOption.addItem(settings['overlayOption'])
+        self.overlayOption.addItem("Overlay Enabled")
+        self.overlayOption.addItem("Overlay Disabled")
+
         self.statusLabel = QLabel("Machine Idle")
+        self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=15))
         self.statusLabel.setAlignment(Qt.AlignRight)
 
         self.xCenterLabel = QLabel("Center X: 0")
         self.xCenterLabel.setAlignment(Qt.AlignRight)
+        self.xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=15))
+
         self.yCenterLabel = QLabel("Center Y: 0")
+        self.yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=15))
         self.yCenterLabel.setAlignment(Qt.AlignRight)
-        # rightVBox.addStretch(1)
-        # rightVBox.addWidget(xCenterLabel)
-        # rightVBox.addWidget(yCenterLabel)
-        # rightVBox.addStretch(10)
+
+        self.noteOnImage = QLabel("True image size is: " + str(picWidth) + ", " + str(picHeight))
+        self.noteOnImage.wordWrap()
 
         # rightVBox.addWidget(manualControlLabel)
         rightVBox.addWidget(self.releaseButton)
@@ -177,9 +188,11 @@ class SettingsWindow():
         rightVBox.addWidget(self.tareButton)
         rightVBox.addWidget(self.resetStatistics)
         rightVBox.addWidget(self.chooseCurrentCamera)
+        rightVBox.addWidget(self.overlayOption)
         rightVBox.addWidget(self.statusLabel)
         rightVBox.addWidget(self.xCenterLabel)
         rightVBox.addWidget(self.yCenterLabel)
+        rightVBox.addWidget(self.noteOnImage)
 
         self.saveButton = QPushButton("Save Settings")
         rightVBox.addWidget(self.saveButton)
@@ -191,6 +204,10 @@ class SettingsWindow():
         widget = QWidget()
         widget.setLayout(mainLayout)
         mainWindow.setCentralWidget(widget)
+
+
+
+
     def init_ui_2(self, mainWindow, settings):
         layout = QGridLayout()
         layout.setSpacing(20)

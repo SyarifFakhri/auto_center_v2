@@ -1,0 +1,582 @@
+# FlashtoolGUI Version: 5.0.37.49167 Build Date: Nov 22 2017
+# Flash Image Configuration file. Automatically Generated.
+
+# Generated on  Mon Mar 26 14:30:05 2018
+
+
+#
+#############################################################################
+#
+# Maximum flash image size
+#
+#############################################################################
+#
+MAX_SIZE=0x10000
+
+#
+#############################################################################
+#
+# Global initialization table
+#
+#############################################################################
+#
+[INIT_TABLE]
+TYPE=create_reg_set
+PARAMETERS={
+ PAD_SLEW, 0x302  	# 0x1E
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x5 , NTSC_INTERLACED_PORT_COMPOSITE_CONTROL,  8, 0x1,	# 0x27
+ 0x5 , NTSC_INTERLACED_PORT_COMPOSITE_CONTROL,  8, 0x1,	# 0x27
+ 0x5 , NTSC_INTERLACED_PORT_COMPOSITE_CONTROL,  8, 0x5,	# 0x27
+ 0x12, CAM_MODE_SELECT                       ,  8, 0x0 	# 0x50
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_SENSOR_CONTROL_READ_MODE          , 16, 0x2,	# 0x38
+ 0x12, CAM_FRAME_SCAN_CONTROL                , 16, 0x0,	# 0x58
+ 0x12, CAM_PORT_PARALLEL_CONTROL             , 16, 0x0,	# 0x172
+ 0x5 , NTSC_INTERLACED_PORT_PARALLEL_CONTROL ,  8, 0x0,	# 0x26
+ 0x5 , NTSC_INTERLACED_PORT_COMPOSITE_CONTROL,  8, 0x5,	# 0x27
+ 0x12, CAM_MODE_SELECT                       ,  8, 0x0,	# 0x50
+ 0x17, SYSMGR_CONFIG_MODE                    ,  8, 0x4 	# 0xC
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_LL_STOP_BRIGHTNESS , 16, 0x366,	# 0x12A
+ 0x12, CAM_LL_START_AP_GAIN   ,  8, 0x4,	# 0x131
+ 0x12, CAM_LL_STOP_AP_GAIN    ,  8, 0x3,	# 0x134
+ 0x12, CAM_LL_START_AP_THRESH ,  8, 0x0,	# 0x132
+ 0x12, CAM_LL_STOP_AP_THRESH  ,  8, 0x5,	# 0x135
+ 0x12, CAM_LL_START_SATURATION,  8, 0x5F,	# 0x12C
+ 0x12, CAM_LL_END_SATURATION  ,  8, 0x0 	# 0x12D
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_LL_STOP_CONTRAST_BM, 16, 0xEA1 	# 0x140
+ }
+
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0xD , CCM_DELTA_GAIN          ,  8, 0x5,	# 0x2A
+ 0xD , CCM_DELTA_THRESH        ,  8, 0xF,	# 0x2B
+ 0x12, CAM_LL_START_GAIN_METRIC, 16, 0x32,	# 0x148
+ 0x12, CAM_LL_STOP_GAIN_METRIC , 16, 0x2000,	# 0x14A
+ 0x1C, RESERVED_TEMPADAPT_1B   ,  8, 0xDA,	# 0x1B
+ 0xF , LL_MODE                 , 16, 0x7 	# 0x2
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_FOV_CALIB_X_OFFSET,  8, 0x00,	# 0x5C
+ 0x12, CAM_FOV_CALIB_Y_OFFSET,  8, 0x00 	# 0x5D
+ }
+
+
+TYPE=create_reg_set
+PARAMETERS={
+ APERTURE_PARAMETERS_2D, 0x0F00	# 0x326C
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_LL_START_DEMOSAIC ,  8, 0x0,	# 0x130
+ 0x12, CAM_LL_STOP_DEMOSAIC  ,  8, 0x9E, # 0x133
+ 0x12, CAM_LL_START_NR_RED   ,  8, 0xC,	# 0x136
+ 0x12, CAM_LL_START_NR_GREEN ,  8, 0xC,	# 0x137
+ 0x12, CAM_LL_START_NR_BLUE  ,  8, 0xC,	# 0x138
+ 0x12, CAM_LL_START_NR_THRESH,  8, 0xC,	# 0x139
+ 0x12, CAM_LL_STOP_NR_RED    ,  8, 0x40,	# 0x13A
+ 0x12, CAM_LL_STOP_NR_GREEN  ,  8, 0x40,	# 0x13B
+ 0x12, CAM_LL_STOP_NR_BLUE   ,  8, 0x40,	# 0x13C
+ 0x12, CAM_LL_STOP_NR_THRESH ,  8, 0x20,	# 0x13D
+ 0x12, RESERVED_CAM_15D      ,  8, 0x24,	# 0x15D
+ 0x12, CAM_OUTPUT_Y_OFFSET   ,  8, 0x0 	# 0x170
+ }
+
+
+TYPE=create_reg_set
+PARAMETERS={
+ RESERVED_SOC1_337E, 0x0    	# 0x337E
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_AET_AEMODE                  ,  8, 0x0,	# 0x6C
+ 0x12, CAM_AET_TARGET_AVERAGE_LUMA     ,  8, 0x37,	# 0x6E
+ 0x12, CAM_AET_TARGET_AVERAGE_LUMA_DARK,  8, 0x28,	# 0x6F
+ 0x12, CAM_LL_CLUSTER_DC_TH_BM         , 16, 0x1400 	# 0x150
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0xC , BLACKLEVEL_MAX_BLACK_LEVEL,  8, 0x0 	# 0xC
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_LL_GAMMA                         , 16, 0x9B,	# 0x142
+ 0x12, CAM_LL_LLMODE                        , 16, 0x3,	# 0x126
+ 0x12, CAM_LL_START_CONTRAST_GRADIENT       ,  8, 0x37,	# 0x144
+ 0x12, CAM_LL_STOP_CONTRAST_GRADIENT        ,  8, 0x33,	# 0x145
+ 0x12, CAM_LL_START_CONTRAST_LUMA_PERCENTAGE,  8, 0x8,	# 0x146
+ 0x12, CAM_LL_STOP_CONTRAST_LUMA_PERCENTAGE ,  8, 0x06,	# 0x147
+ 0x12, CAM_LL_START_BRIGHTNESS              , 16, 0x8,	# 0x128
+ 0x12, CAM_LL_STOP_BRIGHTNESS               , 16, 0x280,	# 0x12A
+ 0x12, CAM_LL_START_CONTRAST_BM             , 16, 0x1A,	# 0x13E
+ 0x12, CAM_LL_STOP_CONTRAST_BM              , 16, 0x8DA,	# 0x140
+ 0xF , LL_GAMMA_SELECT                      ,  8, 0x0 	# 0x7
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0xF , LL_GAMMA_CONTRAST_CURVE_0 ,  8, 0x0,	# 0xA
+ 0xF , LL_GAMMA_CONTRAST_CURVE_1 ,  8, 0x2C,	# 0xB
+ 0xF , LL_GAMMA_CONTRAST_CURVE_2 ,  8, 0x3C,	# 0xC
+ 0xF , LL_GAMMA_CONTRAST_CURVE_3 ,  8, 0x54,	# 0xD
+ 0xF , LL_GAMMA_CONTRAST_CURVE_4 ,  8, 0x79,	# 0xE
+ 0xF , LL_GAMMA_CONTRAST_CURVE_5 ,  8, 0x95,	# 0xF
+ 0xF , LL_GAMMA_CONTRAST_CURVE_6 ,  8, 0xA9,	# 0x10
+ 0xF , LL_GAMMA_CONTRAST_CURVE_7 ,  8, 0xB9,	# 0x11
+ 0xF , LL_GAMMA_CONTRAST_CURVE_8 ,  8, 0xC5,	# 0x12
+ 0xF , LL_GAMMA_CONTRAST_CURVE_9 ,  8, 0xCE,	# 0x13
+ 0xF , LL_GAMMA_CONTRAST_CURVE_10,  8, 0xD7,	# 0x14
+ 0xF , LL_GAMMA_CONTRAST_CURVE_11,  8, 0xDE,	# 0x15
+ 0xF , LL_GAMMA_CONTRAST_CURVE_12,  8, 0xE4,	# 0x16
+ 0xF , LL_GAMMA_CONTRAST_CURVE_13,  8, 0xEA,	# 0x17
+ 0xF , LL_GAMMA_CONTRAST_CURVE_14,  8, 0xEF,	# 0x18
+ 0xF , LL_GAMMA_CONTRAST_CURVE_15,  8, 0xF3,	# 0x19
+ 0xF , LL_GAMMA_CONTRAST_CURVE_16,  8, 0xF8,	# 0x1A
+ 0xF , LL_GAMMA_CONTRAST_CURVE_17,  8, 0xFB,	# 0x1B
+ 0xF , LL_GAMMA_CONTRAST_CURVE_18,  8, 0xFF 	# 0x1C
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0xF , LL_GAMMA_NRCURVE_0 ,  8, 0x0,	# 0x1D
+ 0xF , LL_GAMMA_NRCURVE_1 ,  8, 0x2B,	# 0x1E
+ 0xF , LL_GAMMA_NRCURVE_2 ,  8, 0x3D,	# 0x1F
+ 0xF , LL_GAMMA_NRCURVE_3 ,  8, 0x52,	# 0x20
+ 0xF , LL_GAMMA_NRCURVE_4 ,  8, 0x6E,	# 0x21
+ 0xF , LL_GAMMA_NRCURVE_5 ,  8, 0x82,	# 0x22
+ 0xF , LL_GAMMA_NRCURVE_6 ,  8, 0x92,	# 0x23
+ 0xF , LL_GAMMA_NRCURVE_7 ,  8, 0xA0,	# 0x24
+ 0xF , LL_GAMMA_NRCURVE_8 ,  8, 0xAC,	# 0x25
+ 0xF , LL_GAMMA_NRCURVE_9 ,  8, 0xB7,	# 0x26
+ 0xF , LL_GAMMA_NRCURVE_10,  8, 0xC1,	# 0x27
+ 0xF , LL_GAMMA_NRCURVE_11,  8, 0xCA,	# 0x28
+ 0xF , LL_GAMMA_NRCURVE_12,  8, 0xD3,	# 0x29
+ 0xF , LL_GAMMA_NRCURVE_13,  8, 0xDB,	# 0x2A
+ 0xF , LL_GAMMA_NRCURVE_14,  8, 0xE3,	# 0x2B
+ 0xF , LL_GAMMA_NRCURVE_15,  8, 0xEB,	# 0x2C
+ 0xF , LL_GAMMA_NRCURVE_16,  8, 0xF2,	# 0x2D
+ 0xF , LL_GAMMA_NRCURVE_17,  8, 0xF8,	# 0x2E
+ 0xF , LL_GAMMA_NRCURVE_18,  8, 0xFF 	# 0x2F
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_AWB_CCM_L_0, 16, 0x174,	# 0x88
+ 0x12, CAM_AWB_CCM_L_1, 16, 0xFFD0,	# 0x8A
+ 0x12, CAM_AWB_CCM_L_2, 16, 0xFFBC,	# 0x8C
+ 0x12, CAM_AWB_CCM_L_3, 16, 0xFFAD,	# 0x8E
+ 0x12, CAM_AWB_CCM_L_4, 16, 0x113,	# 0x90
+ 0x12, CAM_AWB_CCM_L_5, 16, 0x40,	# 0x92
+ 0x12, CAM_AWB_CCM_L_6, 16, 0x3F,	# 0x94
+ 0x12, CAM_AWB_CCM_L_7, 16, 0xFF40,	# 0x96
+ 0x12, CAM_AWB_CCM_L_8, 16, 0x181,	# 0x98
+ 0x12, CAM_AWB_CCM_M_0, 16, 0x1B7,	# 0x9A
+ 0x12, CAM_AWB_CCM_M_1, 16, 0xFF84,	# 0x9C
+ 0x12, CAM_AWB_CCM_M_2, 16, 0xFFC5,	# 0x9E
+ 0x12, CAM_AWB_CCM_M_3, 16, 0xFFA6,	# 0xA0
+ 0x12, CAM_AWB_CCM_M_4, 16, 0x133,	# 0xA2
+ 0x12, CAM_AWB_CCM_M_5, 16, 0x27,	# 0xA4
+ 0x12, CAM_AWB_CCM_M_6, 16, 0x34,	# 0xA6
+ 0x12, CAM_AWB_CCM_M_7, 16, 0xFF63,	# 0xA8
+ 0x12, CAM_AWB_CCM_M_8, 16, 0x168,	# 0xAA
+ 0x12, CAM_AWB_CCM_R_0, 16, 0x1B6,	# 0xAC
+ 0x12, CAM_AWB_CCM_R_1, 16, 0xFF97,	# 0xAE
+ 0x12, CAM_AWB_CCM_R_2, 16, 0xFFB2,	# 0xB0
+ 0x12, CAM_AWB_CCM_R_3, 16, 0xFFB9,	# 0xB2
+ 0x12, CAM_AWB_CCM_R_4, 16, 0x159,	# 0xB4
+ 0x12, CAM_AWB_CCM_R_5, 16, 0xFFEF,	# 0xB6
+ 0x12, CAM_AWB_CCM_R_6, 16, 0x1E,	# 0xB8
+ 0x12, CAM_AWB_CCM_R_7, 16, 0xFF8A,	# 0xBA
+ 0x12, CAM_AWB_CCM_R_8, 16, 0x158 	# 0xBC
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_AWB_CCM_L_RG_GAIN          , 16, 0x85,	# 0xBE
+ 0x12, CAM_AWB_CCM_L_BG_GAIN          , 16, 0x1B2,	# 0xC0
+ 0x12, CAM_AWB_CCM_M_RG_GAIN          , 16, 0xC1,	# 0xC2
+ 0x12, CAM_AWB_CCM_M_BG_GAIN          , 16, 0x15C,	# 0xC4
+ 0x12, CAM_AWB_CCM_R_RG_GAIN          , 16, 0xE3,	# 0xC6
+ 0x12, CAM_AWB_CCM_R_BG_GAIN          , 16, 0x95,	# 0xC8
+ 0x12, CAM_AWB_CCM_L_CTEMP            , 16, 0x9C4,	# 0xCA
+ 0x12, CAM_AWB_CCM_M_CTEMP            , 16, 0xD67,	# 0xCC
+ 0x12, CAM_AWB_CCM_R_CTEMP            , 16, 0x1964,	# 0xCE
+ 0x12, CAM_STAT_AWB_CLIP_WINDOW_XSTART, 16, 0x0,	# 0x10C
+ 0x12, CAM_STAT_AWB_CLIP_WINDOW_YSTART, 16, 0x0,	# 0x10E
+ 0x12, CAM_STAT_AWB_CLIP_WINDOW_XEND  , 16, 0x27F,	# 0x110
+ 0x12, CAM_STAT_AWB_CLIP_WINDOW_YEND  , 16, 0x1DF,	# 0x112
+ 0x12, CAM_AWB_AWB_XSHIFT_PRE_ADJ     , 16, 0x53,	# 0xFA
+ 0x12, CAM_AWB_AWB_YSHIFT_PRE_ADJ     , 16, 0x40,	# 0xFC
+ 0x12, CAM_AWB_AWB_XSCALE             ,  8, 0x3,	# 0xE8
+ 0x12, CAM_AWB_AWB_YSCALE             ,  8, 0x2,	# 0xE9
+ 0x12, CAM_AWB_AWB_WEIGHTS_0          , 16, 0xAA00,	# 0xEA
+ 0x12, CAM_AWB_AWB_WEIGHTS_1          , 16, 0xA500,	# 0xEC
+ 0x12, CAM_AWB_AWB_WEIGHTS_2          , 16, 0x2A80,	# 0xEE
+ 0x12, CAM_AWB_AWB_WEIGHTS_3          , 16, 0x2940,	# 0xF0
+ 0x12, CAM_AWB_AWB_WEIGHTS_4          , 16, 0x14A0,	# 0xF2
+ 0x12, CAM_AWB_AWB_WEIGHTS_5          , 16, 0xDC,	# 0xF4
+ 0x12, CAM_AWB_AWB_WEIGHTS_6          , 16, 0x6E,	# 0xF6
+ 0x12, CAM_AWB_AWB_WEIGHTS_7          , 16, 0x6B,	# 0xF8
+ 0xB , AWB_R_SCENE_RATIO_LOWER        ,  8, 0x32,	# 0xA
+ 0xB , AWB_R_SCENE_RATIO_UPPER        ,  8, 0xC8,	# 0xB
+ 0xB , AWB_B_SCENE_RATIO_LOWER        ,  8, 0x19,	# 0xC
+ 0xB , AWB_B_SCENE_RATIO_UPPER        ,  8, 0xC8,	# 0xD
+ 0x12, CAM_AWB_K_R_L                  ,  8, 0x6E,	# 0x104
+ 0x12, CAM_AWB_K_G_L                  ,  8, 0x75,	# 0x105
+ 0x12, CAM_AWB_K_B_L                  ,  8, 0x80,	# 0x106
+ 0x12, CAM_AWB_K_B_R                  ,  8, 0x95,	# 0x109
+ 0x12, CAM_AWB_K_R_R                  ,  8, 0x8C,	# 0x107
+ 0x12, CAM_AWB_K_G_R                  ,  8, 0x93,	# 0x108
+ 0x12, CAM_AWB_COLOR_TEMPERATURE_MIN  , 16, 0x9C4,	# 0xE2
+ 0x12, CAM_AWB_COLOR_TEMPERATURE_MAX  , 16, 0x1964,	# 0xE4
+ 0x12, CAM_AWB_TINTS_CTEMP_THRESHOLD  , 16, 0x1194,	# 0x102
+ 0x12, CAM_SEQ_UV_COLOR_BOOST         ,  8, 0x5 	# 0x15C
+ }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_FLICKER_DETECT_FD_MODE, 16, 0x3 	# 0x188
+ }
+
+
+#TYPE=create_reg_set
+#PARAMETERS={
+# COMMAND_REGISTER, 0x8606 	# 0x40
+# }
+
+
+TYPE=create_var_set_v1
+PARAMETERS={
+	0x17,	0xC,	8,	0x4 	# SYSMGR_CONFIG_MODE
+ }
+
+
+[END]   # [INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Calibration initialization table
+#
+#############################################################################
+#
+[CALIBRATION_INIT_TABLE]
+TYPE=create_command
+PARAMETERS={ Config_Command_Seq_Processor, 0x1   }
+
+TYPE=create_command
+PARAMETERS={ Set_GPI_Association, 0x0, 0x1, 0x0, 0x40000000, 0x0   }
+
+TYPE=create_command
+PARAMETERS={ Set_GPI_Association, 0x1, 0x1, 0x1, 0x40000000, 0x40000000   }
+
+TYPE=create_var_masked_set_v1
+PARAMETERS={
+ 0x12, CAM_PGA_PGA_CONTROL, 16, CAM_PGA_PGA_ENABLE, 0x0000 	# offset=0x160 bitfield=0x1
+ }
+
+
+TYPE=create_reg_set
+PARAMETERS={
+ P_G1_P0Q0    , 0x1910,	# 0x3640
+ P_G1_P0Q1    , 0xC009,	# 0x3642
+ P_G1_P0Q2    , 0x800F,	# 0x3644
+ P_G1_P0Q3    , 0x4986,	# 0x3646
+ P_G1_P0Q4    , 0x64B ,	# 0x3648
+ P_R_P0Q0     , 0x1910,	# 0x364A
+ P_R_P0Q1     , 0x9629,	# 0x364C
+ P_R_P0Q2     , 0x842F,	# 0x364E
+ P_R_P0Q3     , 0xEF29,	# 0x3650
+ P_R_P0Q4     , 0x48AC,	# 0x3652
+ P_B_P0Q0     , 0x1910,	# 0x3654
+ P_B_P0Q1     , 0xBB09,	# 0x3656
+ P_B_P0Q2     , 0x808F,	# 0x3658
+ P_B_P0Q3     , 0xB704,	# 0x365A
+ P_B_P0Q4     , 0x26CB,	# 0x365C
+ P_G2_P0Q0    , 0x1910,	# 0x365E
+ P_G2_P0Q1    , 0xC009,	# 0x3660
+ P_G2_P0Q2    , 0x800F,	# 0x3662
+ P_G2_P0Q3    , 0x4966,	# 0x3664
+ P_G2_P0Q4    , 0x64B ,	# 0x3666
+ P_G1_P1Q0    , 0x702E,	# 0x3680
+ P_G1_P1Q1    , 0xBF66,	# 0x3682
+ P_G1_P1Q2    , 0xFF4B,	# 0x3684
+ P_G1_P1Q3    , 0x7042,	# 0x3686
+ P_G1_P1Q4    , 0x2027,	# 0x3688
+ P_R_P1Q0     , 0x6ACE,	# 0x368A
+ P_R_P1Q1     , 0x834C,	# 0x368C
+ P_R_P1Q2     , 0x29AE,	# 0x368E
+ P_R_P1Q3     , 0x4A0E,	# 0x3690
+ P_R_P1Q4     , 0xCBF0,	# 0x3692
+ P_B_P1Q0     , 0x6F6E,	# 0x3694
+ P_B_P1Q1     , 0x90A9,	# 0x3696
+ P_B_P1Q2     , 0xE949,	# 0x3698
+ P_B_P1Q3     , 0x370B,	# 0x369A
+ P_B_P1Q4     , 0xBD8D,	# 0x369C
+ P_G2_P1Q0    , 0x702E,	# 0x369E
+ P_G2_P1Q1    , 0xBF66,	# 0x36A0
+ P_G2_P1Q2    , 0xFF4B,	# 0x36A2
+ P_G2_P1Q3    , 0x7022,	# 0x36A4
+ P_G2_P1Q4    , 0x2027,	# 0x36A6
+ P_G1_P2Q0    , 0xF10E,	# 0x36C0
+ P_G1_P2Q1    , 0x4506,	# 0x36C2
+ P_G1_P2Q2    , 0x36C ,	# 0x36C4
+ P_G1_P2Q3    , 0xF9E2,	# 0x36C6
+ P_G1_P2Q4    , 0xA687,	# 0x36C8
+ P_R_P2Q0     , 0xD2EE,	# 0x36CA
+ P_R_P2Q1     , 0x352E,	# 0x36CC
+ P_R_P2Q2     , 0x89B1,	# 0x36CE
+ P_R_P2Q3     , 0x8E11,	# 0x36D0
+ P_R_P2Q4     , 0xF93 ,	# 0x36D2
+ P_B_P2Q0     , 0xED4E,	# 0x36D4
+ P_B_P2Q1     , 0x2C8B,	# 0x36D6
+ P_B_P2Q2     , 0xCD8D,	# 0x36D8
+ P_B_P2Q3     , 0xFB8D,	# 0x36DA
+ P_B_P2Q4     , 0x3F0 ,	# 0x36DC
+ P_G2_P2Q0    , 0xF10E,	# 0x36DE
+ P_G2_P2Q1    , 0x4506,	# 0x36E0
+ P_G2_P2Q2    , 0x36C ,	# 0x36E2
+ P_G2_P2Q3    , 0xF9C2,	# 0x36E4
+ P_G2_P2Q4    , 0xA687,	# 0x36E6
+ P_G1_P3Q0    , 0x80EC,	# 0x3700
+ P_G1_P3Q1    , 0x7442,	# 0x3702
+ P_G1_P3Q2    , 0x22E8,	# 0x3704
+ P_G1_P3Q3    , 0x8000,	# 0x3706
+ P_G1_P3Q4    , 0x91C3,	# 0x3708
+ P_R_P3Q0     , 0xB48D,	# 0x370A
+ P_R_P3Q1     , 0xAE2F,	# 0x370C
+ P_R_P3Q2     , 0x912 ,	# 0x370E
+ P_R_P3Q3     , 0x912 ,	# 0x3710
+ P_R_P3Q4     , 0x8A94,	# 0x3712
+ P_B_P3Q0     , 0x9D2C,	# 0x3714
+ P_B_P3Q1     , 0x9D8C,	# 0x3716
+ P_B_P3Q2     , 0x1EF ,	# 0x3718
+ P_B_P3Q3     , 0x6E8E,	# 0x371A
+ P_B_P3Q4     , 0xFB10,	# 0x371C
+ P_G2_P3Q0    , 0x80EC,	# 0x371E
+ P_G2_P3Q1    , 0x7442,	# 0x3720
+ P_G2_P3Q2    , 0x22E8,	# 0x3722
+ P_G2_P3Q3    , 0x8000,	# 0x3724
+ P_G2_P3Q4    , 0x91C3,	# 0x3726
+ P_G1_P4Q0    , 0x98B ,	# 0x3740
+ P_G1_P4Q1    , 0x8242,	# 0x3742
+ P_G1_P4Q2    , 0xADA7,	# 0x3744
+ P_G1_P4Q3    , 0x0   ,	# 0x3746
+ P_G1_P4Q4    , 0x1B62,	# 0x3748
+ P_R_P4Q0     , 0x536C,	# 0x374A
+ P_R_P4Q1     , 0x55EE,	# 0x374C
+ P_R_P4Q2     , 0xA851,	# 0x374E
+ P_R_P4Q3     , 0xA851,	# 0x3750
+ P_R_P4Q4     , 0x2A13,	# 0x3752
+ P_B_P4Q0     , 0x2BAB,	# 0x3754
+ P_B_P4Q1     , 0x3E8B,	# 0x3756
+ P_B_P4Q2     , 0x9CEE,	# 0x3758
+ P_B_P4Q3     , 0x902E,	# 0x375A
+ P_B_P4Q4     , 0x17D0,	# 0x375C
+ P_G2_P4Q0    , 0x98B ,	# 0x375E
+ P_G2_P4Q1    , 0x8242,	# 0x3760
+ P_G2_P4Q2    , 0xADA7,	# 0x3762
+ P_G2_P4Q3    , 0x0   ,	# 0x3764
+ P_G2_P4Q4    , 0x1B62,	# 0x3766
+ CENTER_ROW   , 0x24  ,	# 0x3782
+ CENTER_COLUMN, 0x16E  	# 0x3784
+ }
+
+
+TYPE=create_var_masked_set_v1
+PARAMETERS={
+ 0x12, CAM_PGA_PGA_CONTROL, 16, CAM_PGA_PGA_ENABLE, 0x0001 	# offset=0x160 bitfield=0x1
+ }
+
+
+[END]   # [CALIBRATION_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Patch initialization table
+#
+#############################################################################
+#
+[PATCH_INIT_TABLE]
+
+
+[END]  # [PATCH_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Dewarp (Distortion Correction) initialization table
+# Note: The software requires an empty Dewarp table even for devices that do
+#       not have the dewarp feature.
+#
+#############################################################################
+#
+[DEWARP_INIT_TABLE]
+[END]  # [DEWARP_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Graphics Overlay (bitmaps and strings) initialization table
+#
+#############################################################################
+#
+[OVERLAY_INIT_TABLE]
+TYPE=create_command
+PARAMETERS={ Enable_Overlay, 0x01   }
+
+TYPE=create_command
+PARAMETERS={ Load_Buffer, 0x0, 0x0, 0x0, 0x1   }
+TYPE=create_command
+PARAMETERS={ Enable_Layer, 0x0, 0x0, 0x1   }
+[END]  # [OVERLAY_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Table of Contents of firmware patches
+#
+#############################################################################
+#
+[PATCH_TOC]
+TYPE=create_patch
+PARAMETERS={
+"asx350at_rev3_2_0_rc_maintenance_81030200_0404.info",
+"asx350at_rev3_2_0_rc_maintenance_81030200_0404.bin" }
+[END]  # [PATCH_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of graphics overlay bitmaps
+#
+#############################################################################
+#
+[OVERLAY_BITMAP_TOC]
+ TYPE=create_overlay_bitmap
+ PARAMETERS={ "200102_overlay on vehicle_3.rle" }
+[END]   # [OVERLAY_BITMAP_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of graphics overlay strings
+#
+#############################################################################
+#
+[OVERLAY_STRING_TOC]
+[END]  # [OVERLAY_STRING_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of command sequences
+#
+#############################################################################
+#
+[COMMAND_SEQ_TOC]
+
+TYPE=create_command_seq   # Command Sequence 0
+#@ switch to NTSC mode
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_FRAME_SCAN_CONTROL                , 16, 0x0,	# 0x58
+ 0x5 , NTSC_INTERLACED_PORT_PARALLEL_CONTROL ,  8, 0x23,	# 0x26
+ 0x5 , NTSC_INTERLACED_PORT_COMPOSITE_CONTROL,  8, 0x1 	# 0x27
+ }
+
+TYPE=create_command
+PARAMETERS={ Set_State, 0x28   }
+
+TYPE=create_command
+PARAMETERS={ Set_GPI_Association, 0x0, 0x0, 0x0, 0x40000000, 0x0   }
+
+TYPE=create_command
+PARAMETERS={ Set_GPI_Association, 0x1, 0x0, 0x1, 0x40000000, 0x40000000   }
+
+END_COMMAND_SEQ  # Command Sequence 0
+
+
+
+TYPE=create_command_seq   # Command Sequence 1
+#@ force to NTSC mode only
+TYPE=create_var_set_v1
+PARAMETERS={
+ 0x12, CAM_FRAME_SCAN_CONTROL                , 16, 0x0,	# 0x58
+ 0x5 , NTSC_INTERLACED_PORT_PARALLEL_CONTROL ,  8, 0x23,	# 0x26
+ 0x5 , NTSC_INTERLACED_PORT_COMPOSITE_CONTROL,  8, 0x1 	# 0x27
+ }
+
+TYPE=create_command
+PARAMETERS={ Set_State, 0x28   }
+
+TYPE=create_command
+PARAMETERS={ Set_GPI_Association, 0x0, 0x0, 0x0, 0x40000000, 0x0   }
+
+TYPE=create_command
+PARAMETERS={ Set_GPI_Association, 0x1, 0x0, 0x1, 0x40000000, 0x40000000   }
+
+END_COMMAND_SEQ  # Command Sequence 1
+
+
+[END]  # [COMMAND_SEQ_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of Dewarp (Distortion Correction)
+# Note: The software requires an empty Dewarp table even for devices that do
+#       not have the dewarp feature.
+#
+#############################################################################
+#
+[DEWARP_CONFIG_TOC]
+[END]  # [DEWARP_CONFIG_TOC]
+
+

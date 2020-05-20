@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWid
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 import pyqtgraph as pg
+import windowStyling
 
 class StatisticsWindow():
     def init_ui(self, mainWindow, database, currentCameraType):
@@ -17,7 +18,7 @@ class StatisticsWindow():
         mainLayout.addLayout(mainMenuTitleLayout)
 
         mainTitle = QLabel('Auto Center System')
-        mainTitle.setFont(QtGui.QFont("Lato", pointSize=19, weight=QtGui.QFont.Bold))
+        mainTitle.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuTitleSize, weight=QtGui.QFont.Bold))
         mainTitle.setAlignment(Qt.AlignCenter)
         mainMenuTitleLayout.addWidget(mainTitle)
 
@@ -28,20 +29,20 @@ class StatisticsWindow():
 
         self.mainLabel = QLabel("Main")
         # self.mainLabel.setStyleSheet("background-color: #4a4a4a; border-radius: 5px")
-        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.mainLabel.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuFontSize))
         self.mainLabel.setAlignment(Qt.AlignCenter)
         # self.mainLabel.setContentsMargins(15, 10, 15, 10)  # LTRB
         menuLayout.addWidget(self.mainLabel)
 
         self.statisticsLabel = QLabel("Statistics")
         self.statisticsLabel.setStyleSheet("background-color: #4a4a4a; border-radius: 5px")
-        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.statisticsLabel.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuFontSize))
         self.statisticsLabel.setContentsMargins(15,10,15,10)
         self.statisticsLabel.setAlignment(Qt.AlignCenter)
         menuLayout.addWidget(self.statisticsLabel)
 
         self.settingsLabel = QLabel("Settings")
-        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=10))
+        self.settingsLabel.setFont(QtGui.QFont("Lato", pointSize=windowStyling.menuFontSize))
         # self.settingsLabel.setContentsMargins(15,15,15,15)
         self.settingsLabel.setAlignment(Qt.AlignCenter)
         menuLayout.addWidget(self.settingsLabel)
@@ -190,16 +191,40 @@ class StatisticsWindow():
         plot.setMinimumWidth(640)
         plot.setBackground('#353535')
         plot.setTitle('XY Alignment Distribution', size='20pt')
-        plot.setXRange(-40,40)
-        plot.setYRange(-40,40)
-        pen = pg.mkPen(color=(255,0,0))
+        plot.setXRange(-50,50)
+        plot.setYRange(-50,50)
+        pen = pg.mkPen(color=(0,255,0))
 
-        x = [item[0] for item in xyAlignmentStats]
-        y = [item[1] for item in xyAlignmentStats]
+        succeeded, failed = self.parseXYAlignmentStats(xyAlignmentStats)
 
-        scatterPlot = pg.ScatterPlotItem(pen=pen, symbol='x') #size=10, pen=pen, symbol='O',  brush=pg.mkBrush(255, 255, 255, 120)
-        scatterPlot.addPoints(x, y)
+        failedX = [item[0] for item in failed]
+        failedY = [item[1] for item in failed]
 
-        plot.addItem(scatterPlot)
+        succeededX = [item[0] for item in succeeded]
+        succeededY = [item[1] for item in succeeded]
+
+        successScatterPlot= pg.ScatterPlotItem(pen=pen, symbol='+') #size=10, pen=pen, symbol='O',  brush=pg.mkBrush(255, 255, 255, 120)
+        successScatterPlot.addPoints(failedX, failedY)
+
+        pen = pg.mkPen(color=(255, 0, 0))
+        failedScatterPlot = pg.ScatterPlotItem(pen=pen, symbol='x')
+        failedScatterPlot.addPoints(succeededX, succeededY)
+
+        plot.addItem(successScatterPlot)
+        plot.addItem(failedScatterPlot)
 
         return plot
+
+    def parseXYAlignmentStats(self, xyAlignmentStats):
+        succeeded = []
+        failed = []
+        for dataPoint in xyAlignmentStats:
+            if dataPoint[2] == 'succeeded':
+                succeeded.append([dataPoint[0], dataPoint[1]])
+            elif dataPoint[2] == 'failed':
+                failed.append([dataPoint[0], dataPoint[1]])
+            else:
+                assert 0, "Data point must be 'succeeded' or 'failed', is: " + dataPoint[2]
+        return succeeded, failed
+
+

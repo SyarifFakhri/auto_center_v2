@@ -49,6 +49,7 @@ class MasterWindow(QMainWindow):
                 'camera_true_center_x':640/2,
                 'camera_true_center_y':480/2,
                 'currentCameraType':'d55l', #d55l or cp1p
+                'overlayOption':'Overlay Disabled'
             }, settingsConfigField.title == 'settingsConfig') #A good alternative is using contains instead
         #general user settings
         if not self.settingsConfig.search(settingsConfigField.userTitle.exists()):
@@ -96,6 +97,7 @@ class MasterWindow(QMainWindow):
             self.programCam.arduinoController.bothButtonsPressed.connect(self.programCamera)
             self.programCam.arduinoController.shutdownSignal.connect(self.shutdownComputer)
             self.programCam.arduinoController.closeBoards.connect(self.programCam.arduinoController.shutDown)
+
         self.programCam.callDoubleProgramCamera.connect(self.programCam.programCenterPointDoubleProgramMethod)
         self.programCam.callProgramCamera.connect(self.programCam.resetCameraOffsets)
         self.programCam.statsData.connect(self.recordStatsInDatabase)
@@ -104,6 +106,7 @@ class MasterWindow(QMainWindow):
         self.programCam.callSimpleProgramCamera.connect(self.programCam.simpleProgramCamera)
 
         self.programCam.currentCameraType = self.settingsConfig.all()[0]['currentCameraType']
+        self.programCam.overlayOption = self.settingsConfig.all()[0]['overlayOption']
 
         self.settingsImageCap = DebugImageThread(picSettings)
         self.settingsThread = QThread()
@@ -208,12 +211,13 @@ class MasterWindow(QMainWindow):
                 assert 0, "Error, camera stats not in list"
             print("len stats:", len(stats[1]))
             if len(stats[1]) == 2:
+                xyStats = stats[1] + stats[0]  # data will look like this: [20,30, failed]
                 if len(currentAlignmentStats) < 1000:
                     print("Appending stats")
-                    currentAlignmentStats.insert(0,stats[1])
+                    currentAlignmentStats.insert(0, xyStats)
                 else:
                     currentAlignmentStats.pop()
-                    currentAlignmentStats.insert(0,stats[1])
+                    currentAlignmentStats.insert(0, xyStats)
             print("current alignment stats:",currentAlignmentStats)
             
             totalCycleTime = database['totalCycleTime'] + stats[2]
@@ -314,12 +318,20 @@ class MasterWindow(QMainWindow):
             print(e)
         self.settingsImageCap.stop()
 
+        while self.settingsImageCap.isRunning:
+            QApplication.processEvents()
+
+
     def stopImageCap(self):
         try:
             self.imageCap.disconnect()
         except Exception as e:
             print(e)
+
         self.imageCap.stop()
+
+        while self.imageCap.isRunning:
+            QApplication.processEvents()
 
     def showMainWindow(self, event):
         self.isRecordingStats = True
@@ -408,7 +420,8 @@ class MasterWindow(QMainWindow):
             'camera_height': 480,
             'camera_true_center_x': self.settingsWindow.centerXSlider.value(),
             'camera_true_center_y': self.settingsWindow.centerYSlider.value(),
-            'currentCameraType': self.settingsWindow.chooseCurrentCamera.currentText(),  # d55l or cp1p
+            'currentCameraType': self.settingsWindow.chooseCurrentCamera.currentText(),
+            'overlayOption': self.settingsWindow.overlayOption.currentText()# d55l or cp1p
         }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
         self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
@@ -420,6 +433,7 @@ class MasterWindow(QMainWindow):
         self.imageCap.screenCenterY = self.settingsWindow.centerYSlider.value()
 
         self.programCam.currentCameraType = self.settingsWindow.chooseCurrentCamera.currentText()
+        self.programCam.overlayOption = self.settingsWindow.overlayOption.currentText()
 
 
     def engageHydraulics(self, param):
@@ -515,7 +529,10 @@ class MasterWindow(QMainWindow):
                 # self.setMaximumSize(1000, 600)
                 #self.setFixedSize(1000, 600)
                 # self.showMaximized()
-                self.showFullScreen()
+                if debugConfigs.FULLSCREEN:
+                    self.showFullScreen()
+                else:
+                    self.showMaximized()
             else:
                 self.loginWindow.helpText.setText("Incorect Password")
         else:
