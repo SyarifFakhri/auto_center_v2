@@ -148,6 +148,7 @@ class ProgramCamera(QtCore.QObject):
         try:
             # self.setupMachineForProgramming()
             self.checkPCBOrientation()
+            self.releaseResources()
             return
 
             withOverlay = self.shouldUseOverlay()
@@ -301,6 +302,9 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.releaseHydraulics()
         time.sleep(1)
         self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
+        self.releaseResources()
+
+    def releaseResources(self):
         self.arduinoController.offLeds()
         self.arduinoController.running = False
         self.isProgramming = False
