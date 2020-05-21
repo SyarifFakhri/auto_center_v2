@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="603ac091-5cf5-4f7e-a4aa-26c0005286fd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pcbOrientationDetection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/debugConfigs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/debugConfigs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/imageCapture.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/imageCapture.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcbOrientationDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcbOrientationDetection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/programCamera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/programCamera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settingsWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settingsWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/testFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testFiles.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,14 +14,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.44716585">
+    <splitter split-orientation="horizontal" split-proportion="0.33939818">
       <split-first>
         <leaf>
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="286">
-                  <caret line="104" column="21" selection-start-line="104" selection-start-column="21" selection-end-line="104" selection-end-column="21" />
+                <state relative-caret-position="241">
+                  <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -37,11 +32,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/testFiles.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="276">
-                  <caret line="216" selection-start-line="216" selection-end-line="216" />
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="15">
+                  <caret line="1" selection-start-line="1" selection-end-line="1" />
                 </state>
               </provider>
             </entry>
@@ -49,8 +41,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+                <state relative-caret-position="60">
+                  <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
                 </state>
               </provider>
             </entry>
@@ -58,8 +50,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/imageCapture.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="106">
-                  <caret line="30" column="16" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="16" />
+                <state relative-caret-position="238">
+                  <caret line="138" column="16" selection-start-line="138" selection-start-column="16" selection-end-line="138" selection-end-column="16" />
                   <folding>
                     <element signature="e#0#161#0" expanded="true" />
                   </folding>
@@ -70,8 +62,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/centerFinder.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="769">
-                  <caret line="82" column="44" selection-start-line="82" selection-start-column="44" selection-end-line="82" selection-end-column="44" />
+                <state relative-caret-position="124">
+                  <caret line="39" column="26" lean-forward="true" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
                 </state>
               </provider>
             </entry>
@@ -110,20 +102,23 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/programCamera.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+                <state relative-caret-position="370">
+                  <caret line="151" column="12" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
+                  <folding>
+                    <element signature="e#0#42#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="619">
-                  <caret line="374" selection-start-line="374" selection-end-line="374" />
+                <state relative-caret-position="553">
+                  <caret line="244" column="82" selection-start-line="244" selection-start-column="82" selection-end-line="244" selection-end-column="82" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                   </folding>
@@ -172,11 +167,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>X_SC</find>
-      <find>run</find>
-      <find>authori</find>
-      <find>picW</find>
-      <find>picWidth</find>
       <find>circleRoi</find>
       <find>saveS</find>
       <find>saveSett</find>
@@ -202,6 +192,11 @@
       <find>picSettings</find>
       <find>saveT</find>
       <find>test</find>
+      <find>trainin</find>
+      <find>save</find>
+      <find>ProgramCamera</find>
+      <find>singl</find>
+      <find>run</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/assets/test</dir>
@@ -225,9 +220,9 @@
         <option value="$PROJECT_DIR$/src/settingsWindow.py" />
         <option value="$PROJECT_DIR$/src/imageCapture.py" />
         <option value="$PROJECT_DIR$/src/main.py" />
-        <option value="$PROJECT_DIR$/src/programCamera.py" />
-        <option value="$PROJECT_DIR$/src/pcbOrientationDetection.py" />
         <option value="$PROJECT_DIR$/src/debugConfigs.py" />
+        <option value="$PROJECT_DIR$/src/pcbOrientationDetection.py" />
+        <option value="$PROJECT_DIR$/src/programCamera.py" />
       </list>
     </option>
   </component>
@@ -437,20 +432,20 @@
     <frame x="53" y="-4" width="1867" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21526633" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" weight="0.3291536" />
-      <window_info anchor="bottom" id="Terminal" weight="0.16823407" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.21212122" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.1107628" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.1107628" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.031347964" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.16823407" />
+      <window_info anchor="bottom" id="Python Console" order="9" weight="0.3291536" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24986272" />
@@ -535,21 +530,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/saved.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/up.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/right.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/left.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/down.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/saved.jpg" />
+    <entry file="file://$PROJECT_DIR$/assets/test/up.jpg" />
+    <entry file="file://$PROJECT_DIR$/assets/test/right.jpg" />
+    <entry file="file://$PROJECT_DIR$/assets/test/left.jpg" />
+    <entry file="file://$PROJECT_DIR$/assets/test/down.jpg" />
     <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/preprocessing/_data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
@@ -578,24 +563,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/up/up.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/right/right.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/right/right_951.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/up/up.jpg" />
+    <entry file="file://$PROJECT_DIR$/assets/test/right/right.jpg" />
+    <entry file="file://$PROJECT_DIR$/assets/test/right/right_951.jpg" />
     <entry file="file://$PROJECT_DIR$/assets/test/left/left_0.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/test/left/left_56.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/test/down/down_1341.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/down/down_1341.jpg" />
     <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/pathlib.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
@@ -622,37 +599,10 @@
     <entry file="file://$PROJECT_DIR$/assets/test/down/down_2.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/testFiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="216" selection-start-line="216" selection-end-line="216" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/utils/validation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="623" selection-start-line="623" selection-end-line="623" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/centerFinder.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="769">
-          <caret line="82" column="44" selection-start-line="82" selection-start-column="44" selection-end-line="82" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/imageCapture.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="30" column="16" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#161#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -666,27 +616,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/programCamera.py">
+    <entry file="file://$PROJECT_DIR$/src/testFiles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
+    <entry file="file://$PROJECT_DIR$/src/centerFinder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="374" selection-start-line="374" selection-end-line="374" />
+        <state relative-caret-position="124">
+          <caret line="39" column="26" lean-forward="true" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/imageCapture.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="138" column="16" selection-start-line="138" selection-start-column="16" selection-end-line="138" selection-end-column="16" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="104" column="21" selection-start-line="104" selection-start-column="21" selection-end-line="104" selection-end-column="21" />
+        <state relative-caret-position="241">
+          <caret line="101" column="17" lean-forward="true" selection-start-line="101" selection-start-column="17" selection-end-line="101" selection-end-column="17" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -695,8 +652,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+        <state relative-caret-position="60">
+          <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="244" column="82" selection-start-line="244" selection-start-column="82" selection-end-line="244" selection-end-column="82" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/programCamera.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="151" column="12" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

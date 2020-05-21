@@ -13,8 +13,7 @@ from tinydb import TinyDB, Query
 
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
-		self.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-		self.saveRootFolder = "../assets"
+		self.cap = cv2.VideoCapture(1)
 		self.classifierPath = '../assets/classifier'
 		self.scalerPath = "../assets/scaler"
 		self.classifier = None
@@ -196,22 +195,22 @@ class PcbDetector():
 				cv2.imshow("frame", frame)
 				key = cv2.waitKey(1)
 				if key == ord('w'):
-					saveLoc = os.path.join(self.saveRootFolder, 'test/up/up_' + str(upCounter) + '.jpg')
+					saveLoc = os.path.join(self.rootPath, '/up/up_' + str(upCounter) + '.jpg')
 					# print("Saved" + saveLoc)
 					upCounter += 1
 					cv2.imwrite(saveLoc, frame)
 				elif key == ord('a'):
-					saveLoc = os.path.join(self.saveRootFolder, 'test/left/left_' + str(leftCounter) + '.jpg')
+					saveLoc = os.path.join(self.rootPath, '/left/left_' + str(leftCounter) + '.jpg')
 					# print("Saved" + saveLoc)
 					leftCounter += 1
 					cv2.imwrite(saveLoc, frame)
 				elif key == ord('s'):
-					saveLoc = os.path.join(self.saveRootFolder, 'test/down/down_' + str(downCounter) + '.jpg')
+					saveLoc = os.path.join(self.rootPath, '/down/down_' + str(downCounter) + '.jpg')
 					# print("Saved" + saveLoc)
 					downCounter += 1
 					cv2.imwrite(saveLoc, frame)
 				elif key == ord('d'):
-					saveLoc = os.path.join(self.saveRootFolder, 'test/right/right_' + str(rightCounter) + '.jpg')
+					saveLoc = os.path.join(self.rootPath, '/right/right_' + str(rightCounter) + '.jpg')
 					# print("Saved" + saveLoc)
 					rightCounter += 1
 					cv2.imwrite(saveLoc, frame)
@@ -244,10 +243,9 @@ class PcbDetector():
 			hog_channel=self.hog_channel, spatial_feat=self.spatial_feat,
 			hist_feat=self.hist_feat, hog_feat=self.hog_feat)
 		test_features = self.X_scaler.transform(np.array(features).reshape(1, -1))
-
 		prediction = self.classifier.predict(test_features)
 		lbls = ['up', 'down', 'left', 'right']
-		return prediction
+		return prediction, lbls
 
 	def runInference(self):
 		if self.classifier is None:

@@ -3,8 +3,8 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 from PyQt5.QtWidgets import QApplication
 from flashTool import FlashTool
 from arduinoController import ArduinoController
-#from pcbOrientationDetection import PcbDetector
-
+from pcbOrientationDetection import PcbDetector
+import cv2
 import time
 import debugConfigs
 
@@ -17,7 +17,9 @@ class ProgramCamera(QtCore.QObject):
     callEngageHydraulics = pyqtSignal()
     callReleaseHydraulics = pyqtSignal()
 
-    def __init__(self):
+    AICamera = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+
+    def __init__(self, settings, currentCameraType):
         super(ProgramCamera, self).__init__()
         self.flashTool = FlashTool()
         self.currentProgrammingStep = 'Machine Idle'
@@ -27,13 +29,13 @@ class ProgramCamera(QtCore.QObject):
 
         self.PROGRAMMING_TIME_THRESH = 7
 
-
-
         if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
             self.arduinoController = ArduinoController()
             self.arduinoController.onCamera()
             self.arduinoController.onLeds()
 
+        #AI STUFF HERE
+        self.detector = PcbDetector(settings, currentCameraType)
 
 
     def stop(self):
@@ -144,7 +146,10 @@ class ProgramCamera(QtCore.QObject):
         timeStart = time.perf_counter()
 
         try:
-            self.setupMachineForProgramming()
+            # self.setupMachineForProgramming()
+            self.checkPCBOrientation()
+            return
+
             withOverlay = self.shouldUseOverlay()
             
             QApplication.processEvents()
@@ -308,6 +313,16 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.onLeds()
         self.arduinoController.offGreenLed()
         self.arduinoController.offRedLed()
+
+    def checkPCBOrientation(self):
+        ret, frame = self.AICamera.read()
+
+        if ret:
+            pred, labels = self.detector.runInferenceSingleImage(frame)
+            print(labels[pred])
+        else:
+            print("ERROR")
+
 
     def releaseMachineResourcesWithoutStats(self):
         self.currentProgrammingStep = 'Releasing Hydraulics'

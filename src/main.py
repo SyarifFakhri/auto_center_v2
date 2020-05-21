@@ -110,7 +110,7 @@ class MasterWindow(QMainWindow):
         self.imageCap = ImageCaptureThread(settingsConfig=picSettings[currentCamera])
         self.imageCap.moveToThread(self.capThread)
 
-        self.programCam = ProgramCamera()
+        self.programCam = ProgramCamera(picSettings, currentCamera)
         self.programThread = QThread()
         self.programCam.moveToThread(self.programThread)
         self.programThread.start()
