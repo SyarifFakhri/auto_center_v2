@@ -2,24 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="603ac091-5cf5-4f7e-a4aa-26c0005286fd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/200102_cam 2_REFERENCE_overlay.fcfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/windowStyling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/auto_lens_center_v2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pcbOrientationDetection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/200102_cam 2_REFERENCE.fcfg" beforeDir="false" afterPath="$PROJECT_DIR$/src/200102_cam 2_REFERENCE_no_overlay.fcfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/database.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/debugConfigs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/debugConfigs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/flashTool.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/flashTool.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/imageCapture.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/imageCapture.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/loginWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/loginWindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainWindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/programCamera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/programCamera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settingsWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settingsWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/statisticsWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/statisticsWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/testFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testFiles.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,38 +19,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.7489146">
+    <splitter split-orientation="horizontal" split-proportion="0.44716585">
       <split-first>
         <leaf>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="271">
-                  <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-                  <folding>
-                    <element signature="e#0#161#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/loginWindow.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="420">
-                  <caret line="28" column="39" lean-forward="true" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-                  <folding>
-                    <element signature="e#0#161#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="251">
-                  <caret line="332" selection-start-line="332" selection-end-line="332" />
+                <state relative-caret-position="286">
+                  <caret line="104" column="21" selection-start-line="104" selection-start-column="21" selection-end-line="104" selection-end-column="21" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -68,10 +35,22 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/database.json">
+            <entry file="file://$PROJECT_DIR$/src/testFiles.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret column="111" selection-start-column="111" selection-end-column="111" />
+                <state relative-caret-position="276">
+                  <caret line="216" selection-start-line="216" selection-end-line="216" />
+                  <folding>
+                    <element signature="e#0#18#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="45">
+                  <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
                 </state>
               </provider>
             </entry>
@@ -79,38 +58,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/imageCapture.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret line="3" column="39" lean-forward="true" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="226">
-                  <caret line="179" column="35" selection-start-line="179" selection-start-column="35" selection-end-line="179" selection-end-column="35" />
-                  <folding>
-                    <element signature="e#0#172#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/settings.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret column="267" selection-start-column="267" selection-end-column="267" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="245">
-                  <caret line="194" column="28" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+                <state relative-caret-position="106">
+                  <caret line="30" column="16" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="16" />
                   <folding>
                     <element signature="e#0#161#0" expanded="true" />
                   </folding>
@@ -119,20 +68,28 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/QtCommonManipulations.py">
+            <entry file="file://$PROJECT_DIR$/src/centerFinder.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-8" />
+                <state relative-caret-position="769">
+                  <caret line="82" column="44" selection-start-line="82" selection-start-column="44" selection-end-line="82" selection-end-column="44" />
+                </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/programCamera.py">
+            <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/posixpath.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-945">
-                  <caret line="65" column="52" lean-forward="true" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
-                  <folding>
-                    <element signature="e#0#42#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="182">
+                  <caret line="79" selection-start-line="79" selection-end-line="79" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/utils/validation.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="174">
+                  <caret line="623" selection-start-line="623" selection-end-line="623" />
                 </state>
               </provider>
             </entry>
@@ -142,12 +99,33 @@
       <split-second>
         <leaf>
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-684">
+                  <caret line="85" column="18" selection-start-line="85" selection-start-column="18" selection-end-line="85" selection-end-column="18" />
+                  <folding>
+                    <element signature="e#0#172#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/programCamera.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="157">
-                  <caret line="159" column="18" selection-start-line="159" selection-start-column="18" selection-end-line="159" selection-end-column="18" />
+                <state relative-caret-position="75">
+                  <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="619">
+                  <caret line="374" selection-start-line="374" selection-end-line="374" />
                   <folding>
-                    <element signature="e#0#42#0" expanded="true" />
+                    <element signature="e#0#18#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -172,11 +150,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/windowStyling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+                <state relative-caret-position="60">
+                  <caret line="4" selection-start-line="4" selection-end-line="4" />
                 </state>
               </provider>
             </entry>
@@ -194,33 +172,40 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>win</find>
-      <find>debugConfig</find>
-      <find>settingsConfig</find>
-      <find>overlayOption</find>
-      <find>self.currentCameraType</find>
-      <find>currentCameraType</find>
-      <find>self.fcfgLocation</find>
-      <find>fcfglocation</find>
-      <find>overlay</find>
-      <find>alterCfgFileCamera</find>
-      <find>alterC</find>
-      <find>Q</find>
-      <find>recordS</find>
-      <find>recordStats</find>
-      <find>shouldUseOverlay</find>
-      <find>withOverlay</find>
-      <find>isProgramming</find>
-      <find>camera centered</find>
-      <find>camera Centered</find>
-      <find>statsData.emit(['su</find>
-      <find>isprogramming</find>
-      <find>stop</find>
-      <find>manualControl</find>
-      <find>sely</find>
-      <find>self.stop</find>
-      <find>stopImage</find>
+      <find>X_SC</find>
+      <find>run</find>
+      <find>authori</find>
+      <find>picW</find>
+      <find>picWidth</find>
+      <find>circleRoi</find>
+      <find>saveS</find>
+      <find>saveSett</find>
+      <find>currentCamera</find>
+      <find>sav</find>
+      <find>'current</find>
+      <find>self.settingsWindow.roi</find>
+      <find>currentCam</find>
+      <find>cur</find>
+      <find>currentCamer</find>
+      <find>chooseCurrent</find>
+      <find>reload</find>
+      <find>self.settingsConfig.all()[0]</find>
+      <find>reloadSettings</find>
+      <find>running</find>
+      <find>upsert</find>
+      <find>updateLabels</find>
+      <find>cv2.rectangle</find>
+      <find>saveSettings</find>
+      <find>roi</find>
+      <find>saveSet</find>
+      <find>settingsConfigField</find>
+      <find>picSettings</find>
+      <find>saveT</find>
+      <find>test</find>
     </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/assets/test</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -232,21 +217,25 @@
         <option value="$PROJECT_DIR$/src/200102_cam 2_REFERENCE_overlay.fcfg" />
         <option value="$PROJECT_DIR$/src/flashTool.py" />
         <option value="$PROJECT_DIR$/src/windowStyling.py" />
-        <option value="$PROJECT_DIR$/src/mainWindow.py" />
         <option value="$PROJECT_DIR$/src/loginWindow.py" />
         <option value="$PROJECT_DIR$/src/database.json" />
         <option value="$PROJECT_DIR$/src/statisticsWindow.py" />
-        <option value="$PROJECT_DIR$/src/programCamera.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
-        <option value="$PROJECT_DIR$/src/imageCapture.py" />
+        <option value="$PROJECT_DIR$/src/mainWindow.py" />
+        <option value="$PROJECT_DIR$/src/testFiles.py" />
         <option value="$PROJECT_DIR$/src/settingsWindow.py" />
+        <option value="$PROJECT_DIR$/src/imageCapture.py" />
+        <option value="$PROJECT_DIR$/src/main.py" />
+        <option value="$PROJECT_DIR$/src/programCamera.py" />
+        <option value="$PROJECT_DIR$/src/pcbOrientationDetection.py" />
+        <option value="$PROJECT_DIR$/src/debugConfigs.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="952" />
-    <option name="width" value="976" />
-    <option name="height" value="1038" />
+    <option name="x" value="279" />
+    <option name="y" value="163" />
+    <option name="width" value="974" />
+    <option name="height" value="1030" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -264,6 +253,17 @@
             <path>
               <item name="auto_center_v2" type="b2602c69:ProjectViewProjectNode" />
               <item name="auto_center_v2" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto_center_v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto_center_v2" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="cp1p" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto_center_v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto_center_v2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -276,6 +276,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Python" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/test/up" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
     </key>
@@ -293,7 +296,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="debugConfigs" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="imageCapture" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="auto_center_v2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -305,7 +308,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/debugConfigs.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/imageCapture.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -335,10 +338,76 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="pcbOrientationDetection" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="auto_center_v2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/pcbOrientationDetection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="settingsWindow" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="auto_center_v2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/settingsWindow.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="testFiles" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="auto_center_v2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/testFiles.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.debugConfigs" />
+        <item itemvalue="Python.pcbOrientationDetection" />
+        <item itemvalue="Python.imageCapture" />
+        <item itemvalue="Python.settingsWindow" />
+        <item itemvalue="Python.testFiles" />
       </list>
     </recent_temporary>
   </component>
@@ -355,37 +424,39 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="53" y="-4" width="1867" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25315762" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21526633" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" weight="0.43678162" />
+      <window_info anchor="bottom" id="Python Console" weight="0.3291536" />
+      <window_info anchor="bottom" id="Terminal" weight="0.16823407" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.57157785" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15778475" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39916405" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.21212122" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.1107628" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.031347964" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24986272" />
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/QtCommonManipulations.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8" />
@@ -413,17 +484,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/windowStyling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/settings.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="267" selection-start-column="267" selection-end-column="267" />
+          <caret column="266" selection-start-column="266" selection-end-column="266" />
         </state>
       </provider>
     </entry>
@@ -443,20 +507,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="194" column="28" selection-start-line="194" selection-start-column="28" selection-end-line="194" selection-end-column="28" />
+        <state relative-caret-position="-700">
+          <caret line="104" column="28" selection-start-line="104" selection-start-column="28" selection-end-line="104" selection-end-column="28" />
           <folding>
             <element signature="e#0#161#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/programCamera.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-945">
-          <caret line="65" column="52" lean-forward="true" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -464,7 +518,7 @@
     <entry file="file://$PROJECT_DIR$/src/loginWindow.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
-          <caret line="28" column="39" lean-forward="true" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
+          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
           <folding>
             <element signature="e#0#161#0" expanded="true" />
           </folding>
@@ -473,38 +527,176 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+        <state relative-caret-position="376">
+          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
           <folding>
             <element signature="e#0#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/saved.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/up.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/right.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/left.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/down.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/preprocessing/_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="697" selection-start-line="697" selection-end-line="697" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="689" selection-start-line="689" selection-end-line="689" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/posixpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/model_selection/_split.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="1785" column="29" lean-forward="true" selection-start-line="1785" selection-start-column="29" selection-end-line="1785" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/up/up.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/right/right.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/right/right_951.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/left/left_0.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/left/left_56.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/down/down_1341.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/pathlib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="1101" selection-start-line="1101" selection-end-line="1101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/windowStyling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/left/left_3.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/right/right_0.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/up/up_2.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/test/down/down_2.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testFiles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="216" selection-start-line="216" selection-end-line="216" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/utils/validation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="623" selection-start-line="623" selection-end-line="623" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/centerFinder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="769">
+          <caret line="82" column="44" selection-start-line="82" selection-start-column="44" selection-end-line="82" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/imageCapture.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="30" column="16" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-684">
+          <caret line="85" column="18" selection-start-line="85" selection-start-column="18" selection-end-line="85" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#172#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/programCamera.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="374" selection-start-line="374" selection-end-line="374" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="332" selection-start-line="332" selection-end-line="332" />
+        <state relative-caret-position="286">
+          <caret line="104" column="21" selection-start-line="104" selection-start-column="21" selection-end-line="104" selection-end-column="21" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/imageCapture.py">
+    <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="3" column="39" lean-forward="true" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="179" column="35" selection-start-line="179" selection-start-column="35" selection-end-line="179" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#172#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="45">
+          <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
         </state>
       </provider>
     </entry>

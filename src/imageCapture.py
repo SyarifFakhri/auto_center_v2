@@ -43,8 +43,8 @@ class ImageCaptureThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
-            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
+            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             
             imageWidth = int(640 * 0.65)
             imageHeight = int(480 * 0.65)
@@ -86,8 +86,8 @@ class ImageCaptureThread(QtCore.QObject):
                     self.relativeCenters = self.getRelativeCenterPoints()
 
                     #Add centers of circles
-                    cv2.rectangle(frame, (self.screenCenterX, 0), (self.screenCenterX, picHeight), (255,0,0), 1)
-                    cv2.rectangle(frame, (0, self.screenCenterY), (picWidth, self.screenCenterY), (255, 0, 0), 1)
+                    cv2.rectangle(frame, (self.screenCenterX, 0), (self.screenCenterX, picHeight), (255,0,0), 2)
+                    cv2.rectangle(frame, (0, self.screenCenterY), (picWidth, self.screenCenterY), (255, 0, 0), 2)
 
                     #cv2.putText(frame, self.cameraStatus, (20,300), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255),3 )
 
@@ -224,13 +224,21 @@ class DebugImageThread(QtCore.QObject):
                     w = self.settings['roi_w']
                     h = self.settings['roi_h']
 
+                    ai_x = self.settings['ai_roi_x']
+                    ai_y = self.settings['ai_roi_y']
+                    ai_w = self.settings['ai_roi_w']
+                    ai_h = self.settings['ai_roi_h']
+
                     #show the center of the center circle
                     roi, self.absoluteCenters = self.centerFinder.findCentersOfCircles(frame, [x,y,w,h])
                     self.relativeCenters = self.getRelativeCenterPoints()
-                    cv2.rectangle(frame, (self.settings['camera_true_center_x'], 0), (self.settings['camera_true_center_x'], picHeight), (255, 0, 0), 1)
-                    cv2.rectangle(frame, (0, self.settings['camera_true_center_y']), (picWidth, self.settings['camera_true_center_y']), (255, 0, 0), 1)
+                    cv2.rectangle(frame, (self.settings['camera_true_center_x'], 0), (self.settings['camera_true_center_x'], picHeight), (255, 0, 0), 2)
+                    cv2.rectangle(frame, (0, self.settings['camera_true_center_y']), (picWidth, self.settings['camera_true_center_y']), (255, 0, 0), 2)
+
+                    cv2.rectangle(frame, (ai_x, ai_y), (ai_x+ai_w, ai_y + ai_h), (255,255,0),2)
 
                     cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0),2)
+
                     rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                     h, w, ch = rgbImage.shape
                     bytesPerLine = ch * w

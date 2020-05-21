@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 from PyQt5.QtWidgets import QApplication
 from flashTool import FlashTool
 from arduinoController import ArduinoController
+from pcbOrientationDetection import PcbDetector
+
 import time
 import debugConfigs
 
@@ -25,10 +27,14 @@ class ProgramCamera(QtCore.QObject):
 
         self.PROGRAMMING_TIME_THRESH = 7
 
+
+
         if not debugConfigs.DEBUGGING_WITHOUT_ARDUINO:
             self.arduinoController = ArduinoController()
             self.arduinoController.onCamera()
             self.arduinoController.onLeds()
+
+
 
     def stop(self):
         self.arduinoController.shutDown()

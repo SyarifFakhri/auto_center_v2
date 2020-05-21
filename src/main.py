@@ -40,16 +40,37 @@ class MasterWindow(QMainWindow):
         if not self.settingsConfig.search(settingsConfigField.title.exists()):
             self.settingsConfig.upsert({
                 'title':'settingsConfig',
-                'roi_x':0,
-                'roi_y':0,
-                'roi_w':0,
-                'roi_h':0,
-                'camera_width':640,
-                'camera_height': 480,
-                'camera_true_center_x':640/2,
-                'camera_true_center_y':480/2,
-                'currentCameraType':'d55l', #d55l or cp1p
-                'overlayOption':'Overlay Disabled'
+                'currentCameraType':'d55l',
+                'd55l': {
+                    'roi_x': 0,
+                    'roi_y': 0,
+                    'roi_w': 0,
+                    'roi_h': 0,
+                    'ai_roi_x':0,
+                    'ai_roi_y':0,
+                    'ai_roi_w':0,
+                    'ai_roi_h':0,
+                    'camera_width': 640,
+                    'camera_height': 480,
+                    'camera_true_center_x': 640 / 2,
+                    'camera_true_center_y': 480 / 2,
+                    'overlayOption': 'Overlay Disabled'
+                },
+                'cp1p': {
+                    'roi_x': 0,
+                    'roi_y': 0,
+                    'roi_w': 0,
+                    'roi_h': 0,
+                    'ai_roi_x': 0,
+                    'ai_roi_y': 0,
+                    'ai_roi_w': 0,
+                    'ai_roi_h': 0,
+                    'camera_width': 640,
+                    'camera_height': 480,
+                    'camera_true_center_x': 640 / 2,
+                    'camera_true_center_y': 480 / 2,
+                    'overlayOption': 'Overlay Disabled'
+                }
             }, settingsConfigField.title == 'settingsConfig') #A good alternative is using contains instead
         #general user settings
         if not self.settingsConfig.search(settingsConfigField.userTitle.exists()):
@@ -82,10 +103,11 @@ class MasterWindow(QMainWindow):
             }, settingsConfigField.title == 'cameraStats')
 
         picSettings = self.settingsConfig.get(settingsConfigField.title == 'settingsConfig')
+        currentCamera = self.settingsConfig.all()[0]['currentCameraType']
 
         self.capThread = QThread()
         self.capThread.start()
-        self.imageCap = ImageCaptureThread(settingsConfig=picSettings)
+        self.imageCap = ImageCaptureThread(settingsConfig=picSettings[currentCamera])
         self.imageCap.moveToThread(self.capThread)
 
         self.programCam = ProgramCamera()
@@ -106,9 +128,9 @@ class MasterWindow(QMainWindow):
         self.programCam.callSimpleProgramCamera.connect(self.programCam.simpleProgramCamera)
 
         self.programCam.currentCameraType = self.settingsConfig.all()[0]['currentCameraType']
-        self.programCam.overlayOption = self.settingsConfig.all()[0]['overlayOption']
+        self.programCam.overlayOption = self.settingsConfig.all()[0][currentCamera]['overlayOption']
 
-        self.settingsImageCap = DebugImageThread(picSettings)
+        self.settingsImageCap = DebugImageThread(picSettings[currentCamera])
         self.settingsThread = QThread()
         self.settingsImageCap.moveToThread(self.settingsThread)
         self.settingsThread.start()
@@ -146,30 +168,10 @@ class MasterWindow(QMainWindow):
             print("Shutdown aborted")
             return
 
-        
-        
-        
-        #os.system("shutdown /s /t 1")
-        """
-        # self.quit()
-        """
-        # sys.exit(app.exec_())
-
     def stopProgram(self):
         print("Stop all")
         self.settingsImageCap.stop()
         self.imageCap.stop()
-        #self.programCam.arduinoController.closeBoards.emit()
-        
-        """
-        print("Waiting to join cap")
-        self.capThread.join()
-        print("Waiting to join Setting")
-        self.settingsThread.join()
-        print("Waiting to join program")
-        self.programThread.join()
-        #QApplication.exit()
-        """
 
     def errorOutputWritten(self, text):
         self.normalOutputWritten("*** ERROR: " + text)
@@ -390,6 +392,8 @@ class MasterWindow(QMainWindow):
             self.showMaximized()
 
     def updateLabels(self):
+
+        #Update SLIDERS
         #this is for the settings window only
         self.settingsWindow.roiXLabelvalue.setText(str(self.settingsWindow.roiXSlider.value()))
         self.settingsWindow.roiYLabelvalue.setText(str(self.settingsWindow.roiYSlider.value()))
@@ -398,45 +402,63 @@ class MasterWindow(QMainWindow):
         self.settingsWindow.centerXLabelValue.setText(str(self.settingsWindow.centerXSlider.value()))
         self.settingsWindow.centerYLabelValue.setText(str(self.settingsWindow.centerYSlider.value()))
 
+        #This updates the camera output
         self.settingsImageCap.settings['roi_x'] = self.settingsWindow.roiXSlider.value()
         self.settingsImageCap.settings['roi_y'] = self.settingsWindow.roiYSlider.value()
         self.settingsImageCap.settings['roi_w'] = self.settingsWindow.roiWSlider.value()
         self.settingsImageCap.settings['roi_h'] = self.settingsWindow.roiHSlider.value()
-        
+
+
         self.settingsImageCap.screenCenterX = self.settingsWindow.centerXSlider.value()
         self.settingsImageCap.settings['camera_true_center_x'] = self.settingsWindow.centerXSlider.value()
         
         self.settingsImageCap.screenCenterY = self.settingsWindow.centerYSlider.value()
         self.settingsImageCap.settings['camera_true_center_y'] = self.settingsWindow.centerYSlider.value()
-        
+
+        #AI crop box
+        self.settingsWindow.AiRoiXLabelvalue.setText(str(self.settingsWindow.AiRoiXSlider.value()))
+        self.settingsWindow.AiRoiYLabelvalue.setText(str(self.settingsWindow.AiRoiYSlider.value()))
+        self.settingsWindow.AiRoiWLabelvalue.setText(str(self.settingsWindow.AiRoiWSlider.value()))
+        self.settingsWindow.AiRoiHLabelvalue.setText(str(self.settingsWindow.AiRoiHSlider.value()))
+
+        self.settingsImageCap.settings['ai_roi_x'] = self.settingsWindow.AiRoiXSlider.value()
+        self.settingsImageCap.settings['ai_roi_y'] = self.settingsWindow.AiRoiYSlider.value()
+        self.settingsImageCap.settings['ai_roi_w'] = self.settingsWindow.AiRoiWSlider.value()
+        self.settingsImageCap.settings['ai_roi_h'] = self.settingsWindow.AiRoiHSlider.value()
+
 
     def saveSettings(self):
+        currentCamera = self.programCam.currentCameraType
         settingsConfigField = Query()
         self.settingsConfig.upsert({
-            'title': 'settingsConfig',
-            'roi_x': self.settingsWindow.roiXSlider.value(),
-            'roi_y': self.settingsWindow.roiYSlider.value(),
-            'roi_w': self.settingsWindow.roiWSlider.value(),
-            'roi_h': self.settingsWindow.roiHSlider.value(),
-            'camera_width': 640,
-            'camera_height': 480,
-            'camera_true_center_x': self.settingsWindow.centerXSlider.value(),
-            'camera_true_center_y': self.settingsWindow.centerYSlider.value(),
             'currentCameraType': self.settingsWindow.chooseCurrentCamera.currentText(),
-            'overlayOption': self.settingsWindow.overlayOption.currentText()# d55l or cp1p
+            currentCamera: {
+                'roi_x': self.settingsWindow.roiXSlider.value(),
+                'roi_y': self.settingsWindow.roiYSlider.value(),
+                'roi_w': self.settingsWindow.roiWSlider.value(),
+                'roi_h': self.settingsWindow.roiHSlider.value(),
+                'ai_roi_x': self.settingsWindow.AiRoiXSlider.value(),
+                'ai_roi_y': self.settingsWindow.AiRoiYSlider.value(),
+                'ai_roi_w': self.settingsWindow.AiRoiWSlider.value(),
+                'ai_roi_h': self.settingsWindow.AiRoiHSlider.value(),
+                'camera_width':  960,
+                'camera_height': 720,
+                'camera_true_center_x': self.settingsWindow.centerXSlider.value(),
+                'camera_true_center_y': self.settingsWindow.centerYSlider.value(),
+                'overlayOption': self.settingsWindow.overlayOption.currentText()
+            },
         }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
-        self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
-        self.imageCap.roi[1] = self.settingsWindow.roiYSlider.value()
-        self.imageCap.roi[2] = self.settingsWindow.roiWSlider.value()
-        self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
+        # self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
+        # self.imageCap.roi[1] = self.settingsWindow.roiYSlider.value()
+        # self.imageCap.roi[2] = self.settingsWindow.roiWSlider.value()
+        # self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
 
         self.imageCap.screenCenterX = self.settingsWindow.centerXSlider.value()
         self.imageCap.screenCenterY = self.settingsWindow.centerYSlider.value()
 
         self.programCam.currentCameraType = self.settingsWindow.chooseCurrentCamera.currentText()
         self.programCam.overlayOption = self.settingsWindow.overlayOption.currentText()
-
 
     def engageHydraulics(self, param):
         # try:
@@ -450,13 +472,47 @@ class MasterWindow(QMainWindow):
         # self.programCam.arduinoController.releaseHydraulics()
         self.programCam.callReleaseHydraulics.emit()
 
+    def reloadSettings(self):
+        currentCamera = self.settingsWindow.chooseCurrentCamera.currentText()
+        settings = self.settingsConfig.all()[0][currentCamera]
+
+        self.settingsWindow.roiXSlider.setValue(settings['roi_x'])
+        self.settingsWindow.roiYSlider.setValue(settings['roi_y'])
+        self.settingsWindow.roiWSlider.setValue(settings['roi_w'])
+        self.settingsWindow.roiHSlider.setValue(settings['roi_h'])
+        self.settingsWindow.centerXSlider.setValue(settings['camera_true_center_x'])
+        self.settingsWindow.centerYSlider.setValue(settings['camera_true_center_y'])
+
+        #Need to reload settings when camera changes
+        self.settingsWindow.roiXLabelvalue.setText(str(self.settingsWindow.roiXSlider.value()))
+        self.settingsWindow.roiYLabelvalue.setText(str(self.settingsWindow.roiYSlider.value()))
+        self.settingsWindow.roiWLabelvalue.setText(str(self.settingsWindow.roiWSlider.value()))
+        self.settingsWindow.roiHLabelvalue.setText(str(self.settingsWindow.roiHSlider.value()))
+        self.settingsWindow.centerXLabelValue.setText(str(self.settingsWindow.centerXSlider.value()))
+        self.settingsWindow.centerYLabelValue.setText(str(self.settingsWindow.centerYSlider.value()))
+
+        #AI STUFF HERE
+        self.settingsWindow.AiRoiXSlider.setValue(settings['ai_roi_x'])
+        self.settingsWindow.AiRoiYSlider.setValue(settings['ai_roi_y'])
+        self.settingsWindow.AiRoiWSlider.setValue(settings['ai_roi_w'])
+        self.settingsWindow.AiRoiHSlider.setValue(settings['ai_roi_h'])
+
+        # Need to reload settings when camera changes
+        self.settingsWindow.AiRoiXLabelvalue.setText(str(self.settingsWindow.AiRoiXSlider.value()))
+        self.settingsWindow.AiRoiYLabelvalue.setText(str(self.settingsWindow.AiRoiYSlider.value()))
+        self.settingsWindow.AiRoiWLabelvalue.setText(str(self.settingsWindow.AiRoiWSlider.value()))
+        self.settingsWindow.AiRoiHLabelvalue.setText(str(self.settingsWindow.AiRoiHSlider.value()))
+
     def showSettingsMenu(self, event):
         self.bothButtonsEnabled = False
         self.isRecordingStats = True
         self.stopImageCap()
         self.stopImageSettingsCap()
         # settings = self.settingsConfig.all()[0]
-        self.isAuthenticated = False
+        if debugConfigs.REQUIRES_AUTHORIZATION:
+            self.isAuthenticated = False
+        else:
+            self.isAuthenticated = True
 
         if not self.isAuthenticated:
             self.loginWindow.init_ui(self)
@@ -473,10 +529,13 @@ class MasterWindow(QMainWindow):
 
     def initSettingsMenu(self):
         settings = self.settingsConfig.all()[0]
+        currentCamera = self.programCam.currentCameraType
 
-        self.settingsWindow.init_ui(self, settings)
+        self.settingsWindow.init_ui(self, settings, currentCamera)
         self.settingsWindow.mainLabel.mousePressEvent = self.showMainWindow
         self.settingsWindow.statisticsLabel.mousePressEvent = self.showStatsMenu
+
+        self.settingsWindow.chooseCurrentCamera.currentTextChanged.connect(self.reloadSettings)
 
         self.settingsImageCap.changePixmap.connect(self.setSettingsImage)
         self.settingsImageCap.call_camera.connect(self.settingsImageCap.debugCameraCapture)
@@ -491,6 +550,12 @@ class MasterWindow(QMainWindow):
 
         self.settingsWindow.centerXSlider.valueChanged.connect(self.updateLabels)
         self.settingsWindow.centerYSlider.valueChanged.connect(self.updateLabels)
+
+        #AI STUFF
+        self.settingsWindow.AiRoiXSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.AiRoiYSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.AiRoiWSlider.valueChanged.connect(self.updateLabels)
+        self.settingsWindow.AiRoiHSlider.valueChanged.connect(self.updateLabels)
 
         self.updateLabels()
 
