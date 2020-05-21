@@ -149,8 +149,9 @@ class ArduinoController(QObject):
                 # self.engageHydraulics()
 
     def monitorButtons(self):
-        print("LEFT BUTTON PRESSED", self.board.digital_read(self.RIGHT_BTN)[0])
-        print("RIGHT BUTTON PRESSED", self.board.digital_read(self.LEFT_BTN)[0])
+        pass
+        #print("LEFT BUTTON PRESSED", self.board.digital_read(self.RIGHT_BTN)[0])
+        #print("RIGHT BUTTON PRESSED", self.board.digital_read(self.LEFT_BTN)[0])
 
     def engageHydraulics(self):
         #engage hydraulics here

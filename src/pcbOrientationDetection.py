@@ -13,7 +13,7 @@ from tinydb import TinyDB, Query
 
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
-		self.cap = cv2.VideoCapture(1)
+		#self.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 		self.classifierPath = '../assets/classifier'
 		self.scalerPath = "../assets/scaler"
 		self.classifier = None
@@ -37,7 +37,8 @@ class PcbDetector():
 
 		self.picScale = 1.5
 
-		self.rootPath = '../assets/test'# + currentCameraType
+		self.rootPath = '../assets/' + currentCameraType
+		print(self.rootPath)
 
 	def get_hog_features(self,img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=True):
 		if vis == True:  # Call with two outputs if vis==True to visualize the HOG
@@ -195,22 +196,22 @@ class PcbDetector():
 				cv2.imshow("frame", frame)
 				key = cv2.waitKey(1)
 				if key == ord('w'):
-					saveLoc = os.path.join(self.rootPath, '/up/up_' + str(upCounter) + '.jpg')
-					# print("Saved" + saveLoc)
+					saveLoc = self.rootPath + '/up/up_' + str(upCounter) + '.jpg'
+					#print("Saved" + saveLoc)
 					upCounter += 1
 					cv2.imwrite(saveLoc, frame)
 				elif key == ord('a'):
-					saveLoc = os.path.join(self.rootPath, '/left/left_' + str(leftCounter) + '.jpg')
+					saveLoc = self.rootPath + '/left/left_' + str(leftCounter) + '.jpg'
 					# print("Saved" + saveLoc)
 					leftCounter += 1
 					cv2.imwrite(saveLoc, frame)
 				elif key == ord('s'):
-					saveLoc = os.path.join(self.rootPath, '/down/down_' + str(downCounter) + '.jpg')
+					saveLoc = self.rootPath + '/down/down_' + str(downCounter) + '.jpg'
 					# print("Saved" + saveLoc)
 					downCounter += 1
 					cv2.imwrite(saveLoc, frame)
 				elif key == ord('d'):
-					saveLoc = os.path.join(self.rootPath, '/right/right_' + str(rightCounter) + '.jpg')
+					saveLoc = self.rootPath + '/right/right_' + str(rightCounter) + '.jpg'
 					# print("Saved" + saveLoc)
 					rightCounter += 1
 					cv2.imwrite(saveLoc, frame)
@@ -378,9 +379,10 @@ if __name__ == '__main__':
 	#detector.saveTrainingImages()
 
 	###RUN TRAINING###
-	#detector.runTraining()
+	detector.runTraining()
 
 	###RUN INFERENCE###
-	detector.loadModel()
+	#detector.loadModel()
 	detector.runInference()
+
 

@@ -17,7 +17,7 @@ class ProgramCamera(QtCore.QObject):
     callEngageHydraulics = pyqtSignal()
     callReleaseHydraulics = pyqtSignal()
 
-    AICamera = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+    
 
     def __init__(self, settings, currentCameraType):
         super(ProgramCamera, self).__init__()
@@ -35,7 +35,12 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.onLeds()
 
         #AI STUFF HERE
+        print("setting up cam")
+        self.AICamera = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+        print("done getting cam")
         self.detector = PcbDetector(settings[currentCameraType], currentCameraType)
+        self.detector.loadModel()
+        print("done setup detector")
 
 
     def stop(self):
@@ -323,9 +328,9 @@ class ProgramCamera(QtCore.QObject):
 
         if ret:
             pred, labels = self.detector.runInferenceSingleImage(frame)
-            print(labels[pred])
+            print(labels[pred[0]])
         else:
-            print("ERROR")
+            print("ERROR NO PIC")
 
 
     def releaseMachineResourcesWithoutStats(self):
