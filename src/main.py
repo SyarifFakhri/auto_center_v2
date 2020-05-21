@@ -126,7 +126,7 @@ class MasterWindow(QMainWindow):
         self.programCam.callEngageHydraulics.connect(self.programCam.engageHydraulics)
         self.programCam.callReleaseHydraulics.connect(self.programCam.releaseHydraulics)
         self.programCam.callSimpleProgramCamera.connect(self.programCam.simpleProgramCamera)
-
+        self.programCam.stopAnalogCameraCapture.connect(self.stopAnalogCam)
         self.programCam.currentCameraType = self.settingsConfig.all()[0]['currentCameraType']
         self.programCam.overlayOption = self.settingsConfig.all()[0][currentCamera]['overlayOption']
 
@@ -258,10 +258,24 @@ class MasterWindow(QMainWindow):
 
     @pyqtSlot()
     def programCamera(self):
-        if self.bothButtonsEnabled:
+        if self.bothButtonsEnabled: #it is only enabled when in the main menu
             self.mainWindow.GLabel.setStyleSheet("background-color: #686868");
             self.mainWindow.NGLabel.setStyleSheet("background-color: #686868")
-            self.programCam.callDoubleProgramCamera.emit()
+            #Since we can only enable one usb at a time, get the output video of the pcb detector first
+            detected = self.programCam.checkPCBOrientation() #runs in same thread as main
+
+            ret = QtWidgets.QMessageBox.question(self, "Warning",
+                                             "PCB Orientation is detected as " + str(detected) + ". Continue?",
+                                             QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.Abort)
+
+            if ret == QtWidgets.QMessageBox.Yes:
+                #then call image cap
+                self.imageCap.callImageCap.emit()
+                time.sleep(2)
+                self.programCam.callDoubleProgramCamera.emit()
+            else:
+                self.programCam.arduinoController.running = False
+                print(detected)
         else:
             self.programCam.arduinoController.running = False
 
@@ -325,6 +339,13 @@ class MasterWindow(QMainWindow):
         while self.settingsImageCap.isRunning:
             QApplication.processEvents()
 
+    def stopAnalogCam(self):
+        self.imageCap.stop()
+        while self.imageCap.isRunning:
+            QApplication.processEvents()
+            #print("waiting cmaera")
+        print("Analog camera shutdown")
+
 
     def stopImageCap(self):
         try:
@@ -355,7 +376,7 @@ class MasterWindow(QMainWindow):
         self.imageCap.changePixmap.connect(self.setImageCap)
         self.imageCap.rawPixmap.connect(self.setRawImageCap)
         self.imageCap.callImageCap.connect(self.imageCap.cameraCapture)
-        self.imageCap.callImageCap.emit()
+        
         self.imageCap.centerLabels.connect(self.programCam.updateRelativeCenters)
 
         # self.mainWindow.GLabel.mousePressEvent = self.programCamera

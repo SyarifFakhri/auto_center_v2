@@ -17,6 +17,7 @@ class ProgramCamera(QtCore.QObject):
     callEngageHydraulics = pyqtSignal()
     callReleaseHydraulics = pyqtSignal()
 
+    stopAnalogCameraCapture = pyqtSignal()
     
 
     def __init__(self, settings, currentCameraType):
@@ -35,12 +36,12 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.onLeds()
 
         #AI STUFF HERE
-        print("setting up cam")
-        self.AICamera = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
-        print("done getting cam")
+        #print("setting up cam")
+        #self.AICamera = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+        #print("done getting cam")
         self.detector = PcbDetector(settings[currentCameraType], currentCameraType)
         self.detector.loadModel()
-        print("done setup detector")
+        #print("done setup detector")
 
 
     def stop(self):
@@ -151,10 +152,7 @@ class ProgramCamera(QtCore.QObject):
         timeStart = time.perf_counter()
 
         try:
-            # self.setupMachineForProgramming()
-            self.checkPCBOrientation()
-            self.releaseResources()
-            return
+            self.setupMachineForProgramming()
 
             withOverlay = self.shouldUseOverlay()
             
@@ -301,7 +299,7 @@ class ProgramCamera(QtCore.QObject):
         else: #fail
             self.currentProgrammingStep = failureCode
             self.statsData.emit(['failed', initialCenterPoints, timeTaken])
-
+        self.stopAnalogCameraCapture.emit()
         time.sleep(2)
         self.currentProgrammingStep = 'Releasing Hydraulics'
         self.arduinoController.releaseHydraulics()
@@ -324,14 +322,19 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.offRedLed()
 
     def checkPCBOrientation(self):
-        ret, frame = self.AICamera.read()
+        cap = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
 
+        for i in range(5):
+            ret, frame = cap.read()
+            
         if ret:
             pred, labels = self.detector.runInferenceSingleImage(frame)
             print(labels[pred[0]])
         else:
             print("ERROR NO PIC")
+        cap.release()
 
+        return labels[pred[0]]
 
     def releaseMachineResourcesWithoutStats(self):
         self.currentProgrammingStep = 'Releasing Hydraulics'

@@ -35,7 +35,6 @@ class ImageCaptureThread(QtCore.QObject):
                     ] #x,w,y,h - right roi
         self.cameraStatus = ''
 
-
     @pyqtSlot()
     def cameraCapture(self):
         try:
@@ -43,7 +42,6 @@ class ImageCaptureThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE + cv2.CAP_DSHOW)
             cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
             
             imageWidth = int(640 * 0.65)
@@ -56,6 +54,7 @@ class ImageCaptureThread(QtCore.QObject):
                 # counter += 1
 
                 ret, frame = cap.read()
+                #print("Camera cap")
 
                 if ret:
                     frame = cv2.resize(frame,(picWidth,picHeight))
@@ -204,6 +203,7 @@ class DebugImageThread(QtCore.QObject):
         self.centerFinder = CenterFinder()
         self.absoluteCenters = []
         self.isRunning = False
+            
 
     @pyqtSlot()
     def debugCameraCapture(self):
@@ -211,7 +211,8 @@ class DebugImageThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            cap = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
             sizeMult = 1.5
             picWidth = int(640*sizeMult)
             picHeight = int(480*sizeMult)

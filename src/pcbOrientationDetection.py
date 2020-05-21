@@ -40,6 +40,9 @@ class PcbDetector():
 		self.rootPath = '../assets/' + currentCameraType
 		print(self.rootPath)
 
+	def init_cam(self):
+		self.cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
+
 	def get_hog_features(self,img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=True):
 		if vis == True:  # Call with two outputs if vis==True to visualize the HOG
 			features, hog_image = hog(img, orientations=orient,
@@ -194,6 +197,7 @@ class PcbDetector():
 			frame = frame[y:y+h, x:x+w]
 			if ret:
 				cv2.imshow("frame", frame)
+				cv2.moveWindow("frame",500,100)
 				key = cv2.waitKey(1)
 				if key == ord('w'):
 					saveLoc = self.rootPath + '/up/up_' + str(upCounter) + '.jpg'
@@ -280,6 +284,8 @@ class PcbDetector():
 
 			cv2.imshow("frame", original_frame)
 			cv2.imshow("roi", roi)
+			cv2.moveWindow("roi",500,100)
+			cv2.moveWindow("frame",500,100)
 			cv2.waitKey(1)
 
 	def runTraining(self):
@@ -374,6 +380,7 @@ if __name__ == '__main__':
 	currentCamera = 'cp1p'
 	picSettings = settingsConfig.get(settingsConfigField.title == 'settingsConfig')
 	detector = PcbDetector(picSettings[currentCamera],currentCamera)
+	detector.init_cam()
 
 	###SAVE TRAINING DATA###
 	#detector.saveTrainingImages()
@@ -381,6 +388,7 @@ if __name__ == '__main__':
 	###RUN TRAINING###
 	detector.runTraining()
 
+	#cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 	###RUN INFERENCE###
 	#detector.loadModel()
 	detector.runInference()
