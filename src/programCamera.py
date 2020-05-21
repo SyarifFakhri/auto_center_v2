@@ -35,7 +35,7 @@ class ProgramCamera(QtCore.QObject):
             self.arduinoController.onLeds()
 
         #AI STUFF HERE
-        self.detector = PcbDetector(settings, currentCameraType)
+        self.detector = PcbDetector(settings[currentCameraType], currentCameraType)
 
 
     def stop(self):
