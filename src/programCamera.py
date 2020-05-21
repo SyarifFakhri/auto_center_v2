@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 from PyQt5.QtWidgets import QApplication
 from flashTool import FlashTool
 from arduinoController import ArduinoController
-from pcbOrientationDetection import PcbDetector
+#from pcbOrientationDetection import PcbDetector
 
 import time
 import debugConfigs
