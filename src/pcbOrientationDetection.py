@@ -13,7 +13,7 @@ from tinydb import TinyDB, Query
 
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
-		self.cap = cv2.VideoCapture(1)
+		self.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 		self.saveRootFolder = "../assets"
 		self.classifierPath = '../assets/classifier'
 		self.scalerPath = "../assets/scaler"
@@ -38,21 +38,21 @@ class PcbDetector():
 
 		self.picScale = 1.5
 
-		self.rootPath = '../assets/' + currentCameraType
+		self.rootPath = '../assets/test'# + currentCameraType
 
 	def get_hog_features(self,img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=True):
 		if vis == True:  # Call with two outputs if vis==True to visualize the HOG
 			features, hog_image = hog(img, orientations=orient,
-			                          pixels_per_cell=(pix_per_cell, pix_per_cell),
-			                          cells_per_block=(cell_per_block, cell_per_block),
-			                          transform_sqrt=True, feature_vector=feature_vec)
+						  pixels_per_cell=(pix_per_cell, pix_per_cell),
+						  cells_per_block=(cell_per_block, cell_per_block),
+						  transform_sqrt=True, feature_vector=feature_vec)
 			return features, hog_image
 		else:  # Otherwise call with one output
 			features = hog(img, orientations=orient,
-			               pixels_per_cell=(pix_per_cell, pix_per_cell),
-			               cells_per_block=(cell_per_block, cell_per_block),
-			               transform_sqrt=True,
-			               feature_vector=feature_vec)
+				       pixels_per_cell=(pix_per_cell, pix_per_cell),
+				       cells_per_block=(cell_per_block, cell_per_block),
+				       transform_sqrt=True,
+				       feature_vector=feature_vec)
 			return features
 
 	# Define a function to compute binned color features
@@ -69,7 +69,7 @@ class PcbDetector():
 
 	# Define a function to extract features from a list of images
 	def img_features(self,feature_image, spatial_feat, hist_feat, hog_feat, hist_bins, orient,
-	                 pix_per_cell, cell_per_block, hog_channel):
+			 pix_per_cell, cell_per_block, hog_channel):
 		file_features = []
 		if spatial_feat == True:
 			spatial_features = self.bin_spatial(feature_image, size=self.spatial_size)
@@ -86,23 +86,23 @@ class PcbDetector():
 				hog_features = []
 				for channel in range(feature_image.shape[2]):
 					hog_features.append(self.get_hog_features(feature_image[:, :, channel],
-					                                     orient, pix_per_cell, cell_per_block,
-					                                     vis=False, feature_vec=True))
+									     orient, pix_per_cell, cell_per_block,
+									     vis=False, feature_vec=True))
 					hog_features = np.ravel(hog_features)
 			else:
 				feature_image = cv2.cvtColor(feature_image, cv2.COLOR_LUV2RGB)
 				feature_image = cv2.cvtColor(feature_image, cv2.COLOR_RGB2GRAY)
 				hog_features = self.get_hog_features(feature_image[:, :], orient,
-				                                pix_per_cell, cell_per_block, vis=False, feature_vec=True)
+								pix_per_cell, cell_per_block, vis=False, feature_vec=True)
 			# print 'hog', hog_features.shape
 			# Append the new feature vector to the features list
 			file_features.append(hog_features)
 		return file_features
 
 	def extract_features(self,imgs, color_space='RGB', spatial_size=(32, 32),
-	                     hist_bins=32, orient=9,
-	                     pix_per_cell=8, cell_per_block=2, hog_channel=0,
-	                     spatial_feat=True, hist_feat=True, hog_feat=True):
+			     hist_bins=32, orient=9,
+			     pix_per_cell=8, cell_per_block=2, hog_channel=0,
+			     spatial_feat=True, hist_feat=True, hog_feat=True):
 		# Create a list to append feature vectors to
 		features = []
 		# Iterate through the list of images
@@ -126,14 +126,14 @@ class PcbDetector():
 			else:
 				feature_image = np.copy(image)
 			file_features = self.img_features(feature_image, spatial_feat, hist_feat, hog_feat, hist_bins, orient,
-			                             pix_per_cell, cell_per_block, hog_channel)
+						     pix_per_cell, cell_per_block, hog_channel)
 			features.append(np.concatenate(file_features))
 		return features  # Return list of feature vectors
 
 	def single_img_features(self,img, color_space='RGB', spatial_size=(32, 32),
-	                        hist_bins=32, orient=9,
-	                        pix_per_cell=8, cell_per_block=2, hog_channel=0,
-	                        spatial_feat=True, hist_feat=True, hog_feat=True):
+				hist_bins=32, orient=9,
+				pix_per_cell=8, cell_per_block=2, hog_channel=0,
+				spatial_feat=True, hist_feat=True, hog_feat=True):
 		# 1) Define an empty list to receive features
 		img_features = []
 		# 2) Apply color conversion if other than 'RGB'
@@ -166,11 +166,11 @@ class PcbDetector():
 				hog_features = []
 				for channel in range(feature_image.shape[2]):
 					hog_features.extend(self.get_hog_features(feature_image[:, :, channel],
-					                                     orient, pix_per_cell, cell_per_block,
-					                                     vis=False, feature_vec=True))
+									     orient, pix_per_cell, cell_per_block,
+									     vis=False, feature_vec=True))
 			else:
 				hog_features = self.get_hog_features(feature_image[:, :, hog_channel], orient,
-				                                pix_per_cell, cell_per_block, vis=False, feature_vec=True)
+								pix_per_cell, cell_per_block, vis=False, feature_vec=True)
 			# 8) Append features to list
 			img_features.append(hog_features)
 		# 9) Return concatenated array of features
@@ -231,6 +231,9 @@ class PcbDetector():
 		y = self.y
 		w = self.w
 		h = self.h
+		picWidth = int(640 * self.picScale)
+		picHeight = int(480 * self.picScale)
+		frame = cv2.resize(frame,(picWidth, picHeight))
 		frame = frame[y:y + h, x:x + w]
 		frame = cv2.resize(frame, (128, 128))
 		features = self.single_img_features(
@@ -256,8 +259,12 @@ class PcbDetector():
 			y = self.y
 			w = self.w
 			h = self.h
-			frame = frame[y:y + h, x:x + w]
+			picWidth = int(640 * self.picScale)
+			picHeight = int(480 * self.picScale)
+			frame = cv2.resize(frame,(picWidth, picHeight))
 			original_frame = frame.copy()
+			frame = frame[y:y + h, x:x + w]
+			roi = frame.copy()
 			frame = cv2.resize(frame, (128, 128))
 			features = self.single_img_features(
 				frame, color_space=self.color_space,
@@ -273,6 +280,7 @@ class PcbDetector():
 			print(lbls[prediction[0]])
 
 			cv2.imshow("frame", original_frame)
+			cv2.imshow("roi", roi)
 			cv2.waitKey(1)
 
 	def runTraining(self):
@@ -308,32 +316,32 @@ class PcbDetector():
 		hog_feat = self.hog_feat # HOG features on or off
 
 		up_features = self.extract_features(up, color_space=color_space,
-		                               spatial_size=spatial_size, hist_bins=hist_bins,
-		                               orient=orient, pix_per_cell=pix_per_cell,
-		                               cell_per_block=cell_per_block,
-		                               hog_channel=hog_channel, spatial_feat=spatial_feat,
-		                               hist_feat=hist_feat, hog_feat=hog_feat)
+					       spatial_size=spatial_size, hist_bins=hist_bins,
+					       orient=orient, pix_per_cell=pix_per_cell,
+					       cell_per_block=cell_per_block,
+					       hog_channel=hog_channel, spatial_feat=spatial_feat,
+					       hist_feat=hist_feat, hog_feat=hog_feat)
 
 		down_features = self.extract_features(down, color_space=color_space,
-		                                 spatial_size=spatial_size, hist_bins=hist_bins,
-		                                 orient=orient, pix_per_cell=pix_per_cell,
-		                                 cell_per_block=cell_per_block,
-		                                 hog_channel=hog_channel, spatial_feat=spatial_feat,
-		                                 hist_feat=hist_feat, hog_feat=hog_feat)
+						 spatial_size=spatial_size, hist_bins=hist_bins,
+						 orient=orient, pix_per_cell=pix_per_cell,
+						 cell_per_block=cell_per_block,
+						 hog_channel=hog_channel, spatial_feat=spatial_feat,
+						 hist_feat=hist_feat, hog_feat=hog_feat)
 
 		left_features = self.extract_features(left, color_space=color_space,
-		                                 spatial_size=spatial_size, hist_bins=hist_bins,
-		                                 orient=orient, pix_per_cell=pix_per_cell,
-		                                 cell_per_block=cell_per_block,
-		                                 hog_channel=hog_channel, spatial_feat=spatial_feat,
-		                                 hist_feat=hist_feat, hog_feat=hog_feat)
+						 spatial_size=spatial_size, hist_bins=hist_bins,
+						 orient=orient, pix_per_cell=pix_per_cell,
+						 cell_per_block=cell_per_block,
+						 hog_channel=hog_channel, spatial_feat=spatial_feat,
+						 hist_feat=hist_feat, hog_feat=hog_feat)
 
 		right_features = self.extract_features(right, color_space=color_space,
-		                                  spatial_size=spatial_size, hist_bins=hist_bins,
-		                                  orient=orient, pix_per_cell=pix_per_cell,
-		                                  cell_per_block=cell_per_block,
-		                                  hog_channel=hog_channel, spatial_feat=spatial_feat,
-		                                  hist_feat=hist_feat, hog_feat=hog_feat)
+						  spatial_size=spatial_size, hist_bins=hist_bins,
+						  orient=orient, pix_per_cell=pix_per_cell,
+						  cell_per_block=cell_per_block,
+						  hog_channel=hog_channel, spatial_feat=spatial_feat,
+						  hist_feat=hist_feat, hog_feat=hog_feat)
 		X = np.vstack((up_features, down_features, left_features, right_features)).astype(np.float64)
 		# print(X)
 		self.X_scaler = StandardScaler().fit(X)  # Fit a per-column scaler
@@ -369,12 +377,12 @@ if __name__ == '__main__':
 	detector = PcbDetector(picSettings[currentCamera],currentCamera)
 
 	###SAVE TRAINING DATA###
-	detector.saveTrainingImages()
+	#detector.saveTrainingImages()
 
 	###RUN TRAINING###
-
+	#detector.runTraining()
 
 	###RUN INFERENCE###
-	# detector.loadModel()
-	# detector.runInference()
+	detector.loadModel()
+	detector.runInference()
 
