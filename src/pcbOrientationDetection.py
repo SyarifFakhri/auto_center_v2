@@ -10,6 +10,7 @@ import os
 import pickle
 from tinydb import TinyDB, Query
 import argparse
+import shutil
 
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
@@ -42,6 +43,18 @@ class PcbDetector():
 
 	def init_cam(self):
 		self.cap = cv2.VideoCapture(0)#,cv2.CAP_DSHOW)
+
+	def prepareFolders(self):
+		#first delete all the folders
+		shutil.rmtree(self.rootPath)
+
+		#create a new path
+		os.mkdir(self.rootPath)
+		os.mkdir(os.path.join(self.rootPath, 'up'))
+		os.mkdir(os.path.join(self.rootPath, 'down'))
+		os.mkdir(os.path.join(self.rootPath, 'left'))
+		os.mkdir(os.path.join(self.rootPath, 'right'))
+
 
 	def get_hog_features(self,img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=True):
 		if vis == True:  # Call with two outputs if vis==True to visualize the HOG
@@ -397,6 +410,9 @@ if __name__ == '__main__':
 		detector.loadModel()
 		detector.runInference()
 	elif args.mode == 2:
+		detector.prepareFolders()
 		detector.saveTrainingImages()
+
+
 
 
