@@ -235,7 +235,8 @@ class PcbDetector():
 			print("UP:", upCounter, end=' ')
 			print("DOWN:", downCounter, end=' ')
 			print("LEFT:", leftCounter, end=' ')
-			print("RIGHT:", rightCounter)
+			print("RIGHT:", rightCounter, end=' ')
+			print(", CONTROL WITH WASD KEYS")
 
 	def loadModel(self):
 		self.classifier = pickle.load(open(self.classifierPath,'rb'))
@@ -412,6 +413,8 @@ if __name__ == '__main__':
 	elif args.mode == 2:
 		detector.prepareFolders()
 		detector.saveTrainingImages()
+
+
 
 
 

@@ -2,7 +2,206 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="603ac091-5cf5-4f7e-a4aa-26c0005286fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_25.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_26.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_27.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_28.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_29.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_31.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_33.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_34.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_35.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_36.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_37.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_38.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_39.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_40.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_41.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_42.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_43.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_44.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_46.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_47.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_49.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_25.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_26.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_27.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_28.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_29.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_31.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_33.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_34.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_35.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_36.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_37.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_38.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_39.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_40.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_41.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_42.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_43.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_44.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_46.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_47.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_49.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_25.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_26.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_27.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_28.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_29.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_31.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_33.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_34.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_35.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_36.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_37.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_38.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_39.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_40.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_41.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_42.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_43.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_44.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_46.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_47.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_49.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_11.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_13.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_15.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_16.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_18.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_19.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_20.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_21.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_24.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_25.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_26.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_27.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_28.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_29.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_30.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_31.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_32.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_33.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_34.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_35.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_36.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_37.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_38.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_39.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_40.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_41.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_42.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_43.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_44.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_45.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_46.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_47.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_49.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_9.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pcbOrientationDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcbOrientationDetection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -136,8 +335,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="740">
-                  <caret line="412" column="33" selection-start-line="412" selection-start-column="33" selection-end-line="412" selection-end-column="33" />
+                <state relative-caret-position="267">
+                  <caret line="238" column="45" selection-start-line="238" selection-start-column="45" selection-end-line="238" selection-end-column="45" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                   </folding>
@@ -186,7 +385,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>currentCam</find>
       <find>cur</find>
       <find>currentCamer</find>
       <find>chooseCurrent</find>
@@ -216,6 +414,7 @@
       <find>`</find>
       <find>programCam</find>
       <find>def program</find>
+      <find>UP</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/assets/test</dir>
@@ -463,13 +662,13 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.21212122" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.35945663" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35945663" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.031347964" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.47962382" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.23510972" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.3291536" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -695,8 +894,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="740">
-          <caret line="412" column="33" selection-start-line="412" selection-start-column="33" selection-end-line="412" selection-end-column="33" />
+        <state relative-caret-position="267">
+          <caret line="238" column="45" selection-start-line="238" selection-start-column="45" selection-end-line="238" selection-end-column="45" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
