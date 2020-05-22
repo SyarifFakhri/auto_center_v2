@@ -2,207 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="603ac091-5cf5-4f7e-a4aa-26c0005286fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_0.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_13.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_14.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_15.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_16.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_17.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_18.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_19.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_20.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_21.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_22.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_23.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_24.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_25.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_26.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_27.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_28.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_29.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_30.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_31.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_32.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_33.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_34.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_35.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_36.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_37.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_38.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_39.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_40.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_41.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_42.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_43.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_44.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_45.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_46.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_47.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_48.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_49.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/down/down_9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_0.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_13.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_14.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_15.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_16.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_17.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_18.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_19.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_20.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_21.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_22.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_23.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_24.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_25.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_26.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_27.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_28.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_29.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_30.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_31.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_32.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_33.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_34.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_35.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_36.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_37.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_38.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_39.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_40.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_41.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_42.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_43.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_44.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_45.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_46.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_47.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_48.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_49.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/left/left_9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_0.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_13.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_14.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_15.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_16.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_17.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_18.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_19.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_20.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_21.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_22.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_23.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_24.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_25.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_26.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_27.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_28.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_29.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_30.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_31.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_32.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_33.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_34.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_35.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_36.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_37.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_38.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_39.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_40.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_41.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_42.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_43.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_44.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_45.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_46.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_47.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_48.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_49.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/right/right_9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_0.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_13.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_14.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_15.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_16.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_17.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_18.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_19.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_20.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_21.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_22.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_23.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_24.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_25.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_26.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_27.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_28.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_29.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_30.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_31.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_32.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_33.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_34.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_35.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_36.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_37.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_38.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_39.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_40.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_41.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_42.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_43.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_44.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_45.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_46.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_47.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_48.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_49.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/cp1p/up/up_9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pcbOrientationDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcbOrientationDetection.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/splashWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/debugConfigs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/debugConfigs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -211,14 +14,26 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.16375087">
+    <splitter split-orientation="horizontal" split-proportion="0.48631123">
       <split-first>
         <leaf>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="592">
+                  <caret line="244" column="15" selection-start-line="244" selection-start-column="15" selection-end-line="244" selection-end-column="15" />
+                  <folding>
+                    <element signature="e#0#161#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="219">
-                  <caret line="279" lean-forward="true" selection-start-line="279" selection-end-line="279" />
+                <state relative-caret-position="282">
+                  <caret line="147" column="8" selection-start-line="147" selection-start-column="8" selection-end-line="147" selection-end-column="8" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -235,11 +50,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="30">
-                  <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+                  <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
                 </state>
               </provider>
             </entry>
@@ -269,7 +84,7 @@
             <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="395">
-                  <caret line="117" column="50" lean-forward="true" selection-start-line="117" selection-start-column="50" selection-end-line="117" selection-end-column="50" />
+                  <caret line="117" column="50" selection-start-line="117" selection-start-column="50" selection-end-line="117" selection-end-column="50" />
                   <folding>
                     <element signature="e#0#161#0" expanded="true" />
                   </folding>
@@ -299,15 +114,6 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/posixpath.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="182">
-                  <caret line="79" selection-start-line="79" selection-end-line="79" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$USER_HOME$/miniconda3/envs/auto_center/lib/python3.7/site-packages/sklearn/utils/validation.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="174">
@@ -332,13 +138,25 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="267">
-                  <caret line="238" column="45" selection-start-line="238" selection-start-column="45" selection-end-line="238" selection-end-column="45" />
+                <state relative-caret-position="545">
+                  <caret line="418" lean-forward="true" selection-start-line="418" selection-end-line="418" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/splashWindow.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="435">
+                  <caret line="29" column="36" lean-forward="true" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+                  <folding>
+                    <element signature="e#0#161#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -385,7 +203,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cur</find>
       <find>currentCamer</find>
       <find>chooseCurrent</find>
       <find>reload</find>
@@ -415,6 +232,7 @@
       <find>programCam</find>
       <find>def program</find>
       <find>UP</find>
+      <find>showSplash</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/assets/test</dir>
@@ -437,10 +255,11 @@
         <option value="$PROJECT_DIR$/src/imageCapture.py" />
         <option value="$PROJECT_DIR$/src/programCamera.py" />
         <option value="$PROJECT_DIR$/src/settings.json" />
-        <option value="$PROJECT_DIR$/src/debugConfigs.py" />
         <option value="$PROJECT_DIR$/src/settingsWindow.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/pcbOrientationDetection.py" />
+        <option value="$PROJECT_DIR$/src/splashWindow.py" />
+        <option value="$PROJECT_DIR$/src/main.py" />
+        <option value="$PROJECT_DIR$/src/debugConfigs.py" />
       </list>
     </option>
   </component>
@@ -508,7 +327,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.pcbOrientationDetection">
+  <component name="RunManager" selected="Python.main">
     <configuration name="imageCapture" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="auto_center_v2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -593,7 +412,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="testFiles" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="splashWindow" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="auto_center_v2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -605,7 +424,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/testFiles.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/splashWindow.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -619,15 +438,15 @@
       <item itemvalue="Python.main" />
       <item itemvalue="Python.pcbOrientationDetection" />
       <item itemvalue="Python.settingsWindow" />
-      <item itemvalue="Python.testFiles" />
+      <item itemvalue="Python.splashWindow" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.pcbOrientationDetection" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.splashWindow" />
+        <item itemvalue="Python.pcbOrientationDetection" />
         <item itemvalue="Python.settingsWindow" />
         <item itemvalue="Python.imageCapture" />
-        <item itemvalue="Python.testFiles" />
       </list>
     </recent_temporary>
   </component>
@@ -657,18 +476,18 @@
     <frame x="53" y="-4" width="1867" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.042833608" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23778144" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.21212122" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35945663" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28526646" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.031347964" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.23510972" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.060606062" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.3291536" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -722,16 +541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#161#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
           <folding>
             <element signature="e#0#161#0" expanded="true" />
           </folding>
@@ -834,7 +643,7 @@
     <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="395">
-          <caret line="117" column="50" lean-forward="true" selection-start-line="117" selection-start-column="50" selection-end-line="117" selection-end-column="50" />
+          <caret line="117" column="50" selection-start-line="117" selection-start-column="50" selection-end-line="117" selection-end-column="50" />
           <folding>
             <element signature="e#0#161#0" expanded="true" />
           </folding>
@@ -855,29 +664,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="109" column="51" selection-start-line="109" selection-start-column="51" selection-end-line="109" selection-end-column="51" />
           <folding>
             <element signature="e#0#172#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="279" lean-forward="true" selection-start-line="279" selection-end-line="279" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -894,11 +686,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="238" column="45" selection-start-line="238" selection-start-column="45" selection-end-line="238" selection-end-column="45" />
+        <state relative-caret-position="545">
+          <caret line="418" lean-forward="true" selection-start-line="418" selection-end-line="418" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="244" column="15" selection-start-line="244" selection-start-column="15" selection-end-line="244" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/splashWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="36" lean-forward="true" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="147" column="8" selection-start-line="147" selection-start-column="8" selection-end-line="147" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/debugConfigs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>

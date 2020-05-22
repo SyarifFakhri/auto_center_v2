@@ -19,6 +19,7 @@ from imageCapture import ImageCaptureThread, DebugImageThread
 from loginWindow import LoginWindow
 import os
 import numpy as np
+from splashWindow import SplashWindow
 
 import cv2
 
@@ -31,6 +32,7 @@ class MasterWindow(QMainWindow):
 		self.statsWindow = StatisticsWindow()
 		self.settingsWindow = SettingsWindow()
 		self.loginWindow = LoginWindow()
+		self.splashWindow = SplashWindow()
 
 		# self.showStatsMenu(None)
 
@@ -144,7 +146,7 @@ class MasterWindow(QMainWindow):
 		self.setMaximumHeight(600)
 
 		self.showMainWindow(None)
-
+		#self.showSplashWindow(None)
 		self.isRecordingStats = False
 
 		app.aboutToQuit.connect(self.stopProgram)
@@ -293,6 +295,17 @@ class MasterWindow(QMainWindow):
 				self.programCam.callDoubleProgramCamera.emit()
 		else:
 			self.programCam.arduinoController.running = False
+
+	@pyqtSlot()
+	def showSplashWindow(self, param):
+		self.splashWindow.init_ui(self)
+
+		if debugConfigs.FULLSCREEN:
+			self.showFullScreen()
+
+		else:
+			self.showMaximized()
+
 
 	@pyqtSlot()
 	def resetCamera(self):
