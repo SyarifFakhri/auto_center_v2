@@ -5,10 +5,11 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal, pyqtSlot, QRect
 import windowStyling
 
 class SettingsWindow():
-	def init_ui(self, mainWindow, settings, currentCamera):
+	def init_ui(self, mainWindow, settings):
 
 		cameraSetting = settings['currentCameraType']
-		settings = settings[currentCamera]
+		aiEnabled = settings['aiEnabled']
+		settings = settings[cameraSetting]
 		picWidth = 960
 		picHeight = 720
 
@@ -101,6 +102,13 @@ class SettingsWindow():
 		self.overlayOption.addItem("Overlay Enabled")
 		self.overlayOption.addItem("Overlay Disabled")
 
+		self.enableAiCheckbox = QtWidgets.QCheckBox("Enable PCB orientation detection")
+
+		if aiEnabled == True:
+			self.enableAiCheckbox.setChecked(True)
+		else:
+			self.enableAiCheckbox.setCheckable(True)
+
 		self.statusLabel = QLabel("Machine Idle")
 		self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=15))
 		self.statusLabel.setAlignment(Qt.AlignRight)
@@ -125,6 +133,7 @@ class SettingsWindow():
 		rightVBox.addWidget(self.resetStatistics)
 		rightVBox.addWidget(self.chooseCurrentCamera)
 		rightVBox.addWidget(self.overlayOption)
+		rightVBox.addWidget(self.enableAiCheckbox)
 		rightVBox.addWidget(self.statusLabel)
 		rightVBox.addWidget(self.xCenterLabel)
 		rightVBox.addWidget(self.yCenterLabel)

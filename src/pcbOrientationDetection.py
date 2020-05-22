@@ -9,7 +9,7 @@ from pathlib import Path
 import os
 import pickle
 from tinydb import TinyDB, Query
-
+import argparse
 
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
@@ -41,7 +41,7 @@ class PcbDetector():
 		print(self.rootPath)
 
 	def init_cam(self):
-		self.cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
+		self.cap = cv2.VideoCapture(0)#,cv2.CAP_DSHOW)
 
 	def get_hog_features(self,img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=True):
 		if vis == True:  # Call with two outputs if vis==True to visualize the HOG
@@ -375,22 +375,28 @@ class PcbDetector():
 		self.classifier = svc
 
 if __name__ == '__main__':
+	parser = argparse.ArgumentParser(description='AI PCB TRAINING RUNNER')
+	parser.add_argument('-m','--mode',type=int, default=0,help="0: running inference mode. 1: Training then inference, 2: run save images mode", required=True)
+	parser.add_argument('-c', '--camera',type=str, default='cp1p', choices=['d55l','cp1p'],help="Camera type, cp1p or d55l")
+	args = parser.parse_args()
+
 	settingsConfig = TinyDB('settings.json')
 	settingsConfigField = Query()
-	currentCamera = 'cp1p'
+	currentCamera = args.camera
 	picSettings = settingsConfig.get(settingsConfigField.title == 'settingsConfig')
 	detector = PcbDetector(picSettings[currentCamera],currentCamera)
 	detector.init_cam()
 
 	###SAVE TRAINING DATA###
 	#detector.saveTrainingImages()
-
-	###RUN TRAINING###
-	detector.runTraining()
-
-	#cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-	###RUN INFERENCE###
-	#detector.loadModel()
-	detector.runInference()
+	if args.mode == 0:
+		detector.loadModel()
+		detector.runInference()
+	elif args.mode == 1:
+		detector.runTraining()
+		detector.loadModel()
+		detector.runInference()
+	elif args.mode == 2:
+		detector.saveTrainingImages()
 
 
