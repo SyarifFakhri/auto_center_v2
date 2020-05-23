@@ -193,6 +193,7 @@ class DebugImageThread(QtCore.QObject):
     changePixmap = pyqtSignal(QImage)
     call_camera = pyqtSignal()
     centerLabels = pyqtSignal(list)
+    callToggleCamera = pyqtSignal()
 
     def __init__(self, settings):
         super(DebugImageThread, self).__init__()
@@ -200,10 +201,82 @@ class DebugImageThread(QtCore.QObject):
         self.screenCenterX = settings['camera_true_center_x']
         self.screenCenterY = settings['camera_true_center_y']
 
+        self.analogCam = None
+        self.AICam = None
+
         self.centerFinder = CenterFinder()
         self.absoluteCenters = []
         self.isRunning = False
-            
+
+        self.currentCamera = debugConfigs.VIDEO_CAP_DEVICE
+
+
+    @pyqtSlot()
+    def toggleCam(self):
+        self.releaseCamera(self.analogCam)
+        self.releaseCamera(self.AICam)
+        #Check if AI cam is open, if it is switch to analog cam view
+        print("Released Camera")
+
+        if self.currentCamera == debugConfigs.VIDEO_CAP_DEVICE:
+            print("Enabling AI camera")
+            self.currentCamera = debugConfigs.SECONDARY_VIDEO_CAP_DEVICE
+            self.debugAICameraCapture()
+
+        elif self.currentCamera == debugConfigs.SECONDARY_VIDEO_CAP_DEVICE:
+            print("Enabling analog cam")
+            self.currentCamera = debugConfigs.SECONDARY_VIDEO_CAP_DEVICE
+            self.debugCameraCapture()
+        else:
+            assert 0, "Camera is either analog or AI"
+
+    def debugAICameraCapture(self):
+        try:
+            time.sleep(1)
+            self.stopRunning = False
+            self.isRunning = True
+            # self.analogCam = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            self.AICam = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+            sizeMult = 1.5
+            picWidth = int(640*sizeMult)
+            picHeight = int(480*sizeMult)
+            while not self.stopRunning and self.AICam.isOpened():
+                ret, frame = self.AICam.read()
+                if ret:
+                    frame = cv2.resize(frame,(picWidth,picHeight))
+
+                    ai_x = self.settings['ai_roi_x']
+                    ai_y = self.settings['ai_roi_y']
+                    ai_w = self.settings['ai_roi_w']
+                    ai_h = self.settings['ai_roi_h']
+
+                    cv2.rectangle(frame, (ai_x, ai_y), (ai_x+ai_w, ai_y + ai_h), (255,255,0),2)
+
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(400, 360, Qt.KeepAspectRatio)
+                    self.changePixmap.emit(p)
+                    QApplication.processEvents()
+
+            if self.analogCam.isOpened():
+                self.analogCam.release()
+            self.isRunning = False
+            self.stopRunning = True
+
+        except Exception as e:
+            try:
+                self.analogCam.release()
+            except:
+                pass
+            print(e)
+
+
+    def releaseCamera(self, cap):
+        if cap is not None:
+            if cap.isOpened() == False:
+                cap.release()
 
     @pyqtSlot()
     def debugCameraCapture(self):
@@ -211,13 +284,13 @@ class DebugImageThread(QtCore.QObject):
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            #cap = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
-            cap = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+            self.analogCam = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            # cap = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
             sizeMult = 1.5
             picWidth = int(640*sizeMult)
             picHeight = int(480*sizeMult)
-            while not self.stopRunning:
-                ret, frame = cap.read()
+            while not self.stopRunning and self.analogCam.isOpened():
+                ret, frame = self.analogCam.read()
                 if ret:
                     frame = cv2.resize(frame,(picWidth,picHeight))
                     x = self.settings['roi_x']
@@ -225,10 +298,10 @@ class DebugImageThread(QtCore.QObject):
                     w = self.settings['roi_w']
                     h = self.settings['roi_h']
 
-                    ai_x = self.settings['ai_roi_x']
-                    ai_y = self.settings['ai_roi_y']
-                    ai_w = self.settings['ai_roi_w']
-                    ai_h = self.settings['ai_roi_h']
+                    # ai_x = self.settings['ai_roi_x']
+                    # ai_y = self.settings['ai_roi_y']
+                    # ai_w = self.settings['ai_roi_w']
+                    # ai_h = self.settings['ai_roi_h']
 
                     #show the center of the center circle
                     roi, self.absoluteCenters = self.centerFinder.findCentersOfCircles(frame, [x,y,w,h])
@@ -236,7 +309,7 @@ class DebugImageThread(QtCore.QObject):
                     cv2.rectangle(frame, (self.settings['camera_true_center_x'], 0), (self.settings['camera_true_center_x'], picHeight), (255, 0, 0), 2)
                     cv2.rectangle(frame, (0, self.settings['camera_true_center_y']), (picWidth, self.settings['camera_true_center_y']), (255, 0, 0), 2)
 
-                    cv2.rectangle(frame, (ai_x, ai_y), (ai_x+ai_w, ai_y + ai_h), (255,255,0),2)
+                    # cv2.rectangle(frame, (ai_x, ai_y), (ai_x+ai_w, ai_y + ai_h), (255,255,0),2)
 
                     cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0),2)
 
@@ -251,12 +324,16 @@ class DebugImageThread(QtCore.QObject):
                         self.centerLabels.emit(self.relativeCenters)
                     else:
                         self.centerLabels.emit([])
+                    QApplication.processEvents()
 
-            cap.release()
+            if self.analogCam.isOpened():
+                self.analogCam.release()
             self.isRunning = False
+            self.stopRunning = True
+
         except Exception as e:
             try:
-                cap.release()
+                self.analogCam.release()
             except:
                 pass
             print(e)

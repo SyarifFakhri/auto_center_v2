@@ -145,8 +145,8 @@ class MasterWindow(QMainWindow):
 		self.setMaximumWidth(1024)
 		self.setMaximumHeight(600)
 
-		self.showMainWindow(None)
-		#self.showSplashWindow(None)
+		# self.showMainWindow(None)
+		self.showSplashWindow(None)
 		self.isRecordingStats = False
 
 		app.aboutToQuit.connect(self.stopProgram)
@@ -300,12 +300,34 @@ class MasterWindow(QMainWindow):
 	def showSplashWindow(self, param):
 		self.splashWindow.init_ui(self)
 
+		self.splashWindow.chooseD55l.clicked.connect(self.setD55lCamera)
+		self.splashWindow.chooseCp1p.clicked.connect(self.setCp1pCamera)
+
 		if debugConfigs.FULLSCREEN:
 			self.showFullScreen()
 
 		else:
 			self.showMaximized()
 
+	def setD55lCamera(self,param):
+		settingsConfigField = Query()
+		self.settingsConfig.upsert({
+			'currentCameraType': 'd55l',
+		}, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
+
+		self.programCam.currentCameraType = 'd55l'
+
+		self.showMainWindow(None)
+
+	def setCp1pCamera(self, param):
+		settingsConfigField = Query()
+		self.settingsConfig.upsert({
+			'currentCameraType': 'cp1p',
+		}, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
+
+		self.programCam.currentCameraType = 'cp1p'
+
+		self.showMainWindow(None)
 
 	@pyqtSlot()
 	def resetCamera(self):
@@ -477,7 +499,7 @@ class MasterWindow(QMainWindow):
 
 
 	def saveSettings(self):
-		currentCamera = self.programCam.currentCameraType
+		currentCamera = self.settingsWindow.chooseCurrentCamera.currentText()
 		settingsConfigField = Query()
 		self.settingsConfig.upsert({
 			'currentCameraType': self.settingsWindow.chooseCurrentCamera.currentText(),
@@ -499,10 +521,11 @@ class MasterWindow(QMainWindow):
 			},
 		}, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
-		# self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
-		# self.imageCap.roi[1] = self.settingsWindow.roiYSlider.value()
-		# self.imageCap.roi[2] = self.settingsWindow.roiWSlider.value()
-		# self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
+		#Update it right away
+		self.imageCap.roi[0] = self.settingsWindow.roiXSlider.value()
+		self.imageCap.roi[1] = self.settingsWindow.roiYSlider.value()
+		self.imageCap.roi[2] = self.settingsWindow.roiWSlider.value()
+		self.imageCap.roi[3] = self.settingsWindow.roiHSlider.value()
 
 		self.imageCap.screenCenterX = self.settingsWindow.centerXSlider.value()
 		self.imageCap.screenCenterY = self.settingsWindow.centerYSlider.value()
@@ -618,6 +641,12 @@ class MasterWindow(QMainWindow):
 		self.settingsWindow.programOffsetButton.clicked.connect(self.simpleProgramCamera)
 
 		self.settingsWindow.resetStatistics.clicked.connect(self.resetStatistics)
+
+		self.settingsImageCap.callToggleCamera.connect(self.settingsImageCap.toggleCam)
+		self.settingsWindow.toggleCamera.clicked.connect(self.toggleCam)
+
+	def toggleCam(self, param):
+		self.settingsImageCap.callToggleCamera.emit()
 
 	def tareCenter(self, params):
 		self.settingsImageCap.settings['camera_true_center_x'] = self.settingsImageCap.absoluteCenters[0][0]

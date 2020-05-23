@@ -89,6 +89,8 @@ class SettingsWindow():
 		self.programOffsetButton = QPushButton("Program Center")
 		self.tareButton = QPushButton("Tare Center")
 		self.resetStatistics = QPushButton("Reset Statistics")
+		self.toggleCamera = QPushButton("Toggle Camera")
+
 
 		self.chooseCurrentCamera = QtGui.QComboBox()
 		self.chooseCurrentCamera.addItem(cameraSetting)
@@ -131,6 +133,7 @@ class SettingsWindow():
 		rightVBox.addWidget(self.programOffsetButton)
 		rightVBox.addWidget(self.tareButton)
 		rightVBox.addWidget(self.resetStatistics)
+		rightVBox.addWidget(self.toggleCamera)
 		rightVBox.addWidget(self.chooseCurrentCamera)
 		rightVBox.addWidget(self.overlayOption)
 		rightVBox.addWidget(self.enableAiCheckbox)

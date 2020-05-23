@@ -15,8 +15,8 @@ import shutil
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
 		#self.cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
-		self.classifierPath = '../assets/classifier'
-		self.scalerPath = "../assets/scaler"
+		self.classifierPath = '../assets/classifier' + currentCameraType
+		self.scalerPath = "../assets/scaler" + currentCameraType
 		self.classifier = None
 
 		# Define parameters for feature extraction
