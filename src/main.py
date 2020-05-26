@@ -283,15 +283,16 @@ class MasterWindow(QMainWindow):
 				if ret == QtWidgets.QMessageBox.Yes:
 					#then call image cap
 					self.imageCap.callImageCap.emit()
-					time.sleep(2)
+					time.sleep(1)
 					self.programCam.callDoubleProgramCamera.emit()
 				else:
+					#The program was aborted, so just print what was detected
 					self.programCam.arduinoController.running = False
 					print(detected)
 			else:
 				# If ai is disabled just run it like normal
 				self.imageCap.callImageCap.emit()
-				time.sleep(2)
+				time.sleep(1)
 				self.programCam.callDoubleProgramCamera.emit()
 		else:
 			self.programCam.arduinoController.running = False

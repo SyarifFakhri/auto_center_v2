@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="603ac091-5cf5-4f7e-a4aa-26c0005286fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/auto_center_v2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/auto_center_v2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/debugConfigs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/debugConfigs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/imageCapture.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/imageCapture.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pcbOrientationDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcbOrientationDetection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settingsWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settingsWindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/splashWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/splashWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
