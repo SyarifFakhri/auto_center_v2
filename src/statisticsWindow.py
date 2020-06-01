@@ -131,9 +131,9 @@ class StatisticsWindow():
         failed = []
         for dataPoint in xyAlignmentStats:
             if dataPoint[2] == 'succeeded':
-                succeeded.append([dataPoint[0], dataPoint[1]])
+                succeeded.append([dataPoint[1], dataPoint[0]])
             elif dataPoint[2] == 'failed':
-                failed.append([dataPoint[0], dataPoint[1]])
+                failed.append([dataPoint[1], dataPoint[0]])
             else:
                 assert 0, "Data point must be 'succeeded' or 'failed', is: " + dataPoint[2]
         print("Succceeded:", succeeded)
