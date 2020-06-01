@@ -13,7 +13,7 @@ class ArduinoController(QObject):
         
         
         self.board = pymata4.Pymata4("COM9", arduino_instance_id=1)
-        self.leonardoBoard = pymata4.Pymata4("COM7", arduino_instance_id=2)
+        self.leonardoBoard = pymata4.Pymata4("COM10", arduino_instance_id=2)
         
         self.setupArduino()
         self.setupLeonardo()

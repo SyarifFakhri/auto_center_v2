@@ -1,1 +1,1 @@
-python pcbOrientationDetection.py
+python pcbOrientationDetection.py -m 0 -c cp1p

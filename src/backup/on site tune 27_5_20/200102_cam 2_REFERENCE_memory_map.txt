@@ -1,0 +1,53 @@
+MemoryMap - FlashTool (version 6.0.8.52156)
+
+######################################################################################
+# Text file generated with a binary flash image
+# C:/Users/user/Dropbox/72-C&C Project/03. Project/02. RVC/21. CP4Pe_D55L/05. Development/04. Software/01. Bin File/200520 ASX344 CP4Pe_on site tune v1.00/200520_ASX344AT_v1.01 CP4Pe_on site tuning v1.00.bin.
+# To map the memory in Offset order
+######################################################################################
+
+
+
+Address 			  Name 
+=========================================================================
+0x00000000  		 TOC
+0x30  		Erased Gap of 0x20 Bytes
+
+0x00000050  		INIT_TABLE			  
+
+0x00000070  		PATCH_INIT_TABLE			  
+
+0x00000078  		DEWARP_INIT_TABLE			  
+
+0x00000080  		PATCH_TOC			  
+
+0x00000088  		DEWARP_CONFIG_TOC			  
+
+Erased Gap of 0xC0 Bytes
+
+#INIT_TABLE_Region
+0x00000150  		REGISTER_SET_V1 
+0x00000158  		VARIABLE_SET_V2 
+0x000003A8  		REGISTER_SET_V1 
+0x000003B0  		VARIABLE_SET_V2 
+0x0000042C  		VARIABLE_SET_V2 
+0x00000438  		VARIABLE_SET_V2 
+0x00000444  		VARIABLE_SET_V2 
+
+#PATCH_INIT_TABLE_Region
+0x00000470  		COMMAND_V1 
+
+#DEWARP_INIT_TABLE_Region
+0x0000047A  		COMMAND_V1 
+
+#PATCH_TOC_Region
+0x00000484  		PATCH_V1 
+
+#DEWARP_CONFIG_TOC_Region
+0x00000532  		DEWARP_CONFIG_V1 
+
+Erased Gap of 0x80 Bytes
+
+#Next available location 0x6D4
+
+[END]

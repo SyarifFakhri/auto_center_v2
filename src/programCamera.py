@@ -42,7 +42,10 @@ class ProgramCamera(QtCore.QObject):
         self.detector = PcbDetector(settings[currentCameraType], currentCameraType)
         self.detector.loadModel()
         #print("done setup detector")
-
+    def reloadDetector(self, currentCameraType):
+        self.detector.classifierPath = '../assets/classifier' + currentCameraType
+        scalerPath = "../assets/scaler" + currentCameraType
+        self.detector.loadModel()
 
     def stop(self):
         self.arduinoController.shutDown()
@@ -308,7 +311,7 @@ class ProgramCamera(QtCore.QObject):
         self.releaseResources()
 
     def releaseResources(self):
-        self.arduinoController.offLeds()
+        # self.arduinoController.offLeds()
         self.arduinoController.running = False
         self.isProgramming = False
 
@@ -322,17 +325,28 @@ class ProgramCamera(QtCore.QObject):
         self.arduinoController.offRedLed()
 
     def checkPCBOrientation(self):
+        self.currentProgrammingStep = "Check PCB Orientation"
+        self.arduinoController.onRedLed()
+        self.arduinoController.onGreenLed()
+        print("open cam")
         cap = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
-
+        print("read frames")
+        
         for i in range(5):
             ret, frame = cap.read()
+        print("run inference")
             
         if ret:
             pred, labels = self.detector.runInferenceSingleImage(frame)
             print(labels[pred[0]])
         else:
             print("ERROR NO PIC")
+        print("release")
         cap.release()
+        print("done")
+
+        self.arduinoController.offRedLed()
+        self.arduinoController.offGreenLed()
 
         return labels[pred[0]]
 

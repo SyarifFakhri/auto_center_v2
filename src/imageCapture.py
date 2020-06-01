@@ -213,8 +213,10 @@ class DebugImageThread(QtCore.QObject):
 
     @pyqtSlot()
     def toggleCam(self):
+        print("Releasing camera")
         self.releaseCamera(self.analogCam)
         self.releaseCamera(self.AICam)
+        time.sleep(2)
         #Check if AI cam is open, if it is switch to analog cam view
         print("Released Camera")
 
@@ -225,7 +227,7 @@ class DebugImageThread(QtCore.QObject):
 
         elif self.currentCamera == debugConfigs.SECONDARY_VIDEO_CAP_DEVICE:
             print("Enabling analog cam")
-            self.currentCamera = debugConfigs.SECONDARY_VIDEO_CAP_DEVICE
+            self.currentCamera = debugConfigs.VIDEO_CAP_DEVICE
             self.debugCameraCapture()
         else:
             assert 0, "Camera is either analog or AI"
@@ -275,8 +277,10 @@ class DebugImageThread(QtCore.QObject):
 
     def releaseCamera(self, cap):
         if cap is not None:
-            if cap.isOpened() == False:
+            try:
                 cap.release()
+            except Exception as e:
+                print(e)
 
     @pyqtSlot()
     def debugCameraCapture(self):

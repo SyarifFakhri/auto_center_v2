@@ -112,15 +112,15 @@ class SettingsWindow():
 			self.enableAiCheckbox.setCheckable(True)
 
 		self.statusLabel = QLabel("Machine Idle")
-		self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=15))
+		self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=12))
 		self.statusLabel.setAlignment(Qt.AlignRight)
 
 		self.xCenterLabel = QLabel("Center X: 0")
 		self.xCenterLabel.setAlignment(Qt.AlignRight)
-		self.xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=15))
+		self.xCenterLabel.setFont(QtGui.QFont("Lato", pointSize=12))
 
 		self.yCenterLabel = QLabel("Center Y: 0")
-		self.yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=15))
+		self.yCenterLabel.setFont(QtGui.QFont("Lato", pointSize=12))
 		self.yCenterLabel.setAlignment(Qt.AlignRight)
 
 		self.noteOnImage = QLabel("True image size is: " + str(picWidth) + ", " + str(picHeight))

@@ -42,7 +42,7 @@ class PcbDetector():
 		print(self.rootPath)
 
 	def init_cam(self):
-		self.cap = cv2.VideoCapture(0)#,cv2.CAP_DSHOW)
+		self.cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
 
 	def prepareFolders(self):
 		#first delete all the folders

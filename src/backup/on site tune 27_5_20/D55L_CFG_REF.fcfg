@@ -1,0 +1,299 @@
+# FlashtoolGUI Version: 4.5.15.37362 Build Date: 09/19/2013 Build Type: 4.5.15_Daily
+# Flash Image Configuration file. Automatically Generated.
+
+# Generated on  Mon Sep 23 07:17:14 2013
+
+
+
+#
+#############################################################################
+#
+# Maximum flash image size
+#
+#############################################################################
+#
+MAX_SIZE=0x10000
+
+#
+#############################################################################
+#
+# Global initialization table
+#
+#############################################################################
+#
+[INIT_TABLE]
+
+#@ Sensor optimization
+TYPE=create_reg_set
+PARAMETERS={
+	0x3ED8,	0xC494 	# RESERVED_CORE_3ED8
+ }
+
+#@ Tuning CCM, AWB,calibration and preference
+TYPE=create_var_set_v2
+PARAMETERS={
+	0xC97E,	16,	0x1,	# CAM_PGA_PGA_CONTROL
+	0xC896,	16,	0x129,	# CAM_AWB_CCM_L_0
+	0xC898,	16,	0xFFE9,	# CAM_AWB_CCM_L_1
+	0xC89A,	16,	0xFFEE,	# CAM_AWB_CCM_L_2
+	0xC89C,	16,	0xFF8D,	# CAM_AWB_CCM_L_3
+	0xC89E,	16,	0x11E,	# CAM_AWB_CCM_L_4
+	0xC8A0,	16,	0x55,	# CAM_AWB_CCM_L_5
+	0xC8A2,	16,	0xFFB9,	# CAM_AWB_CCM_L_6
+	0xC8A4,	16,	0xFF22,	# CAM_AWB_CCM_L_7
+	0xC8A6,	16,	0x225,	# CAM_AWB_CCM_L_8
+	0xC8A8,	16,	0x192,	# CAM_AWB_CCM_M_0
+	0xC8AA,	16,	0xFF9C,	# CAM_AWB_CCM_M_1
+	0xC8AC,	16,	0xFFD2,	# CAM_AWB_CCM_M_2
+	0xC8AE,	16,	0xFF94,	# CAM_AWB_CCM_M_3
+	0xC8B0,	16,	0x151,	# CAM_AWB_CCM_M_4
+	0xC8B2,	16,	0x1B,	# CAM_AWB_CCM_M_5
+	0xC8B4,	16,	0xFFEF,	# CAM_AWB_CCM_M_6
+	0xC8B6,	16,	0xFF6D,	# CAM_AWB_CCM_M_7
+	0xC8B8,	16,	0x1A6,	# CAM_AWB_CCM_M_8
+	0xC8BA,	16,	0x15D,	# CAM_AWB_CCM_R_0
+	0xC8BC,	16,	0xFFDA,	# CAM_AWB_CCM_R_1
+	0xC8BE,	16,	0xFFCB,	# CAM_AWB_CCM_R_2
+	0xC8C0,	16,	0xFFD5,	# CAM_AWB_CCM_R_3
+	0xC8C2,	16,	0x133,	# CAM_AWB_CCM_R_4
+	0xC8C4,	16,	0xFFF8,	# CAM_AWB_CCM_R_5
+	0xC8C6,	16,	0x3,	# CAM_AWB_CCM_R_6
+	0xC8C8,	16,	0xFF91,	# CAM_AWB_CCM_R_7
+	0xC8CA,	16,	0x16A,	# CAM_AWB_CCM_R_8
+	0xC8F6,	8,	0x3,	# CAM_AWB_AWB_XSCALE
+	0xC8F7,	8,	0x2,	# CAM_AWB_AWB_YSCALE
+	0xC8F8,	16,	0x0,	# CAM_AWB_AWB_WEIGHTS_0
+	0xC8FA,	16,	0x411C,	# CAM_AWB_AWB_WEIGHTS_1
+	0xC8FC,	16,	0xF00,	# CAM_AWB_AWB_WEIGHTS_2
+	0xC8FE,	16,	0x4,	# CAM_AWB_AWB_WEIGHTS_3
+	0xC900,	16,	0x3,	# CAM_AWB_AWB_WEIGHTS_4
+	0xC902,	16,	0x1F,	# CAM_AWB_AWB_WEIGHTS_5
+	0xC904,	16,	0xD0,	# CAM_AWB_AWB_WEIGHTS_6
+	0xC906,	16,	0x0,	# CAM_AWB_AWB_WEIGHTS_7
+	0xC908,	16,	0x55,	# CAM_AWB_AWB_XSHIFT_PRE_ADJ
+	0xC90A,	16,	0x3B,	# CAM_AWB_AWB_YSHIFT_PRE_ADJ
+	0xC960,	16,	0x93,	# CAM_LL_START_GAIN_METRIC
+	0xC962,	16,	0x366,	# CAM_LL_STOP_GAIN_METRIC
+	0xC940,	16,	0x18,	# CAM_LL_START_BRIGHTNESS
+	0xC942,	16,	0x250,	# CAM_LL_STOP_BRIGHTNESS
+	0xC94E,	8,	0x14,	# CAM_LL_START_NR_RED
+	0xC94F,	8,	0x14,	# CAM_LL_START_NR_GREEN
+	0xC950,	8,	0x14,	# CAM_LL_START_NR_BLUE
+	0xC951,	8,	0x14,	# CAM_LL_START_NR_THRESH
+	0xC94A,	8,	0x5,	# CAM_LL_START_AP_THRESH
+	0xC952,	8,	0x50,	# CAM_LL_STOP_NR_RED
+	0xC953,	8,	0x50,	# CAM_LL_STOP_NR_GREEN
+	0xC954,	8,	0x50,	# CAM_LL_STOP_NR_BLUE
+	0xC955,	8,	0x28,	# CAM_LL_STOP_NR_THRESH
+	0xC94D,	8,	0x19,	# CAM_LL_STOP_AP_THRESH
+	0xC94B,	8,	0x32,	# CAM_LL_STOP_DEMOSAIC
+	0xC86C,	16,	0x50,	# CAM_AET_BLACK_CLIPPING_TARGET
+	0xC956,	16,	0x8,	# CAM_LL_START_CONTRAST_BM
+	0xC958,	16,	0x250,	# CAM_LL_STOP_CONTRAST_BM
+	0xB42A,	8,	0x2,	# CCM_DELTA_GAIN
+	0xB42B,	8,	0x14,	# CCM_DELTA_THRESH
+	0xC8CC,	16,	0x6E,	# CAM_AWB_CCM_L_RG_GAIN
+	0xC8CE,	16,	0x178,	# CAM_AWB_CCM_L_BG_GAIN
+	0xC8D0,	16,	0xB9,	# CAM_AWB_CCM_M_RG_GAIN
+	0xC8D2,	16,	0x150,	# CAM_AWB_CCM_M_BG_GAIN
+	0xC8D4,	16,	0xB6,	# CAM_AWB_CCM_R_RG_GAIN
+	0xC8D6,	16,	0xB9,	# CAM_AWB_CCM_R_BG_GAIN
+	0xC910,	16,	0x1285, # CAM_AWB_TINTS_CTEMP_THRESHOLD   
+	0xC912,	8,	0x8C,	# CAM_AWB_K_R_L
+	0xC913,	8,	0xA6,	# CAM_AWB_K_G_L
+	0xC914,	8,	0xC8,	# CAM_AWB_K_B_L
+	0xC915,	8,	0x7F,	# CAM_AWB_K_R_R
+	0xC916,	8,	0x80,	# CAM_AWB_K_G_R
+	0xC917,	8,	0x8C 	# CAM_AWB_K_B_R
+ }
+
+TYPE=create_reg_set
+PARAMETERS={
+	0x326E,	0x86 	# RESERVED_SOC1_326E
+ }
+
+#@ 180813 C&C IQ Tuning
+TYPE=create_var_set_v2
+PARAMETERS={
+	0xC95A, 16, 0xE8,	# CAM_LL_GAMMA
+	0xC868,	8,	0x4, 	# CAM_AET_AEMODE
+	0xC95C,	8,	0x23,	# CAM_LL_START_CONTRAST_GRADIENT
+	0xC95D,	8,	0x34,	# CAM_LL_STOP_CONTRAST_GRADIENT
+	0xC95E,	8,	0x33,	# CAM_LL_START_CONTRAST_LUMA_PERCENTAGE
+	0xC95F,	8,	0x4F, 	# CAM_LL_STOP_CONTRAST_LUMA_PERCENTAGE
+	0xC949,	8,	0x7,	# CAM_LL_START_AP_GAIN
+	0xC94C,	8,	0x7,	# CAM_LL_STOP_AP_GAIN
+	0xC94A,	8,	0x0,	# CAM_LL_START_AP_THRESH
+	0xC94D,	8,	0x0,	# CAM_LL_STOP_AP_THRESH
+	0xC944,	8,	0x82,	# CAM_LL_START_SATURATION
+	0xC945,	8,	0x7D,	# CAM_LL_END_SATURATION
+	0xC948,	8,	0x0,	# CAM_LL_START_DEMOSAIC
+	0xC94B,	8,	0x0, 	# CAM_LL_STOP_DEMOSAIC
+	0xC860, 8,	0x0,	#CAM_FOV_CALIB_X_OFFSET
+	0xC861,   	8,	0xE9	# CAM_FOV_CALIB_Y_OFFSET
+ }
+
+#@ Flicker Detect
+TYPE=create_var_set_v2
+PARAMETERS={
+	0xC9A6,	16,	0x3 	# CAM_FLICKER_DETECT_FD_MODE
+ }
+
+#@ Image Mirrorring
+TYPE=create_var_set_v2
+PARAMETERS={
+	0xC83C,	16,	0x1 	# CAM_SENSOR_CONTROL_READ_MODE
+ }
+
+#@ Image Mirrorring and Flipping
+#TYPE=create_var_set_v2
+#PARAMETERS={
+#	0xC83C,	16,	0x3 	# CAM_SENSOR_CONTROL_READ_MODE
+# }
+
+TYPE=create_var_set_v2
+PARAMETERS={
+	0xC86A,	8,	0x21,	# CAM_AET_TARGET_AVERAGE_LUMA
+	0xC86B, 8,   	0x17,	# CAM_AET_TARGET_AVERAGE_LUMA_DARK
+	0xC85C,	16,	0x0,	# CAM_FRAME_SCAN_CONTROL
+	0x9408,	8,	0x23,	# NTSC_INTERLACED_PORT_PARALLEL_CONTROL
+	0xDC04,	8,	0x4 	# SYSMGR_CONFIG_MODE
+ }
+
+[END]   # [INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Calibration initialization table
+#
+#############################################################################
+#
+[CALIBRATION_INIT_TABLE]
+[END]   # [CALIBRATION_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Patch initialization table
+#
+#############################################################################
+#
+[PATCH_INIT_TABLE]
+
+TYPE=create_command
+PARAMETERS={ Load_Patch, 0x0   }
+
+[END]  # [PATCH_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Dewarp (Distortion Correction) initialization table
+# Note: The software requires an empty Dewarp table even for devices that do
+#       not have the dewarp feature.
+#
+#############################################################################
+#
+[DEWARP_INIT_TABLE]
+
+#@ Load lens distortion correction blob 0 (NTSC, perspective corrected)
+TYPE=create_command
+PARAMETERS={ Dewarp_Load_Config, 0x0   }
+
+[END]  # [DEWARP_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Graphics Overlay (bitmaps and strings) initialization table
+#
+#############################################################################
+#
+[OVERLAY_INIT_TABLE]
+
+#TYPE=create_command
+#PARAMETERS={ Enable_Overlay, 0x1   }
+
+#@ Load bitmap 0 into buffer 0, and display on layer 0 
+#TYPE=create_command
+#PARAMETERS={ Load_Buffer, 0x0, 0x0, 0x0, 0x1   }
+
+[END]  # [OVERLAY_INIT_TABLE]
+
+
+#
+#############################################################################
+#
+# Table of Contents of firmware patches
+#
+#############################################################################
+#
+[PATCH_TOC]
+
+TYPE=create_patch
+PARAMETERS={
+".\Patches\ASX344at_rev1_1_2_rc_m00_00_maintenance_90030102_0100.info",
+".\Patches\ASX344at_rev1_1_2_rc_m00_00_maintenance_90030102_0100.bin" }
+
+[END]  # [PATCH_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of graphics overlay bitmaps
+#
+#############################################################################
+#
+[OVERLAY_BITMAP_TOC]
+
+#TYPE=create_overlay_bitmap
+#PARAMETERS={ ".\180809 Toyota ? Parking Line 360x480-3.rle" }
+
+[END]   # [OVERLAY_BITMAP_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of graphics overlay strings
+#
+#############################################################################
+#
+[OVERLAY_STRING_TOC]
+[END]  # [OVERLAY_STRING_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of command sequences
+#
+#############################################################################
+#
+[COMMAND_SEQ_TOC]
+
+[END]  # [COMMAND_SEQ_TOC]
+
+
+#
+#############################################################################
+#
+# Table of Contents of Dewarp (Distortion Correction)
+# Note: The software requires an empty Dewarp table even for devices that do
+#       not have the dewarp feature.
+#
+#############################################################################
+#
+[DEWARP_CONFIG_TOC]
+
+TYPE=create_dewarp_cfg
+PARAMETERS={ "cp4pe_offset 0xE9.bin" }
+[END]  # [DEWARP_CONFIG_TOC]
+
+
