@@ -101,7 +101,8 @@ class ImageCaptureThread(QtCore.QObject):
                     p = convertToQtFormat.scaled(imageWidth, imageHeight, Qt.KeepAspectRatio)
 
                     self.changePixmap.emit(p)
-                    # print("EMIT CAP", counter)
+                    # print("EMIT CAP", counter"
+                    QApplication.processEvents()
                     if len(self.relativeCenters) == 1 and self.validImage == True: #only emit if it's a valid centerpoint
                         self.centerLabels.emit(self.relativeCenters)
                     else:

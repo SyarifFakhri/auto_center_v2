@@ -8,6 +8,9 @@ class ArduinoController(QObject):
     shutdownSignal = pyqtSignal()
     closeBoards = pyqtSignal()
     #Board is based on pymata4 controller
+    rightButtonPressed = pyqtSignal()
+    leftButtonPressed = pyqtSignal()
+
     def __init__(self):
         super(ArduinoController, self).__init__()
         
@@ -136,6 +139,10 @@ class ArduinoController(QObject):
                 self.bothButtonsPressed.emit()
                 # print("TRIGGER")
                 # self.engageHydraulics()
+        if self.running == False:
+            if (self.board.digital_read(self.LEFT_BTN)[0] == 0):
+                self.running = True
+                self.leftButtonPressed.emit()
 
     def rightButtonCallback(self, data):
         # print("RIGHT BUTTON PRESSED", self.board.digital_read(self.LEFT_BTN)[0])
@@ -147,6 +154,10 @@ class ArduinoController(QObject):
                 self.bothButtonsPressed.emit()
                 # print("TRIGGER")
                 # self.engageHydraulics()
+        if self.running == False:
+            if (self.board.digital_read(self.RIGHT_BTN)[0] == 0):
+                self.running = True
+                self.rightButtonPressed.emit()
 
     def monitorButtons(self):
         pass

@@ -65,10 +65,12 @@ class ProgramCamera(QtCore.QObject):
         # pass the center centerpoint
         centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
         programX, programY = self.determineXandYOffset(centerPoints)
-        self.programSteps(programX,programY, withOverlay=withOverlay)
+        canProgram = self.programSteps(programX,programY, withOverlay=withOverlay)
         time.sleep(1)
-        self.currentProgrammingStep = 'Machine Idle'
-
+        if canProgram:
+            self.currentProgrammingStep = 'Machine Idle'
+        else:
+            self.currentProgrammingStep = "Could not connect to Camera"
 
     @pyqtSlot()
     def engageHydraulics(self):
@@ -100,6 +102,11 @@ class ProgramCamera(QtCore.QObject):
         canConnectToCamera = self.programSteps(
             programX,programY,withOverlay=False
         )
+
+        if canConnectToCamera:
+            self.currentProgrammingStep = 'Machine Idle'
+        else:
+            self.currentProgrammingStep = "Could not connect to camera"
 
         return canConnectToCamera
 

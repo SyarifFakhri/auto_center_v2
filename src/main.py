@@ -306,6 +306,9 @@ class MasterWindow(QMainWindow):
                 self.splashWindow.chooseD55l.clicked.connect(self.setD55lCamera)
                 self.splashWindow.chooseCp1p.clicked.connect(self.setCp1pCamera)
 
+                self.programCam.arduinoController.rightButtonPressed.connect(self.setD55lCamera)
+                self.programCam.arduinoController.leftButtonPressed.connect(self.setCp1pCamera)
+
                 if debugConfigs.FULLSCREEN:
                         self.showFullScreen()
 
@@ -319,6 +322,7 @@ class MasterWindow(QMainWindow):
                 }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
                 self.programCam.currentCameraType = 'd55l'
+                self.programCam.arduinoController.running = False
 
                 self.showMainWindow(None)
 
@@ -329,6 +333,7 @@ class MasterWindow(QMainWindow):
                 }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
                 self.programCam.currentCameraType = 'cp1p'
+                self.programCam.arduinoController.running = False
 
                 self.showMainWindow(None)
 
@@ -361,8 +366,8 @@ class MasterWindow(QMainWindow):
                 if len(stringList) >= 1:
                         # self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
                         # self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
-                        self.mainWindow.xCenterLabel.setText(str(stringList[0][0]))
-                        self.mainWindow.yCenterLabel.setText(str(stringList[0][1]))
+                        self.mainWindow.xCenterLabel.setText(str(int(stringList[0][0]/1.5)))
+                        self.mainWindow.yCenterLabel.setText(str(int(stringList[0][1]/1.5)))
                 else:
                         self.mainWindow.xCenterLabel.setText("N/A")
                         self.mainWindow.yCenterLabel.setText("N/A")
@@ -375,8 +380,8 @@ class MasterWindow(QMainWindow):
                         # self.mainWindow.xCenterLeftLabel.setText("CLX: " + str(stringList[0][0]))
                         # self.mainWindow.yCenterleftLabel.setText("CLY: " + str(stringList[0][1]))
 
-                        self.settingsWindow.xCenterLabel.setText("Center X: " + str(stringList[0][0]))
-                        self.settingsWindow.yCenterLabel.setText("Center Y: " + str(stringList[0][1]))
+                        self.settingsWindow.xCenterLabel.setText("Center X: " + str(int(stringList[0][0]/1.5)))
+                        self.settingsWindow.yCenterLabel.setText("Center Y: " + str(int(stringList[0][1]/1.5)))
 
                         # self.mainWindow.xCenterRightLabel.setText("CRX: " + str(stringList[2][0]))
                         # self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
