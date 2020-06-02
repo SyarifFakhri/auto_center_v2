@@ -390,28 +390,32 @@ class PcbDetector():
 		self.classifier = svc
 
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser(description='AI PCB TRAINING RUNNER')
-	parser.add_argument('-m','--mode',type=int, default=0,help="0: running inference mode. 1: Training then inference, 2: run save images mode", required=True)
-	parser.add_argument('-c', '--camera',type=str, default='cp1p', choices=['d55l','cp1p'],help="Camera type, cp1p or d55l")
-	args = parser.parse_args()
+        parser = argparse.ArgumentParser(description='AI PCB TRAINING RUNNER')
+        parser.add_argument('-m','--mode',type=int, default=0,help="0: running inference mode. 1: Training then inference, 2: run save images mode", required=True)
+        parser.add_argument('-c', '--camera',type=str, default='cp1p', choices=['d55l','cp1p'],help="Camera type, cp1p or d55l")
+        args = parser.parse_args()
 
-	settingsConfig = TinyDB('settings.json')
-	settingsConfigField = Query()
-	currentCamera = args.camera
-	picSettings = settingsConfig.get(settingsConfigField.title == 'settingsConfig')
-	detector = PcbDetector(picSettings[currentCamera],currentCamera)
-	detector.init_cam()
+        settingsConfig = TinyDB('settings.json')
+        settingsConfigField = Query()
+        currentCamera = args.camera
+        picSettings = settingsConfig.get(settingsConfigField.title == 'settingsConfig')
+        detector = PcbDetector(picSettings[currentCamera],currentCamera)
+        detector.init_cam()
 
-	###SAVE TRAINING DATA###
-	#detector.saveTrainingImages()
-	if args.mode == 0:
-		detector.loadModel()
-		detector.runInference()
-	elif args.mode == 1:
-		detector.runTraining()
-		detector.loadModel()
-		detector.runInference()
-	elif args.mode == 2:
+        ###SAVE TRAINING DATA###
+        #detector.saveTrainingImages()
+        if args.mode == 0:
+                controller = ArduinoController()
+                controller.releaseHydraulics()
+                detector.loadModel()
+                detector.runInference()
+        elif args.mode == 1:
+                controller = ArduinoController()
+                controller.releaseHydraulics()
+                detector.runTraining()
+                detector.loadModel()
+                detector.runInference()
+        elif args.mode == 2:
                 controller = ArduinoController()
                 controller.releaseHydraulics()
                 detector.prepareFolders()

@@ -22,6 +22,7 @@ class ArduinoController(QObject):
         self.setupLeonardo()
 
         self.running = False
+        self.initialRun = False
         self.checkShutdown = False
         
         self.offGreenLed()
@@ -139,9 +140,9 @@ class ArduinoController(QObject):
                 self.bothButtonsPressed.emit()
                 # print("TRIGGER")
                 # self.engageHydraulics()
-        if self.running == False:
+        if self.initialRun == False:
             if (self.board.digital_read(self.LEFT_BTN)[0] == 0):
-                self.running = True
+                self.initialRun = True
                 self.leftButtonPressed.emit()
 
     def rightButtonCallback(self, data):
@@ -154,9 +155,9 @@ class ArduinoController(QObject):
                 self.bothButtonsPressed.emit()
                 # print("TRIGGER")
                 # self.engageHydraulics()
-        if self.running == False:
+        if self.initialRun == False:
             if (self.board.digital_read(self.RIGHT_BTN)[0] == 0):
-                self.running = True
+                self.initialRun = True
                 self.rightButtonPressed.emit()
 
     def monitorButtons(self):

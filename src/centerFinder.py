@@ -94,7 +94,7 @@ class CenterFinder():
 
         for cnt in contours:
             try:
-                if cv2.contourArea(cnt) < 200:
+                if cv2.contourArea(cnt) < 1000:
                     continue
 
                 moment = cv2.moments(cnt)

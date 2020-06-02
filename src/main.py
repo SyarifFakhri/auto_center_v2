@@ -322,7 +322,7 @@ class MasterWindow(QMainWindow):
                 }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
                 self.programCam.currentCameraType = 'd55l'
-                self.programCam.arduinoController.running = False
+                #self.programCam.arduinoController.initialRun = False
 
                 self.showMainWindow(None)
 
@@ -333,7 +333,7 @@ class MasterWindow(QMainWindow):
                 }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
                 self.programCam.currentCameraType = 'cp1p'
-                self.programCam.arduinoController.running = False
+                #self.programCam.arduinoController.initialRun = False
 
                 self.showMainWindow(None)
 

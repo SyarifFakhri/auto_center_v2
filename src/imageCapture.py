@@ -57,6 +57,7 @@ class ImageCaptureThread(QtCore.QObject):
                 #print("Camera cap")
 
                 if ret:
+                    QApplication.processEvents()
                     frame = cv2.resize(frame,(picWidth,picHeight))
                     
                     height, width = frame.shape[:2]
@@ -102,7 +103,7 @@ class ImageCaptureThread(QtCore.QObject):
 
                     self.changePixmap.emit(p)
                     # print("EMIT CAP", counter"
-                    QApplication.processEvents()
+                    
                     if len(self.relativeCenters) == 1 and self.validImage == True: #only emit if it's a valid centerpoint
                         self.centerLabels.emit(self.relativeCenters)
                     else:
