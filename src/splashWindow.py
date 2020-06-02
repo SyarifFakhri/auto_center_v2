@@ -51,14 +51,14 @@ class SplashWindow():
 		bottomLayout = QHBoxLayout()
 		mainLayout.addLayout(bottomLayout)
 
-		self.chooseCp1p = QPushButton("CP1P")
-		self.chooseCp1p.setStyleSheet("padding: 20px")
+		self.chooseCp1p = QPushButton("Click the left button to choose CP1P")
+		# self.chooseCp1p.setStyleSheet("padding: 20px")
 		# self.chooseCp1p.setAlignment(Qt.AlignCenter)
 		self.chooseCp1p.setFont(QtGui.QFont("Lato", pointSize=30, weight=QtGui.QFont.Bold))
 		bottomLayout.addWidget(self.chooseCp1p)
 
-		self.chooseD55l = QPushButton("D55L")
-		self.chooseD55l.setStyleSheet("padding: 20px");
+		self.chooseD55l = QPushButton("click the right button to choose D55L")
+		# self.chooseD55l.setStyleSheet("padding: 20px");
 		# self.chooseD55l.setAlignment(Qt.AlignCenter)
 		self.chooseD55l.setFont(QtGui.QFont("Lato", pointSize=30, weight=QtGui.QFont.Bold))
 		bottomLayout.addWidget(self.chooseD55l)

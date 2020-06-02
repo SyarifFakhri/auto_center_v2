@@ -4,7 +4,10 @@
     <list default="true" id="603ac091-5cf5-4f7e-a4aa-26c0005286fd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/arduinoController.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/arduinoController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/testFiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testFiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/programCamera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/programCamera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/splashWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/splashWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/statisticsWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/statisticsWindow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,13 +15,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.20738636">
+    <splitter split-orientation="horizontal" split-proportion="0.5966709">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3615">
+                <state relative-caret-position="585">
                   <caret line="244" column="15" selection-start-line="244" selection-start-column="15" selection-end-line="244" selection-end-column="15" />
                   <folding>
                     <element signature="e#0#161#0" expanded="true" />
@@ -27,11 +30,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="363">
-                  <caret line="621" column="74" selection-start-line="621" selection-start-column="74" selection-end-line="621" selection-end-column="74" />
+                <state relative-caret-position="570">
+                  <caret line="530" lean-forward="true" selection-start-line="530" selection-end-line="530" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -48,7 +51,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.gitignore">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="15">
@@ -69,8 +72,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="355">
-                  <caret line="128" column="37" lean-forward="true" selection-start-line="128" selection-start-column="37" selection-end-line="128" selection-end-column="37" />
+                <state relative-caret-position="585">
+                  <caret line="141" column="46" lean-forward="true" selection-start-line="141" selection-start-column="46" selection-end-line="141" selection-end-column="46" />
                   <folding>
                     <element signature="e#0#172#0" expanded="true" />
                   </folding>
@@ -83,18 +86,6 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state>
                   <caret column="86" selection-start-column="77" selection-end-column="86" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="17" column="49" lean-forward="true" selection-start-line="17" selection-start-column="49" selection-end-line="17" selection-end-column="49" />
-                  <folding>
-                    <element signature="e#0#161#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -124,8 +115,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/programCamera.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="225">
-                  <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+                <state relative-caret-position="4230">
+                  <caret line="282" column="47" selection-start-line="282" selection-start-column="47" selection-end-line="282" selection-end-column="47" />
                   <folding>
                     <element signature="e#0#42#0" expanded="true" />
                   </folding>
@@ -146,22 +137,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="145">
-                  <caret line="229" column="47" selection-start-line="229" selection-start-column="47" selection-end-line="229" selection-end-column="47" />
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/arduinoController.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="450">
-                  <caret line="159" column="26" lean-forward="true" selection-start-line="159" selection-start-column="26" selection-end-line="159" selection-end-column="26" />
+                <state relative-caret-position="420">
+                  <caret line="28" column="26" lean-forward="true" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
                   <folding>
                     <element signature="e#0#27#0" expanded="true" />
                   </folding>
@@ -181,8 +160,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/splashWindow.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+                <state relative-caret-position="195">
+                  <caret line="59" column="76" selection-start-line="59" selection-start-column="76" selection-end-line="59" selection-end-column="76" />
                 </state>
               </provider>
             </entry>
@@ -215,6 +194,18 @@
               </provider>
             </entry>
           </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-284">
+                  <caret line="78" column="46" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="46" />
+                  <folding>
+                    <element signature="e#0#161#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
         </leaf>
       </split-second>
     </splitter>
@@ -233,6 +224,16 @@
       <find>updateLabelas</find>
       <find>toggleCam</find>
       <find>xCenterLabel</find>
+      <find>leftButton</find>
+      <find>checkShutdown</find>
+      <find>select</find>
+      <find>reloadDetector</find>
+      <find>cp1p</find>
+      <find>previous</find>
+      <find>shutdownTim</find>
+      <find>self.shutdowntimer</find>
+      <find>ret ==</find>
+      <find>setd</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -242,12 +243,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/imageCapture.py" />
-        <option value="$PROJECT_DIR$/src/programCamera.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/debugConfigs.py" />
-        <option value="$PROJECT_DIR$/src/statisticsWindow.py" />
-        <option value="$PROJECT_DIR$/src/arduinoController.py" />
         <option value="$PROJECT_DIR$/src/testFiles.py" />
+        <option value="$PROJECT_DIR$/src/programCamera.py" />
+        <option value="$PROJECT_DIR$/src/splashWindow.py" />
+        <option value="$PROJECT_DIR$/src/arduinoController.py" />
+        <option value="$PROJECT_DIR$/src/statisticsWindow.py" />
+        <option value="$PROJECT_DIR$/src/main.py" />
       </list>
     </option>
   </component>
@@ -285,7 +287,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Python" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -456,7 +458,7 @@
     <frame x="53" y="-4" width="1867" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4273319" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22776572" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -467,7 +469,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.23092999" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.06792059" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.3291536" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -510,10 +512,27 @@
     <state x="623" y="247" width="672" height="678" key="search.everywhere.popup/0.30.1920.995@0.30.1920.995" timestamp="1590200101674" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/splashWindow.py">
+    <entry file="file://$PROJECT_DIR$/src/testFiles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        <state relative-caret-position="195">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/database.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="2612" selection-start-column="2612" selection-end-column="2612" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="241" column="8" selection-start-line="241" selection-start-column="8" selection-end-line="241" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -527,13 +546,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="621" column="74" selection-start-line="621" selection-start-column="74" selection-end-line="621" selection-end-column="74" />
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mainWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="244" column="15" selection-start-line="244" selection-start-column="15" selection-end-line="244" selection-end-column="15" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#161#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/programCamera.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4230">
+          <caret line="282" column="47" selection-start-line="282" selection-start-column="47" selection-end-line="282" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/splashWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="59" column="76" selection-start-line="59" selection-start-column="76" selection-end-line="59" selection-end-column="76" />
         </state>
       </provider>
     </entry>
@@ -546,71 +589,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/settingsWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="128" column="37" lean-forward="true" selection-start-line="128" selection-start-column="37" selection-end-line="128" selection-end-column="37" />
+        <state relative-caret-position="585">
+          <caret line="141" column="46" lean-forward="true" selection-start-line="141" selection-start-column="46" selection-end-line="141" selection-end-column="46" />
           <folding>
             <element signature="e#0#172#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/programCamera.py">
+    <entry file="file://$PROJECT_DIR$/src/arduinoController.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="420">
+          <caret line="28" column="26" lean-forward="true" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pcbOrientationDetection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="229" column="47" selection-start-line="229" selection-start-column="47" selection-end-line="229" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/statisticsWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="49" lean-forward="true" selection-start-line="17" selection-start-column="49" selection-end-line="17" selection-end-column="49" />
+        <state relative-caret-position="-284">
+          <caret line="78" column="46" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="46" />
           <folding>
             <element signature="e#0#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/testFiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/database.json">
+    <entry file="file://$PROJECT_DIR$/src/settings.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="2612" selection-start-column="2612" selection-end-column="2612" />
+          <caret column="86" selection-start-column="77" selection-end-column="86" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/arduinoController.py">
+    <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="159" column="26" lean-forward="true" selection-start-line="159" selection-start-column="26" selection-end-line="159" selection-end-column="26" />
+        <state relative-caret-position="570">
+          <caret line="530" lean-forward="true" selection-start-line="530" selection-end-line="530" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

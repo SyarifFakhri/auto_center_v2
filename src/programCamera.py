@@ -44,7 +44,7 @@ class ProgramCamera(QtCore.QObject):
         #print("done setup detector")
     def reloadDetector(self, currentCameraType):
         self.detector.classifierPath = '../assets/classifier' + currentCameraType
-        scalerPath = "../assets/scaler" + currentCameraType
+        self.detector.scalerPath = "../assets/scaler" + currentCameraType
         self.detector.loadModel()
 
     def stop(self):
@@ -284,7 +284,7 @@ class ProgramCamera(QtCore.QObject):
 
         self.flashTool.createBinFileCmd(self.currentCameraType)
 
-        self.currentProgrammingStep = 'Flashing Camera'
+        self.currentProgrammingStep = 'Flashing ' + self.currentCameraType + ' Config'
 
         tic = time.perf_counter()
         self.flashTool.flashCameraCmd()

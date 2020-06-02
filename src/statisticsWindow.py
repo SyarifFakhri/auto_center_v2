@@ -69,11 +69,14 @@ class StatisticsWindow():
         
         xyAlignment = self.xyAlignmentStats(database['xyAlignmentStats'])
 
+        self.exportCsvButton = QPushButton("Export to CSV")
+
         vCharts.addWidget(statisticsTitle)
         vCharts.addWidget(totalCameraLabel)
         vCharts.addWidget(acceptedCameraLabel)
         vCharts.addWidget(rejectedCameraLabel)
         vCharts.addWidget(averageCycleTimeLabel)
+        vCharts.addWidget(self.exportCsvButton)
         vCharts.addWidget(xyAlignment)
 
         # add scroll
