@@ -315,7 +315,7 @@ class MasterWindow(QMainWindow):
                 else:
                         self.showMaximized()
 
-        def setD55lCamera(self,param):
+        def setD55lCamera(self):
                 settingsConfigField = Query()
                 self.settingsConfig.upsert({
                         'currentCameraType': 'd55l',
@@ -326,7 +326,7 @@ class MasterWindow(QMainWindow):
 
                 self.showMainWindow(None)
 
-        def setCp1pCamera(self, param):
+        def setCp1pCamera(self):
                 settingsConfigField = Query()
                 self.settingsConfig.upsert({
                         'currentCameraType': 'cp1p',

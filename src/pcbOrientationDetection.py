@@ -11,6 +11,7 @@ import pickle
 from tinydb import TinyDB, Query
 import argparse
 import shutil
+from arduinoController import ArduinoController
 
 class PcbDetector():
 	def __init__(self, settings,currentCameraType):
@@ -411,8 +412,10 @@ if __name__ == '__main__':
 		detector.loadModel()
 		detector.runInference()
 	elif args.mode == 2:
-		detector.prepareFolders()
-		detector.saveTrainingImages()
+                controller = ArduinoController()
+                controller.releaseHydraulics()
+                detector.prepareFolders()
+                detector.saveTrainingImages()
 
 
 
