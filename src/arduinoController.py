@@ -31,6 +31,11 @@ class ArduinoController(QObject):
         self.previousChangeTime = 0
         self.debounceTime = 600
 
+        self.leftButtonPrevious = 1
+        self.rightButtonPrevious = 1
+
+        self.shutDownTimer = 0
+
     def setupLeonardo(self):
         self.RED_LED = 23
         self.GREEN_LED = 22
@@ -133,32 +138,48 @@ class ArduinoController(QObject):
         # print("LEFT BUTTON PRESSED", self.board.digital_read(self.RIGHT_BTN)[0])
         self.monitorButtons()
         if self.running == False:
-            if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
-                    self.board.digital_read(self.LEFT_BTN)[0] == 0):
-                self.running = True
-                #right btn is also pressed
-                self.bothButtonsPressed.emit()
-                # print("TRIGGER")
-                # self.engageHydraulics()
+            if self.leftButtonPrevious == 0:
+                if (self.board.digital_read(self.RIGHT_BTN)[0] == 1 and
+                        self.board.digital_read(self.LEFT_BTN)[0] == 1):
+                    self.running = True
+                    #right btn is also pressed
+                    self.bothButtonsPressed.emit()
+                    # print("TRIGGER")
+                    # self.engageHydraulics()
+
         if self.initialRun == False:
             if (self.board.digital_read(self.LEFT_BTN)[0] == 0):
                 self.initialRun = True
                 self.leftButtonPressed.emit()
 
+        #check for shutdown
+        if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
+                self.board.digital_read(self.LEFT_BTN)[0] == 0):
+            print("check shutdown")
+            QApplication.processEvents()
+            currentTime = 
+
+        print("callback end")
+        self.leftButtonPrevious = self.board.digital_read(self.LEFT_BTN)[0]
+
     def rightButtonCallback(self, data):
         # print("RIGHT BUTTON PRESSED", self.board.digital_read(self.LEFT_BTN)[0])
         self.monitorButtons()
         if self.running == False:
-            if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
-                    self.board.digital_read(self.LEFT_BTN)[0] == 0):
-                self.running = True
-                self.bothButtonsPressed.emit()
-                # print("TRIGGER")
-                # self.engageHydraulics()
+            if self.rightButtonPrevious == 0:
+                if (self.board.digital_read(self.RIGHT_BTN)[0] == 0 and
+                        self.board.digital_read(self.LEFT_BTN)[0] == 0):
+                    self.running = True
+                    self.bothButtonsPressed.emit()
+                    # print("TRIGGER")
+                    # self.engageHydraulics()
+
         if self.initialRun == False:
             if (self.board.digital_read(self.RIGHT_BTN)[0] == 0):
                 self.initialRun = True
                 self.rightButtonPressed.emit()
+
+        self.rightButtonPrevious = self.board.digital_read(self.RIGHT_BTN)[0]
 
     def monitorButtons(self):
         pass
