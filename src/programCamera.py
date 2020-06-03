@@ -251,10 +251,12 @@ class ProgramCamera(QtCore.QObject):
             print(e)
             self.currentProgrammingStep = 'Machine Error. Please contact Engineering Team.'
             time.sleep(2)
-            self.currentProgrammingStep = 'Releasing Hydraulics'
-            self.arduinoController.releaseHydraulics()
-            self.currentProgrammingStep = 'Machine Idle'
-            timeEnd = time.perf_counter()
+            self.releaseMachineResourcesAndClose(
+                    isSuccess=False,
+                    timeStart=timeStart,
+                    initialCenterPoints=initialCenterPoints,
+                    failureCode="Camera image error"
+                )
             timeTaken = timeEnd - timeStart
             self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
 
