@@ -246,6 +246,9 @@ class PcbDetector():
 	def runInferenceSingleImage(self, frame):
 		if self.classifier is None:
 			assert 0, "Model not loaded. Ensure that you have loaded a model first. Maybe run loadModel()?"
+		print("Run inference with classifier: ", self.classifierPath)
+		print("Run inference with scaler: ", self.scalerPath)
+
 		x = self.x
 		y = self.y
 		w = self.w

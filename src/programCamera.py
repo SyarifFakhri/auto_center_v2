@@ -43,6 +43,7 @@ class ProgramCamera(QtCore.QObject):
         self.detector.loadModel()
         #print("done setup detector")
     def reloadDetector(self, currentCameraType):
+        print("MODEL RELOAD")
         self.detector.classifierPath = '../assets/classifier' + currentCameraType
         self.detector.scalerPath = "../assets/scaler" + currentCameraType
         self.detector.loadModel()
