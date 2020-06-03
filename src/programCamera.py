@@ -251,15 +251,20 @@ class ProgramCamera(QtCore.QObject):
             print(e)
             self.currentProgrammingStep = 'Machine Error. Please contact Engineering Team.'
             time.sleep(2)
-            self.releaseMachineResourcesAndClose(
-                    isSuccess=False,
-                    timeStart=timeStart,
-                    initialCenterPoints=initialCenterPoints,
-                    failureCode="Camera image error"
-                )
-            timeTaken = timeEnd - timeStart
-            self.currentProgrammingStep = 'Time taken ' + str(round(timeTaken,2)) + ' seconds'
-
+            try:
+                self.releaseMachineResourcesAndClose(
+                        isSuccess=False,
+                        timeStart=timeStart,
+                        initialCenterPoints=initialCenterPoints,
+                        failureCode="Camera image error"
+                    )
+            except:
+                self.releaseMachineResourcesAndClose(
+                        isSuccess=False,
+                        timeStart=timeStart,
+                        initialCenterPoints=[],
+                        failureCode="Camera image error"
+                    )
     def determineXandYOffset(self, centerPoints):
         if self.currentCameraType == 'd55l':
             programX = -centerPoints[0]  # The camera is mirrored on the x axis
