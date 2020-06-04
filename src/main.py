@@ -267,7 +267,7 @@ class MasterWindow(QMainWindow):
                                 xyStats = [] + stats[1]
                                 xyStats.append(stats[0])
                                 print("XY  stats: ", xyStats)
-                                if len(currentAlignmentStats) < 1000:
+                                if len(currentAlignmentStats) < 5000:
                                         print("Appending stats")
                                         currentAlignmentStats.insert(0, xyStats)
                                 else:
