@@ -382,7 +382,7 @@ class MasterWindow(QMainWindow):
                 }, settingsConfigField.title == 'settingsConfig')  # A good alternative is using contains instead
 
                 self.programCam.currentCameraType = 'd55l'
-                self.programCam.reloadDetector('cp1p')
+                self.programCam.reloadDetector('d55l')
 
                 self.showMainWindow(None)
 
