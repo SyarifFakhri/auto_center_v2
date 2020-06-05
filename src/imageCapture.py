@@ -215,13 +215,15 @@ class DebugImageThread(QtCore.QObject):
 
     @pyqtSlot()
     def toggleCam(self):
-        print("Releasing camera")
+        print("Releasing both camera")
         self.releaseCamera(self.analogCam)
         self.releaseCamera(self.AICam)
-        time.sleep(2)
+        print("Released both Camera")
+        while self.isRunning:
+            time.sleep(0.1)
+            print("waiting camera release")
         #Check if AI cam is open, if it is switch to analog cam view
-        print("Released Camera")
-
+        
         if self.currentCamera == debugConfigs.VIDEO_CAP_DEVICE:
             print("Enabling AI camera")
             self.currentCamera = debugConfigs.SECONDARY_VIDEO_CAP_DEVICE
@@ -236,15 +238,20 @@ class DebugImageThread(QtCore.QObject):
 
     def debugAICameraCapture(self):
         try:
+            print("Start AI CAM")
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
             # self.analogCam = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
-            self.AICam = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+            if self.AICam is None:
+                self.AICam = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
+            else:
+                self.AICam.open(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
             sizeMult = 1.5
             picWidth = int(640*sizeMult)
             picHeight = int(480*sizeMult)
             while not self.stopRunning and self.AICam.isOpened():
+                time.sleep(0.1)
                 ret, frame = self.AICam.read()
                 if ret:
                     frame = cv2.resize(frame,(picWidth,picHeight))
@@ -264,14 +271,16 @@ class DebugImageThread(QtCore.QObject):
                     self.changePixmap.emit(p)
                     QApplication.processEvents()
 
-            if self.analogCam.isOpened():
-                self.analogCam.release()
+            if self.AICam.isOpened():
+                self.AICam.release()
+                print("release AI CAM")
+            print("stop ai cam cap")
             self.isRunning = False
-            self.stopRunning = True
+            self.stopRunning = False
 
         except Exception as e:
             try:
-                self.analogCam.release()
+                self.AICam.release()
             except:
                 pass
             print(e)
@@ -280,22 +289,30 @@ class DebugImageThread(QtCore.QObject):
     def releaseCamera(self, cap):
         if cap is not None:
             try:
-                cap.release()
+                if cap.isOpened():
+                    cap.release()
             except Exception as e:
                 print(e)
+        self.stopRunning = True
+        self.isRunning = False
 
     @pyqtSlot()
     def debugCameraCapture(self):
         try:
+            print("Start debug camera capture")
             time.sleep(1)
             self.stopRunning = False
             self.isRunning = True
-            self.analogCam = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            if self.analogCam is None:
+                self.analogCam = cv2.VideoCapture(debugConfigs.VIDEO_CAP_DEVICE)
+            else:
+                self.analogCam.open(debugConfigs.VIDEO_CAP_DEVICE)
             # cap = cv2.VideoCapture(debugConfigs.SECONDARY_VIDEO_CAP_DEVICE)
             sizeMult = 1.5
             picWidth = int(640*sizeMult)
             picHeight = int(480*sizeMult)
             while not self.stopRunning and self.analogCam.isOpened():
+                time.sleep(0.1)
                 ret, frame = self.analogCam.read()
                 if ret:
                     frame = cv2.resize(frame,(picWidth,picHeight))
@@ -334,8 +351,10 @@ class DebugImageThread(QtCore.QObject):
 
             if self.analogCam.isOpened():
                 self.analogCam.release()
+                print("RELEASE ANALOG CAMERA")
+            print("Stop debug camera capture")
             self.isRunning = False
-            self.stopRunning = True
+            self.stopRunning = False
 
         except Exception as e:
             try:

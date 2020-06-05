@@ -111,6 +111,8 @@ class SettingsWindow():
 		else:
 			self.enableAiCheckbox.setCheckable(True)
 
+		self.runMachineCheck = QPushButton("Run Machine Hardware Check")
+
 		self.statusLabel = QLabel("Machine Idle")
 		self.statusLabel.setFont(QtGui.QFont("Lato", pointSize=12))
 		self.statusLabel.setAlignment(Qt.AlignRight)
@@ -140,7 +142,8 @@ class SettingsWindow():
 		rightVBox.addWidget(self.statusLabel)
 		rightVBox.addWidget(self.xCenterLabel)
 		rightVBox.addWidget(self.yCenterLabel)
-		rightVBox.addWidget(self.noteOnImage)
+		#rightVBox.addWidget(self.noteOnImage)
+		rightVBox.addWidget(self.runMachineCheck)
 
 		self.saveButton = QPushButton("Save Settings")
 		rightVBox.addWidget(self.saveButton)

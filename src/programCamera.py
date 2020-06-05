@@ -202,7 +202,7 @@ class ProgramCamera(QtCore.QObject):
             # pass the center centerpoint
             centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
 
-            if abs(centerPoints[0]) > 35 or abs(centerPoints[1]) > 35:
+            if abs(centerPoints[0]) > 50 or abs(centerPoints[1]) > 50:
                 self.releaseMachineResourcesAndClose(
                     isSuccess=False,
                     timeStart=timeStart,
@@ -249,8 +249,6 @@ class ProgramCamera(QtCore.QObject):
         except Exception as e:
             print("ERROR IN PROGRAMMING THREAD: ")
             print(e)
-            self.currentProgrammingStep = 'Machine Error. Please contact Engineering Team.'
-            time.sleep(2)
             try:
                 self.releaseMachineResourcesAndClose(
                         isSuccess=False,
@@ -278,8 +276,8 @@ class ProgramCamera(QtCore.QObject):
         return programX, programY
 
     def programSteps(self, programX, programY, withOverlay):
-        programX = self.clipValue(programX)
-        programY = self.clipValue(programY)
+        programX = self.clipValue(programX, clipTo=35)
+        programY = self.clipValue(programY, clipTo=35)
 
         if self.currentCameraType == 'd55l':
             self.flashTool.alterCFGFileD55LCamera(programX, programY)
@@ -378,14 +376,14 @@ class ProgramCamera(QtCore.QObject):
         if abs(value) > clipTo:
             if value > 0:
                 value = clipTo
-            if value < 0:
+            elif value < 0:
                 value = -clipTo
             else:
                 value = 0
         return value
 
 
-    def isCenterPointCenter(self, centerPoints,threshold=1):
+    def isCenterPointCenter(self, centerPoints,threshold=5):
         """Check if the RELATIVE center points are valid"""
         if abs(centerPoints[0]) <= threshold and abs(centerPoints[1]) <= threshold:
             return True

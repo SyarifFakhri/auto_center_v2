@@ -100,13 +100,14 @@ class StatisticsWindow():
         vCharts.addWidget(acceptedCameraLabel)
         vCharts.addWidget(rejectedCameraLabel)
         vCharts.addWidget(averageCycleTimeLabel)
-        vCharts.addWidget(self.exportCsvButton)
+
         vCharts.addWidget(meanCameraX)
         vCharts.addWidget(meanCameraY)
         vCharts.addWidget(minCameraX)
         vCharts.addWidget(minCameraY)
         vCharts.addWidget(maxCameraX)
         vCharts.addWidget(maxCameraY)
+        vCharts.addWidget(self.exportCsvButton)
         vCharts.addWidget(xyAlignment)
 
         # add scroll
@@ -128,34 +129,43 @@ class StatisticsWindow():
         mainWindow.setCentralWidget(widget)
 
     def getMean(self, xyAlignmentStats):
-        xData = []
-        yData = []
+        try:
+            xData = []
+            yData = []
 
-        for dataPoint in xyAlignmentStats:
-            xData.append(dataPoint[1])
-            yData.append(dataPoint[0])
+            for dataPoint in xyAlignmentStats:
+                xData.append(dataPoint[1])
+                yData.append(dataPoint[0])
 
-        return stats.mean(xData), stats.mean(yData)
+            return stats.mean(xData), -stats.mean(yData)
+        except:
+            return 0, 0
 
     def getMin(self, xyAlignmentStats):
-        xData = []
-        yData = []
+        try:
+            xData = []
+            yData = []
 
-        for dataPoint in xyAlignmentStats:
-            xData.append(dataPoint[1])
-            yData.append(dataPoint[0])
+            for dataPoint in xyAlignmentStats:
+                xData.append(dataPoint[1])
+                yData.append(dataPoint[0])
 
-        return min(xData), min(yData)
+            return min(xData), -min(yData)
+        except:
+            return 0, 0
 
     def getMax(self, xyAlignmentStats):
-        xData = []
-        yData = []
+        try:
+            xData = []
+            yData = []
 
-        for dataPoint in xyAlignmentStats:
-            xData.append(dataPoint[1])
-            yData.append(dataPoint[0])
+            for dataPoint in xyAlignmentStats:
+                xData.append(dataPoint[1])
+                yData.append(dataPoint[0])
 
-        return max(xData), max(yData)
+            return max(xData), -max(yData)
+        except:
+            return 0, 0
 
     def xyAlignmentStats(self,xyAlignmentStats):
         plot = pg.PlotWidget()
@@ -194,9 +204,9 @@ class StatisticsWindow():
         failed = []
         for dataPoint in xyAlignmentStats:
             if dataPoint[2] == 'succeeded':
-                succeeded.append([-dataPoint[1], dataPoint[0]]) #Y then X due to the orientation of the camera # negative sign because the coordinate doesn't follow conventional coordinate systems (Y increases downwards)
+                succeeded.append([dataPoint[1], -dataPoint[0]]) #Y then X due to the orientation of the camera # negative sign because the coordinate doesn't follow conventional coordinate systems (Y increases downwards)
             elif dataPoint[2] == 'failed':
-                failed.append([-dataPoint[1], dataPoint[0]]) #Y then X due to the orientation of the camera
+                failed.append([dataPoint[1], -dataPoint[0]]) #Y then X due to the orientation of the camera
             else:
                 assert 0, "Data point must be 'succeeded' or 'failed', is: " + dataPoint[2]
         print("Succceeded:", succeeded)

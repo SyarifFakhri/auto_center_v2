@@ -325,38 +325,71 @@ class ArduinoController(QObject):
 
         ###Fine grain control stuff down here - Intended for use with machine calibration
         def isCamHolderPneumaticsWorking(self):
+                statusEvents = []
                 self.board.digital_write(self.VALVE_CAM_HOLDER, 1)  # first extend the pneumatics
-                time.sleep(1)
+                for i in range(6):
+                        time.sleep(0.5)
+                        QApplication.processEvents()
                 reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
                 reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
-                if reedswCamExtended != 1 and reedswCamRetracted != 0:
-                        return False
+                if reedswCamExtended != 1:
+                        statusEvents.append("TEST FAIL: Cam holder reed switch extend reads 1 when Cam Holder Extend")
+                else:
+                        statusEvents.append("TEST PASS: Cam holder reed switch extend reads 1 when Cam Holder Extend")
+                if reedswCamRetracted != 0:
+                        statusEvents.append("TEST FAIL: Cam holder reed switch retract reads 0 when Cam Holder Extend")
+                else:
+                        statusEvents.append("TEST PASS: Cam holder reed switch retract reads 0 when Cam Holder Extend")
 
                 self.board.digital_write(self.VALVE_CAM_HOLDER, 0)
-                time.sleep(1)
+                for i in range(6):
+                        time.sleep(0.5)
+                        QApplication.processEvents()
                 reedswCamExtended = self.board.digital_read(self.REEDSW_CAM_HOLDER_EXTEND)[0]
                 reedswCamRetracted = self.board.digital_read(self.REEDSW_CAM_HOLDER_RETRACT)[0]
-                if reedswCamExtended != 0 and reedswCamRetracted != 1:
-                        return False
-
-                return True
+                if reedswCamExtended != 0:
+                        statusEvents.append("TEST FAIL: Cam holder reed switch extend reads 0 when Cam Holder retrac")
+                else:
+                        statusEvents.append("TEST PASS: Cam holder reed switch extend reads 0 when Cam Holder retract")
+                if reedswCamRetracted != 1:
+                        statusEvents.append("TEST FAIL: Cam holder reed switch retract reads 1 when Cam Holder retract")
+                else:
+                        statusEvents.append("TEST PASS: Cam holder reed switch retract reads 1 when Cam Holder retract")
+                return statusEvents
 
         def isPogoPinPneumaticsWorking(self):
+                statusEvents = []
                 self.board.digital_write(self.VALVE_POGO_PIN, 1)  # first extend the pneumatics
-                time.sleep(1)
+                for i in range(6):
+                        time.sleep(0.5)
+                        QApplication.processEvents()
                 reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
                 reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
-                if reedswPogoExtended != 1 and reedswPogoRetracted != 0:
-                        return False
+                if reedswPogoExtended != 1:
+                        statusEvents.append("TEST FAIL: Pogo pin reed switch retract reads 0 when Pogo pin Extend")
+                else:
+                        statusEvents.append("TEST PASS: Pogo pin reed switch extend reads 1 when Pogo pin Extend")
+                if reedswPogoRetracted != 0:
+                        statusEvents.append("TEST FAIL: Pogo pin reed switch retract reads 0 when Pogo pin Extend")
+                else:
+                        statusEvents.append("TEST PASS: Pogo pin reed switch retract reads 0 when Pogo pin Extend")
 
                 self.board.digital_write(self.VALVE_POGO_PIN, 0)
-                time.sleep(1)
+                for i in range(6):
+                        time.sleep(0.5)
+                        QApplication.processEvents()
                 reedswPogoExtended = self.board.digital_read(self.REEDSW_POGOPIN_EXTEND)[0]
                 reedswPogoRetracted = self.board.digital_read(self.REEDSW_POGOPIN_RETRACT)[0]
-                if reedswPogoExtended != 0 and reedswPogoRetracted != 1:
-                        return False
+                if reedswPogoExtended != 0:
+                        statusEvents.append("TEST FAIL: Pogo pin reed switch extend reads 0 when Pogo pin retract")
+                else:
+                        statusEvents.append("TEST PASS: Pogo pin reed switch extend reads 0 when Pogo pin retract")
+                if reedswPogoRetracted != 1:
+                        statusEvents.append("TEST FAIL: Pogo pin reed switch retract reads 1 when Pogo pin retract")
+                else:
+                        statusEvents.append("TEST PASS: Pogo pin reed switch retract reads 1 when Pogo pin retract")
 
-                return True
+                return statusEvents
 
         def checkLeftButtonPress(self):
                 for i in range(6):
@@ -370,6 +403,6 @@ class ArduinoController(QObject):
                 for i in range(6):
                         time.sleep(0.5)
                         QApplication.processEvents()
-                if self.board.digital_read(self.RIGHT_BTN[0]) == 0:
+                if self.board.digital_read(self.RIGHT_BTN)[0] == 0:
                         return True
                 return False

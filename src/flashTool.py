@@ -41,8 +41,8 @@ class FlashTool():
     # def alterCFGOverlay(self  ):
     def alterCFGFileD55LCamera(self, cameraOffsetX, cameraOffsetY):
         readLocation = "C:\\Users\\LattePanda\\Documents\\Repos\\auto_center_v2\\src\\D55L_CFG_REF.fcfg"
-        searchStrX = '0xC860, 8,	0x0,	#CAM_FOV_CALIB_X_OFFSET'
-        searchStrY = '0xC861, 8,	0x0	#CAM_FOV_CALIB_Y_OFFSET'
+        searchStrX = '0xC860, 8,	0x0,	# CAM_FOV_CALIB_X_OFFSET'
+        searchStrY = '0xC861, 8,	0x0	# CAM_FOV_CALIB_Y_OFFSET'
 
         with open(readLocation, 'r') as input_file, open('cfg_automatic.fcfg', 'w') as output_file:
             for line in input_file:

@@ -181,51 +181,68 @@ class MasterWindow(QMainWindow):
                 self.normalOutputWritten("*** ERROR: " + text)
 
         def runMachineCalibrationCheck(self):
-                ##TODO
+                statusEvents = []
                 msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle("Machine Calibration")
-                msg.setText("Check camera holder pneumatics")
-
+                msg.setWindowTitle("Machine Hardware Checking")
+                msg.setText("Checking camera holder pneumatics")
+                msg.show()
+                camPneumaticsStatusEvents = self.programCam.arduinoController.isCamHolderPneumaticsWorking()
+                statusEvents += camPneumaticsStatusEvents
+                msg.setText("Checking pogo pin pneumatics")
                 
-                ret = self.programCam.arduinoController.isCamHolderPneumaticsWorking()
-                if ret == False:
-                        msg.setText("Check camera holder pneumatics FAIL")
-                msg.exec()
-                msg.done(1)
-
-                msg.setText("Check pogo pin pneumatics")
-
-                ret = self.programCam.arduinoController.isPogoPinPneumaticsWorking()
-                if ret == False:
-                        msg.setText("Check camera holder pneumatics FAIL")
-                msg.exec()
-                msg.done(1)
+                #msg.show()
+                pogoPneumaticsStatusEvents = self.programCam.arduinoController.isPogoPinPneumaticsWorking()
+                statusEvents += pogoPneumaticsStatusEvents
+                msg.close()
 
                 msg.setText("Please keep left button pressed")
-                msg.exec()
-                ret = self.programCam.arduinoController.checkLeftButtonPress()
-                msg.done(1)
-
+                msg.show()
+                leftButtonOk = self.programCam.arduinoController.checkLeftButtonPress()
+                msg.close()
+                
                 msg.setText("Please keep right button Pressed")
-                self.programCam.arduinoController.checkRightButtonPress()
-                msg.done(1)
+                msg.show()
+                rightButtonOk = self.programCam.arduinoController.checkRightButtonPress()
+                msg.close()
 
                 msg.setText("Is the red light switched on?")
                 msg.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-                ret = msg.exec()
                 self.programCam.arduinoController.onRedLed()
-                if ret == QtWidgets.QMessageBox.No:
-                        msg.setText("Please contact machine supplier.")
+                ret = msg.exec()
+                if ret == QtWidgets.QMessageBox.Yes:
+                        redLedOk = True
+                else:
+                        redLedOk = False
+
+
+                self.programCam.arduinoController.offRedLed()
 
                 msg.setText("Is the green light switched on?")
                 msg.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+                self.programCam.arduinoController.onGreenLed()
                 ret = msg.exec()
-                self.programCam.arduinoController.offGreenLed()
-                if ret == QtWidgets.QMessageBox.No:
-                        msg.setText("Please contact machine supplier.")
+                if ret == QtWidgets.QMessageBox.Yes:
+                        greenLedOk = True
+                else:
+                        greenLedOk = False
+
 
                 self.programCam.arduinoController.offGreenLed()
 
+                machineCalibrationResult = ''
+
+                for status in statusEvents:
+                        machineCalibrationResult = machineCalibrationResult + status + '\n'
+                machineCalibrationResult = machineCalibrationResult + "left button ok: " + str(leftButtonOk) + '\n'
+                machineCalibrationResult = machineCalibrationResult + "right button ok: " + str(rightButtonOk) + '\n'
+
+                machineCalibrationResult = machineCalibrationResult + "red LED ok: " + str(redLedOk) + '\n'
+                machineCalibrationResult = machineCalibrationResult + "green LED ok: " + str(greenLedOk) + '\n'
+
+                msg.setText(machineCalibrationResult)
+                msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+                msg.exec()
+        
 
         @pyqtSlot()
         def simpleProgramCamera(self):
@@ -263,7 +280,7 @@ class MasterWindow(QMainWindow):
 
                         print("stats:", stats[1])
                         if len(stats[1]) == 2:
-                                print("stats:", stats[1])
+                                # print("stats:", stats[1])
                                 xyStats = [] + stats[1]
                                 xyStats.append(stats[0])
                                 print("XY  stats: ", xyStats)
@@ -384,6 +401,19 @@ class MasterWindow(QMainWindow):
                 self.programCam.currentCameraType = 'd55l'
                 self.programCam.reloadDetector('d55l')
 
+                settings = self.settingsConfig.all()[0]['d55l']
+
+                # Update it right away
+                self.imageCap.roi[0] = settings['roi_x']
+                self.imageCap.roi[1] = settings['roi_y']
+                self.imageCap.roi[2] = settings['roi_w']
+                self.imageCap.roi[3] = settings['roi_h']
+
+                self.imageCap.screenCenterX = settings['camera_true_center_x']
+                self.imageCap.screenCenterY = settings['camera_true_center_y']
+
+                self.programCam.overlayOption = settings['overlayOption']
+
                 self.showMainWindow(None)
 
         def setCp1pCamera(self):
@@ -394,6 +424,19 @@ class MasterWindow(QMainWindow):
 
                 self.programCam.currentCameraType = 'cp1p'
                 self.programCam.reloadDetector('cp1p')
+
+                settings = self.settingsConfig.all()[0]['cp1p']
+
+                # Update it right away
+                self.imageCap.roi[0] = settings['roi_x']
+                self.imageCap.roi[1] = settings['roi_y']
+                self.imageCap.roi[2] = settings['roi_w']
+                self.imageCap.roi[3] = settings['roi_h']
+
+                self.imageCap.screenCenterX = settings['camera_true_center_x']
+                self.imageCap.screenCenterY = settings['camera_true_center_y']
+
+                self.programCam.overlayOption = settings['overlayOption']
 
                 self.showMainWindow(None)
 
@@ -448,37 +491,51 @@ class MasterWindow(QMainWindow):
                         # self.mainWindow.yCenterRightLabel.setText("CRY: " + str(stringList[2][1]))
 
         def stopImageSettingsCap(self):
-                try:
-                        self.settingsImageCap.disconnect()
-                        pass
-                except Exception as e:
-                        print(e)
+
                 self.settingsImageCap.stop()
+                # self.settingsImageCap.releaseCamera(self.settingsImageCap.analogCam)
+                # self.settingsImageCap.releaseCamera(self.settingsImageCap.AICam)
 
                 while self.settingsImageCap.isRunning:
+                        print("WAIT stop image settings cap")
                         QApplication.processEvents()
+                print("stop image settings cap")
+
+                try:
+                        self.settingsImageCap.disconnect()
+                except Exception as e:
+                        print(e)
 
         def stopAnalogCam(self):
                 self.imageCap.stop()
                 while self.imageCap.isRunning:
                         QApplication.processEvents()
-                        # print("waiting cmaera")
+                        time.sleep(0.1)
+                        print("waiting camera")
+                print("Analog camera shutdown")
+        def stopSettingsAnalogCam(self):
+                self.settingsImageCap.stop()
+                while self.settingsImageCap.isRunning:
+                        QApplication.processEvents()
+                        time.sleep(0.1)
+                        print("waiting settings camera")
                 print("Analog camera shutdown")
 
         def stopImageCap(self):
-                try:
-                        self.imageCap.disconnect()
-                except Exception as e:
-                        print(e)
-
                 self.imageCap.stop()
 
                 while self.imageCap.isRunning:
                         QApplication.processEvents()
 
+                try:
+                        self.imageCap.disconnect()
+                except Exception as e:
+                        print(e)
+
         def showMainWindow(self, event):
                 self.isRecordingStats = True
                 self.bothButtonsEnabled = True
+                self.programCam.arduinoController.initialRun = True
 
                 self.stopImageSettingsCap()
                 self.stopImageCap()
@@ -539,15 +596,15 @@ class MasterWindow(QMainWindow):
 
                 with open('C:/Users/LattePanda/Desktop/cp1p_data.csv', mode='w') as csvFile:
                         csvWriter = csv.writer(csvFile, delimiter = ',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                        csvWriter.writerow(["CP1P_Y", "CP1P_X", "STATUS"])
+                        csvWriter.writerow(["CP1P_X", "CP1P_Y", "STATUS"])
                         
                         for data in cp1pData:
-                                csvWriter.writerow(data)
+                                csvWriter.writerow([data[1], -data[0],data[2]])
                 with open('C:/Users/LattePanda/Desktop/d55l_data.csv', mode='w') as csvFile:
                         csvWriter = csv.writer(csvFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                        csvWriter.writerow(["D55L_Y", "D55L_X", "STATUS"])
+                        csvWriter.writerow(["D55L_X", "D55L_Y", "STATUS"])
                         for data in d55lData:
-                                csvWriter.writerow(data)
+                                csvWriter.writerow([data[1], -data[0],data[2]])
 
         def updateLabels(self):
 
@@ -666,7 +723,7 @@ class MasterWindow(QMainWindow):
                 self.bothButtonsEnabled = False
                 self.isRecordingStats = True
                 self.stopImageCap()
-                self.stopImageSettingsCap()
+                #self.stopImageSettingsCap()
                 # settings = self.settingsConfig.all()[0]
                 if debugConfigs.REQUIRES_AUTHORIZATION:
                         self.isAuthenticated = False
@@ -701,6 +758,8 @@ class MasterWindow(QMainWindow):
                 self.settingsImageCap.centerLabels.connect(self.programCam.updateRelativeCenters)
                 self.settingsImageCap.centerLabels.connect(self.setSettingsLabelData)
 
+                QApplication.processEvents()
+
                 self.settingsWindow.roiXSlider.valueChanged.connect(self.updateLabels)
                 self.settingsWindow.roiYSlider.valueChanged.connect(self.updateLabels)
                 self.settingsWindow.roiWSlider.valueChanged.connect(self.updateLabels)
@@ -716,7 +775,7 @@ class MasterWindow(QMainWindow):
                 self.settingsWindow.AiRoiHSlider.valueChanged.connect(self.updateLabels)
 
                 self.updateLabels()
-
+                #BUTTONS STUFF
                 self.settingsWindow.saveButton.clicked.connect(self.saveSettings)
                 self.settingsWindow.tareButton.clicked.connect(self.tareCenter)
 
@@ -730,8 +789,11 @@ class MasterWindow(QMainWindow):
 
                 self.settingsImageCap.callToggleCamera.connect(self.settingsImageCap.toggleCam)
                 self.settingsWindow.toggleCamera.clicked.connect(self.toggleCam)
+                self.settingsImageCap.currentCamera = debugConfigs.VIDEO_CAP_DEVICE
+                self.settingsWindow.runMachineCheck.clicked.connect(self.runMachineCalibrationCheck)
 
         def toggleCam(self, param):
+                self.stopSettingsAnalogCam()
                 print("call toggle")
                 self.settingsImageCap.callToggleCamera.emit()
 
