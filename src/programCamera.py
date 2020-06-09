@@ -286,9 +286,9 @@ class ProgramCamera(QtCore.QObject):
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
-        self.currentProgrammingStep = 'Create Bin'
+        self.currentProgrammingStep = 'Skipping Create Bin'
 
-        self.flashTool.createBinFileCmd(self.currentCameraType)
+        #self.flashTool.createBinFileCmd(self.currentCameraType)
 
         self.currentProgrammingStep = 'Flashing ' + self.currentCameraType + ' Config'
 
