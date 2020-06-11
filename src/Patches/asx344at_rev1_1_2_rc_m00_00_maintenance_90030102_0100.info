@@ -1,0 +1,8 @@
+FW_ID: 0x90030102, PATCH_ID: 0x00000100
+
+Patch code size : 160
+Patch base addr = 0xffffd7b8
+Patch load addr = 0xffffd7b8
+Loader addr = 0xffffd820
+Total code size = 160
+Free bytes remaining in patch RAM = 2985

@@ -66,7 +66,7 @@ class ProgramCamera(QtCore.QObject):
         # pass the center centerpoint
         centerPoints = relativeCenterPoints[0]  # 0: left center point, 1: center center point, 2: right center point IF using 3 points
         programX, programY = self.determineXandYOffset(centerPoints)
-        canProgram = self.programSteps(programX,programY, withOverlay=withOverlay)
+        canProgram = self.programWithMultipleTries(programX,programY, withOverlay=withOverlay)
         time.sleep(1)
         if canProgram:
             self.currentProgrammingStep = 'Machine Idle'
@@ -100,7 +100,7 @@ class ProgramCamera(QtCore.QObject):
         programX = 0  
         programY = 0
 
-        canConnectToCamera = self.programSteps(
+        canConnectToCamera = self.programWithMultipleTries(
             programX,programY,withOverlay=False
         )
 
@@ -212,7 +212,8 @@ class ProgramCamera(QtCore.QObject):
                 return
 
             programX, programY = self.determineXandYOffset(centerPoints)
-            canConnectToCamera = self.programSteps(programX,programY,withOverlay=False)
+            #canConnectToCamera = self.programSteps(programX,programY,withOverlay=False)
+            canConnectToCamera = self.programWithMultipleTries(programX, programY, withOverlay=False)
 
             if not canConnectToCamera:
                 self.releaseMachineResourcesAndClose(
@@ -221,6 +222,7 @@ class ProgramCamera(QtCore.QObject):
                     initialCenterPoints=initialCenterPoints,
                     failureCode="Could not connect to camera. Please check Connection"
                 )
+                return
 
             relativeCenterPoints = self.relativeCenters
             centerPoints = relativeCenterPoints[0]
@@ -229,7 +231,16 @@ class ProgramCamera(QtCore.QObject):
             if isCentered:
                 #STEP 3: add and program an overlay if needed
                 if self.currentCameraType =='cp1p' and withOverlay:
-                    self.programSteps(programX,programY, withOverlay=True)
+                    canConnectToCamera = self.programWithMultipleTries(programX,programY, withOverlay=True)
+
+                    if not canConnectToCamera:
+                        self.releaseMachineResourcesAndClose(
+                            isSuccess=False,
+                            timeStart=timeStart,
+                            initialCenterPoints=initialCenterPoints,
+                            failureCode="Could not connect to camera. Please check Connection"
+                        )
+                        return
 
                 self.releaseMachineResourcesAndClose(
                     isSuccess=True,
@@ -275,6 +286,26 @@ class ProgramCamera(QtCore.QObject):
 
         return programX, programY
 
+    def programWithMultipleTries(self, programX, programY, withOverlay, numOfTries=3):
+        counter=0
+        canProgram=False
+
+        while not canProgram:
+            if counter > numOfTries:
+                return False
+            
+            canProgram = self.programSteps(programX,programY,withOverlay)
+
+            if canProgram:
+                break
+            
+            counter += 1
+            self.currentProgrammingStep = 'Failed to program...try number ' + str(counter)
+            time.sleep(1)
+
+        return True
+            
+            
     def programSteps(self, programX, programY, withOverlay):
         programX = self.clipValue(programX, clipTo=35)
         programY = self.clipValue(programY, clipTo=35)
@@ -286,9 +317,9 @@ class ProgramCamera(QtCore.QObject):
         else:
             assert 0, "INVALID CAMERA TYPE. MUST BE CP1P or D55L" + self.currentCameraType
 
-        self.currentProgrammingStep = 'Skipping Create Bin'
+        self.currentProgrammingStep = 'Create Bin'
 
-        #self.flashTool.createBinFileCmd(self.currentCameraType)
+        self.flashTool.createBinFileCmd(self.currentCameraType)
 
         self.currentProgrammingStep = 'Flashing ' + self.currentCameraType + ' Config'
 
