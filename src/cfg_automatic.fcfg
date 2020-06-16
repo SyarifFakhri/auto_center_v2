@@ -129,8 +129,8 @@ PARAMETERS={
 	0xC945,	8,	0x7D,	# CAM_LL_END_SATURATION
 	0xC948,	8,	0x0,	# CAM_LL_START_DEMOSAIC
 	0xC94B,	8,	0x0, 	# CAM_LL_STOP_DEMOSAIC
-0xC860, 8, -14, #Generated automatically
-0xC861, 8, -25 #Generated automatically
+0xC860, 8, 0, #Generated automatically
+0xC861, 8, 0 #Generated automatically
  }
 
 #@ Flicker Detect
